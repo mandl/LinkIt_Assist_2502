@@ -36,12 +36,12 @@ class MTKModem(object):
 		self.ser.flushOutput()
         
 
-	def SendCommand(self,command, getline=True):
+	def SendCommand(self,command, getline=True,ignoreError=False):
 		print 'send: %s' % (command)
 		self.ser.write(command + '\r')
 		data = ''
 		if getline:
-			data=self.ReadLine()
+			data=self.ReadLine(ignoreError)
 		return data 
 
 	def SendCommandResult(self,command):
@@ -61,13 +61,16 @@ class MTKModem(object):
 
 
 
-	def ReadLine(self):
+	def ReadLine(self,ignoreError):
 		while 1:
 			data = self.ser.readline().rstrip("\n\r")
 			if data == 'OK':
 				break
 			if data == 'ERROR':
+				if ignoreError:
+					break
 				raise Exception('Comm Error')
+				
 			if data !='':
 				print data
 
@@ -76,21 +79,26 @@ class MTKModem(object):
 		fileList = self.SendCommandResult('AT+EFSL="'+path.encode("utf-16-be").encode("hex") +'"')
 		print "List path: %s" % path
 		for item in fileList:
-			#print item
 			diritem  = item.split(",")
+			# get file size
 			filesize = diritem[1]
+			# attribute of file
 			attrib   = diritem[2]
 			quoted = re.compile('"[^"]*"')
 			for value in quoted.findall(item):
+				# find filename
 				value = value.replace('"', "")
 				print (value.decode("hex").strip() + "\t\t" + str(filesize) + "\t" + str(attrib))
+		print ' '
 			
 
 
 	def DeleteFile(self,pathFilename):
 		# Folder operation Back to root folder
+		print 'Delete File %s' % pathFilename
 		self.SendCommand('AT+EFSF=3')
-		self.SendCommand('AT+EFSD="'+pathFilename.encode("utf-16-be").encode("hex") +'"')
+		# send command ignore error if file does not exits
+		self.SendCommand('AT+EFSD="'+pathFilename.encode("utf-16-be").encode("hex") +'"',True,True)
 		
 
 	def sendFile(self,filename):
@@ -101,9 +109,9 @@ class MTKModem(object):
 		f = file(filename, 'rb')
  		st = os.stat(filename)
 		
-        
-		print 'Bytes to send %d' % (st.st_size)
-		if st.st_size == 0:
+		size = st.st_size
+		print 'Bytes to send %d' % (size)
+		if size == 0:
 			raise Exception('File is empty')
 		
 		path = 'c:\MRE\\' + filename
@@ -111,28 +119,29 @@ class MTKModem(object):
 
 		print 'Filename Path %s' % filenamePath
 
-		# open fiel for write
+		# open file for write
 		self.SendCommand('AT+EFSW=0,"'+ filenamePath.encode("hex") +'"')
-		#time.sleep(0.5)
-
+		
+		
 		# send data to open file
 		for i in range(st.st_size / self.WRITE_SIZE):
 			var = f.read(self.WRITE_SIZE)
 			data = var.encode("hex")
-			self.SendCommand('AT+EFSW=2,0,400,"' +data + '"')
-			#time.sleep(0.5)
-			#print 'Send data %s' % data
-
-		lastsize = st.st_size % self.WRITE_SIZE
-		# send last data to open file
-		if st.st_size % self.WRITE_SIZE:
-            
-			var = f.read()
+			if size == 400:
+				# last paket send eof
+ 				self.SendCommand('AT+EFSW=2,1,400,"' +data + '"')
+			else:
+				# send paket
+				self.SendCommand('AT+EFSW=2,0,400,"' +data + '"')
+			size = size - 400
+	
+		if size > 0:
+			# send last data to open file
+			var = f.read(size)
 			data = var.encode("hex")
-			self.SendCommand('AT+EFSW=2,1,'+ str(lastsize) +',"' +data + '"')
-			#time.sleep(0.5)
-			#print 'Send last data %s' % data
-
+			# send lastpaket
+			self.SendCommand('AT+EFSW=2,1,'+str(size) +',"' +data + '"')
+	
 		# close file
 		self.SendCommand('AT+EFSW=1,"' +filenamePath.encode("hex") +'"') 
 
@@ -149,8 +158,12 @@ def main():
 	parser = argparse.ArgumentParser(description = 'Push Application Utility', prog = 'uploader')
 
 	parser.add_argument('--port', '-p',help = 'Serial port device',default = '/dev/ttyACM0')
-	args = parser.parse_args()
+	#parser.add_argument('uploadfile', type=argparse.FileType('rb'), help='File for uploading')
 
+	args = parser.parse_args()
+	if os.path.isfile('main.vxp') == False:
+		print 'Can not open main.vxp'
+		return
 	h = MTKModem(args.port)
 	time.sleep(0.5)
 
@@ -162,6 +175,7 @@ def main():
 	h.SendCommand('AT+[666]EXIT_ALL',False)
 	time.sleep(8)
 	h.flushCom()
+ 	
 
 	# Change operation mode to obtain access to filesystem	
 	h.SendCommand('AT+ESUO=3')
@@ -169,21 +183,24 @@ def main():
 	# AT+EFSR FileRead
 	#h.SendCommand('AT+EFSR\r')
 
-	
-
 	# File System Size  67 = C:\
 	#h.SendCommand('AT+EFS=67\r)
 
 	# Folder operation Back to root folder
 	h.SendCommand('AT+EFSF=3')
+	
+	#h.DeleteFile('D:\\autostart.txt')
+
+	h.DeleteFile('C:\MRE\main.vxp')
+	
+	h.sendFile('main.vxp')
 
 	h.ListFiles('C:\MRE')
 	h.ListFiles('D:\MRE')
+    # C: can also mount as disk ( power off the device )
 	h.ListFiles('C:')
+	# D: is a hidden volume
 	h.ListFiles('D:')
-	#h.DeleteFile('D:\\autostart.txt')
-	
-	h.sendFile('main.vxp')
 	
 		
 	# Change operation mode to compatible
