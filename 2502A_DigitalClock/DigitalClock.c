@@ -29,6 +29,8 @@
 #include "vmdcl_gpio.h"
 #include "vmdcl_pwm.h"
 
+#include "laudio.h"
+
 #define SCREEN_WIDTH    240
 #define SCREEN_HEIGHT   240
 #define STRING_LENGTH   10
@@ -56,12 +58,11 @@ static void timer_callback(VM_TIMER_ID_PRECISE tid) {
     VM_RESULT result;
 
     //vm_log_fatal("fatal timer");
-	//vm_log_error("error timer");
-	//vm_log_warn("warn timer");
+	//vm_log_error("error timer Hello Ubuntu");
+	//vm_log_warn("warn timer Hello rephone");
 
-    vm_log_info("info timer");
-    vm_log_debug("debug timer");
-
+    //vm_log_info("info timer ding dang dong");
+    vm_log_debug("debug timer  Hello Linux");
 
     color.a = 255;
     color.r = 243;
@@ -168,9 +169,11 @@ void lcd_backlight_level(VMUINT32 ulValue) {
 
 void vm_main(void) {
 
-	vm_log_info("Hello Linux");
+
 	lcd_st7789s_init();
     lcd_backlight_level(60);
 	vm_pmng_register_system_event_callback(handle_sysevt);
+	audioPlay(storageFlash,"demo.mp3");
+
 }
 

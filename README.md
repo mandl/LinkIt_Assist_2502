@@ -1,4 +1,4 @@
-#This is a beta toolchain for LinkIt_Assist_2502 for Linux
+#This is a toolchain for LinkIt_Assist_2502 for Linux
 
 
 
@@ -17,8 +17,10 @@ http://www.seeed.cc/rephone/
 
 4. Switch off the device and connect it to USB. Copy autostart.txt in the root folder
 
+5. Open the Makefile and set your **TOOLCHAIN** Path and your **LINKIT_ASSIST_SDK_PATH**
 
 ##Running the sample
+
 
 make all
 
@@ -41,8 +43,17 @@ ToDo Understand the resource file format and building
 
 ToDo Understand the monitor tool
 
+ToDo Understand the FimwareUpdater 
+
 
 ## The Device
+
+Firmware Version **W15.19.p2** 
+
+LINKIT_ASSIST_SDK/tools/FirmwareUpdater/firmware/LinkIt_Device/LinkIt_Assist_2502
+
+from the MediaTek_LinkIt_Assist_2502_SDK_2_0_46.zip
+
 
 ### Power off and connect USB
 
@@ -52,6 +63,9 @@ Ubuntu Linux found **/dev/ttyUSB0** and switch after some seconds to  USB Mass S
 ### Power on and conncect to USB
 
 Ubuntu Linux found 
+
+
+
 
 **/dev/ttyACM0**  ( Mtk Modem Port )  used for uploading *.vxp Applications
 
@@ -63,6 +77,10 @@ The device as 2 partions C: and D:.
 
 Partions D: can only accessed via AT commands from the modem port. see uploader.py
 
+## Links
 
+There is also a **Arduino IDE for RePhone only for GNU/Linux users**
+
+[Arduino IDE for RePhone on GNU/Linux](https://github.com/robarago/ArduinoGNULinux4RePhone)
 
 
