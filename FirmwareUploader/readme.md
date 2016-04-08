@@ -57,9 +57,9 @@ called 71-rephone.rules with the following contents:
 
 We need in the same folder
 
-1. **NOR_FLASH_TABLE**
-2. **EXT_RAM**
-3. **INT_SYSRAM**
+1. **Download_Agent/6261/NOR_FLASH_TABLE**
+2. **Download_Agent/6261/EXT_RAM**
+3. **Download_Agent/6261/INT_SYSRAM**
 4. **EX_BOOTLOADER**
 5. **SEEED02A_DEMO_BOOTLOADER_V005_MT2502_MAUI_11CW1418SP5_W15_19.bin**
 6. **ROM**

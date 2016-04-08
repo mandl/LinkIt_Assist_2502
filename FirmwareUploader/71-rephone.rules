@@ -1,0 +1,8 @@
+SUBSYSTEM=="tty", ATTRS{idVendor}=="0e8d",\
+    ATTRS{idProduct}=="0003",\
+    MODE="0660", SYMLINK+="rephone"
+
+ACTION=="add|change", SUBSYSTEM=="usb",\
+    ENV{DEVTYPE}=="usb_device", ATTRS{idVendor}=="0e8d",\
+    ATTRS{idProduct}=="0003",\
+    ENV{ID_MM_DEVICE_IGNORE}="1"
