@@ -1423,11 +1423,12 @@ def main():
     parser.add_argument('--port', '-p', help='Serial port device', default='/dev/ttyUSB0')
     
       # This is the Bootloader
-    FilenameBootloader = "SEEED02A_DEMO_BOOTLOADER_V005_MT2502_MAUI_11CW1418SP5_W15_19.bin"
-    FilenameBootloaderExt = "EXT_BOOTLOADER"
+    FilenameBootloader = "W15.19.p2-uart/SEEED02A_DEMO_BOOTLOADER_V005_MT2502_MAUI_11CW1418SP5_W15_19.bin"
+    FilenameBootloaderExt = "W15.19.p2-uart/EXT_BOOTLOADER"
     
-    FilenameROM1 = "ROM"
-    FilenameROM2 = "VIVA"
+    # this is the Firmware
+    FilenameROM1 = "W15.19.p2-uart/ROM"
+    FilenameROM2 = "W15.19.p2-uart/VIVA"
     
     args = parser.parse_args()
     

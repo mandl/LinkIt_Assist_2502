@@ -31,19 +31,20 @@ make upload
 
 **merge_mtk.py**	adds a header and the size of the elf file for loading
 
-**uploader.py**	upload the main.vxp to the device and restarts the application
+**uploader.py**	stops the running process and uploads the main.vxp to the device and restarts the application.
 
-**mon.py**	a simple debug monitor. shows vm_log* messages from the device
+**mon.py**	a simple debug monitor. Shows vm_log* messages from the device. 
+Only works with Firmware Version **W15.19.p2** 
 
 
 
-ToDo Understand the header format
+	ToDo Understand the header format
 
-ToDo Understand the resource file format and building
+	ToDo Understand the resource file format and building
 
-ToDo Understand the monitor tool
+	ToDo Understand the monitor tool
 
-ToDo Understand the FimwareUpdater 
+**FirmwareUploader/firmwareUploader.py**  a firmware upload tool for linux.
 
 
 ## The Device
@@ -77,9 +78,13 @@ The device as 2 partions C: and D:.
 
 Partions D: can only accessed via AT commands from the modem port. see uploader.py
 
+
+Firmware Version **W15.19.p2-uart** 
+
+
 ## Links
 
-There is also a **Arduino IDE for RePhone only for GNU/Linux users**
+There is also a **Arduino IDE for RePhone for GNU/Linux users**
 
 [Arduino IDE for RePhone on GNU/Linux](https://github.com/robarago/ArduinoGNULinux4RePhone)
 

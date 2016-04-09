@@ -1,5 +1,5 @@
 
-# The uploader is not ready yet....
+# The beta version for a linux firmware upload
 
 
 ## Some research:
@@ -13,11 +13,11 @@ Steps
 3. Calibrate the internal PSRAM
 4. Power up the baseband
 4. Doing EMI remap
-5. Upload part 1  (INT_SYSRAM) of the DA-Loader  to 0x70007000
-6. Upload part 2  (EXT_RAM) of the DA-Loader to 0x10020000
-7. Start DA-Loader (0x70007000)
-8. Connect to the DA-Loader. Now the DA-Loader takes over the communication.
-9. DA-Loader starts to detect NOR/SF flash. Using the file **NOR_FLASH_TABLE**
+5. Upload **INT_SYSRAM** of the download agent to 0x70007000
+6. Upload **EXT_RAM** of the download agent  to 0x10020000
+7. Start download agent. Jump to address 0x70007000
+8. Connect to the download agent . Now the download agent  takes over the communication.
+9. Download agent starts to detect NOR/SF flash. Using the file **NOR_FLASH_TABLE**
 12. Upload **SEEED02A_DEMO_BOOTLOADER_V005_MT2502_MAUI_11CW1418SP5_W15_19.bin**
 13. Upload **EXT_BOOTLOADER**
 15. Upload **ROM**
@@ -53,24 +53,25 @@ called 71-rephone.rules with the following contents:
 
 ## Upload process
 
-1. Install the udev rule
+1. Install the udev rule *71-rephone.rules*
 
 We need in the same folder
 
-1. **Download_Agent/6261/NOR_FLASH_TABLE**
-2. **Download_Agent/6261/EXT_RAM**
-3. **Download_Agent/6261/INT_SYSRAM**
-4. **EX_BOOTLOADER**
-5. **SEEED02A_DEMO_BOOTLOADER_V005_MT2502_MAUI_11CW1418SP5_W15_19.bin**
-6. **ROM**
-7. **VIVA**
+1. **/Download_Agent/6261/NOR_FLASH_TABLE**
+2. **/Download_Agent/6261/EXT_RAM**
+3. **/Download_Agent/6261/INT_SYSRAM**
+4. **/W15.19.p2-uart/EX_BOOTLOADER**
+5. **/W15.19.p2-uart/SEEED02A_DEMO_BOOTLOADER_V005_MT2502_MAUI_11CW1418SP5_W15_19.bin**
+6. **/W15.19.p2-uart/ROM**    this is the  *W15.19.p2-uart* version
+7. **/W15.19.p2-uart/VIVA**   this is the  *W15.19.p2-uart* version
 
+Doing the upload
 
-
-1. Start the *firmwareUploader.py* (not ready yet )
+1. Start the *firmwareUploader.py*
 2. Power off the device and connect it to the USB port.
 3. The upload is running. The red led goes on dimmed.
-4. Disconnect the device from USB.
+4. See a lot of debug information.... wait for **Update done !!!!!!!!**...
+5. Disconnect the device from USB.
 
 
 
