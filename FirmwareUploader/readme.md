@@ -33,6 +33,8 @@ Useful links
 
 <https://github.com/mtek-hack-hack/docs/wiki/FirmwareImageFormats>
 
+<http://www.kosagi.com/w/index.php?title=MTK_Components>
+
 ## udev rule
 
 Since Rephone is based on a Mediatek chip, ModemManager will, by default,
@@ -54,12 +56,13 @@ called 71-rephone.rules with the following contents:
 ## Upload process
 
 1. Install the udev rule *71-rephone.rules*
+2. Connect the battery. Without a battery the upload will fail.
 
 We need in the same folder
 
-1. **/Download_Agent/6261/NOR_FLASH_TABLE**
-2. **/Download_Agent/6261/EXT_RAM**
-3. **/Download_Agent/6261/INT_SYSRAM**
+1. **/Download_Agent/6261/NOR_FLASH_TABLE**   This is the data for the NOR flash detection.
+2. **/Download_Agent/6261/EXT_RAM**           This is the download agent.
+3. **/Download_Agent/6261/INT_SYSRAM**        This is the download agent.
 4. **/W15.19.p2-uart/EX_BOOTLOADER**
 5. **/W15.19.p2-uart/SEEED02A_DEMO_BOOTLOADER_V005_MT2502_MAUI_11CW1418SP5_W15_19.bin**
 6. **/W15.19.p2-uart/ROM**    this is the  *W15.19.p2-uart* version
@@ -80,7 +83,7 @@ Doing the upload
 
 - Sometimes the first connect fails. Disconnect the device and reconnect it.
 - If something goes wrong during upload. 
-	Disconnect the device from USB port and disconnect also the battery !!. Try again
+	Disconnect the device from USB port and disconnect also the battery !!. Try again.
 - Flashed a wrong a incomplete firmware. Wait 15 seconds for watchdog reset.
 
 If nothing helps. Use the official windows version.

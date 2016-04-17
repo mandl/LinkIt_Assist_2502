@@ -43,7 +43,7 @@ class MTKModem(object):
 			data = self.ReadLine(ignoreError)
 		return data 
 
-	def SendCommandResult(self, command):
+	def SendCommandResult(self, command,ignoreError=False):
 		out = []	
 		print 'send: %s' % (command)
 		self.ser.write(command + '\r')
@@ -53,6 +53,8 @@ class MTKModem(object):
 				return out
 				break
 			if data == 'ERROR':
+				if ignoreError:
+					return out
 				raise Exception('Comm Error')
 			if data != '':
 				out.append(data)	
@@ -75,7 +77,7 @@ class MTKModem(object):
 
 	def ListFiles(self, path):
 		
-		fileList = self.SendCommandResult('AT+EFSL="' + path.encode("utf-16-be").encode("hex") + '"')
+		fileList = self.SendCommandResult('AT+EFSL="' + path.encode("utf-16-be").encode("hex") + '"',True)
 		print "List path: %s" % path
 		for item in fileList:
 			diritem = item.split(",")
@@ -98,9 +100,16 @@ class MTKModem(object):
 		self.SendCommand('AT+EFSF=3')
 		# send command ignore error if file does not exits
 		self.SendCommand('AT+EFSD="' + pathFilename.encode("utf-16-be").encode("hex") + '"', True, True)
+	
+	def createFolder(self,folderName):
 		
+		print "Create folder: %s" % folderName
+		self.SendCommand('AT+EFSF=3')
+		#ignore error
+		self.SendCommand('AT+EFSF=0,"'+folderName.encode("utf-16-be").encode("hex") +'"',True,True)	
+	
 
-	def sendFile(self, filename):
+	def sendFile(self, destpath,filename):
    		if not os.path.isfile(filename):
 			raise Exception('Can not open file: %s') % (filename)
         
@@ -113,10 +122,10 @@ class MTKModem(object):
 		if size == 0:
 			raise Exception('File is empty')
 		
-		path = 'c:\MRE\\' + filename
+		path = destpath + filename
 		filenamePath = path.encode("utf-16-be")
 
-		print 'Filename Path %s' % filenamePath
+		print 'Filename Path %s' % path
 
 		# open file for write
 		self.SendCommand('AT+EFSW=0,"' + filenamePath.encode("hex") + '"')
@@ -163,16 +172,21 @@ def main():
 	if os.path.isfile('main.vxp') == False:
 		print 'Can not open main.vxp'
 		return
+	args = parser.parse_args()
+	if os.path.isfile('autostart.txt') == False:
+		print 'Can not open main.vxp'
+		return
+	
 	h = MTKModem(args.port)
 	time.sleep(0.5)
 
 	
 	h.SendCommand('AT')
-   	h.SendCommand('AT')
+   	
 
 	# exit all running process
 	h.SendCommand('AT+[666]EXIT_ALL', False)
-	time.sleep(8)
+	time.sleep(2)
 	h.flushCom()
  	
 
@@ -188,11 +202,15 @@ def main():
 	# Folder operation Back to root folder
 	h.SendCommand('AT+EFSF=3')
 	
-	# h.DeleteFile('D:\\autostart.txt')
+	h.createFolder('C:\MRE')
+	
+	h.DeleteFile('D:\autostart.txt')
+	h.DeleteFile('C:\autostart.txt')
 
 	h.DeleteFile('C:\MRE\main.vxp')
 	
-	h.sendFile('main.vxp')
+	h.sendFile('C:\MRE\\','main.vxp')
+	h.sendFile('C:\\','autostart.txt')
 
 	h.ListFiles('C:\MRE')
 	h.ListFiles('D:\MRE')

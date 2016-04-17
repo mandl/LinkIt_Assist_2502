@@ -19,7 +19,7 @@
 #include "vmlog.h"
 #include "vmgraphic.h"
 #include "vmsystem.h"
-#include "ResID.h"
+//#include "ResID.h"
 #include "vmchset.h"
 #include "vmgraphic_font.h"
 #include "vmtimer.h"
@@ -29,7 +29,7 @@
 #include "vmdcl_gpio.h"
 #include "vmdcl_pwm.h"
 
-#include "laudio.h"
+
 
 #define SCREEN_WIDTH    240
 #define SCREEN_HEIGHT   240
@@ -40,6 +40,14 @@
 #else
 #error " Board not support"
 #endif
+
+static VMUINT32* HARDWARE_CODE = (VMUINT32*)0x80000008;
+
+static VMUINT32* RTC_TC_SEC =    (VMUINT32*)0xA0710014;
+
+static VMUINT32* RTC_TC_MIN =    (VMUINT32*)0xA0710018;
+
+static VMUINT32* RTC_POWERKEY1 = (VMUINT32*)0xA0710050;
 
 vm_graphic_frame_t* g_frame_group[1];
 vm_graphic_frame_t frame;
@@ -63,6 +71,12 @@ static void timer_callback(VM_TIMER_ID_PRECISE tid) {
 
     //vm_log_info("info timer ding dang dong");
     vm_log_debug("debug timer  Hello Linux");
+
+    vm_log_debug("Hardware code: %x",*HARDWARE_CODE);
+    vm_log_debug("Tc Sec: %x",*RTC_TC_SEC);
+    vm_log_debug("Tc Min: %x",*RTC_TC_MIN);
+
+
 
     color.a = 255;
     color.r = 243;
@@ -88,6 +102,7 @@ static void timer_callback(VM_TIMER_ID_PRECISE tid) {
 static void draw_clock(void) {
     VM_RESULT result;
     VMUINT32 pool_size;
+
 
 
     frame.buffer_length = SCREEN_WIDTH * SCREEN_HEIGHT * 2;
@@ -173,7 +188,7 @@ void vm_main(void) {
 	lcd_st7789s_init();
     lcd_backlight_level(60);
 	vm_pmng_register_system_event_callback(handle_sysevt);
-	audioPlay(storageFlash,"demo.mp3");
+
 
 }
 

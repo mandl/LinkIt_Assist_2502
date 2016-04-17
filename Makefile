@@ -8,7 +8,7 @@
 TOOLCHAIN=~/gcc-arm-none-eabi-4_9-2014q4
 
 # Set your LinkIt sdk path
-LINKIT_ASSIST_SDK_PATH=~/SDK
+LINKIT_ASSIST_SDK_PATH=/home/mandl/Entwicklung
 
 CC=$(TOOLCHAIN)/bin/arm-none-eabi-gcc
 AS=$(TOOLCHAIN)/bin/arm-none-eabi-as
@@ -33,7 +33,7 @@ LSCRIPT = $(LINKIT_ASSIST_SDK_PATH)/LINKIT_ASSIST_SDK/lib/LINKIT10/armgcc/scat.l
 
 TARGETS = $(ELFFILE) $(AXF)
 
-OBJS = ./2502A_DigitalClock/laudio.o ./2502A_DigitalClock/DigitalClock.o ./2502A_DigitalClock/lcd_sitronix_st7789s.o  $(LINKIT_ASSIST_SDK_PATH)/LINKIT_ASSIST_SDK/lib/LINKIT10/src/gccmain.o       
+OBJS = ./2502A_DigitalClock/DigitalClock.o ./2502A_DigitalClock/lcd_sitronix_st7789s.o  $(LINKIT_ASSIST_SDK_PATH)/LINKIT_ASSIST_SDK/lib/LINKIT10/src/gccmain.o       
 
 all:$(TARGETS)
 

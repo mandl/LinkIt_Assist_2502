@@ -44,7 +44,7 @@ Only works with Firmware Version **W15.19.p2**
 
 	ToDo Understand the monitor tool
 
-**FirmwareUploader/firmwareUploader.py**  a firmware upload tool for linux.
+*FirmwareUploader*/**firmwareUploader.py**  a firmware upload tool for linux.
 
 
 ## The Device
@@ -76,7 +76,7 @@ Ubuntu Linux found
 
 The device as 2 partions C: and D:. 
 
-Partions D: can only accessed via AT commands from the modem port. see uploader.py
+Partions D: can only accessed via AT commands from the modem port. see *uploader.py*
 
 
 Firmware Version **W15.19.p2-uart** 
@@ -88,4 +88,21 @@ There is also a **Arduino IDE for RePhone for GNU/Linux users**
 
 [Arduino IDE for RePhone on GNU/Linux](https://github.com/robarago/ArduinoGNULinux4RePhone)
 
+or with **Eclipse**
+
+[RePhone development on Linux](https://github.com/loboris/RePhone_on_Linux)
+
+
+## Hacking
+
+There is no memory protection unit in place. So we can direct access SOC hardware regs.
+
+This is great for hacking ...
+Sample
+
+	static VMUINT32* HARDWARE_CODE = (VMUINT32*)0x80000008;
+	
+	
+	vm_log_debug("%x",*HARDWARE_CODE);
+	 
 

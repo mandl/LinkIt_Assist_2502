@@ -27,6 +27,8 @@ volatile VMUINT32 lcd_delay;
 static VMUINT32* VSIM1_CON2 = (VMUINT32*)0xA0700188;
 static VMUINT32* VSIM1_CON0 = (VMUINT32*)0xA0700180;
 
+
+
 VM_DCL_HANDLE lcd_reset_handle;
 VM_DCL_HANDLE lcd_cs_handle;
 
@@ -59,6 +61,8 @@ void lcd_st7789s_init(void)
 
   *VSIM1_CON2 = *VSIM1_CON2 | 0x0002;
   *VSIM1_CON0 = *VSIM1_CON0 | 0x0001;
+
+
 
   //Serial Clock:
   vm_drv_lcd_set_serial_clock(0, LCD_SERIAL_CLOCK_132MHZ);

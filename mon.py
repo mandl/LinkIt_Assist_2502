@@ -1,6 +1,11 @@
 #!/usr/bin/env python
-#
-#
+
+# Copyright (C) 2016  Stefan Mandl
+
+# Display debug messages from rephone
+# Shows only vm_log* messages from the device.
+# Only works with firmware version W15.19.p2
+
 # This program is free software; you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
 # Foundation; either version 2 of the License, or (at your option) any later version.
@@ -88,6 +93,8 @@ class MTKModem(object):
 	# connect to catcher in the device
 	#
 	def switchOn(self):
+		
+		print 'Send switchOn'
 
 		step1 = '\x55\x00\x0c\x63\x30\x00\x08\x00\x01\x00\x00\x00\x0b\x00\x00\x00\x08'
 

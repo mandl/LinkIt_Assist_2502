@@ -481,6 +481,8 @@ class MTKFirmwareUploader(object):
             self.write32(0xa0050300, 0x0)
             # 952
             # Set range (start and length) 0x2000 003f
+            #  3F00 = 16k 
+            #
             self.write32(0xa0050308, 0x2000003f)
             # 972
             # load test pattern 0xA55A
@@ -1279,6 +1281,8 @@ class MTKFirmwareUploader(object):
         
         print 'BL_PowerUpBaseband'
         # 9072 0x8
+        # 0xa0710000  RTC reg
+        # Baseband power up
         val = self.read16_old(0xa0710000)
         print '0xa0710000 0x%x' % val    
         # 9086 0x0
@@ -1290,12 +1294,15 @@ class MTKFirmwareUploader(object):
         val = self.read16_old(0xa0710054)
         print '0xa0710054 0x%x' % val    
         # 9114
+        # RTC alarm mask
         self.write16(0xa0710010, 0x0)
         
         # 9134
+        # RTC IRQ enable
         self.write16(0xa0710008, 0x0)
         
         # 9154
+        # Counter increment IRQ enable
         self.write16(0xa071000c, 0x0)
         
         # 9174
@@ -1316,8 +1323,7 @@ class MTKFirmwareUploader(object):
         self.write16(0xa0710074, 0x01)
         
         # 9268 0x08
-        val = self.read16_old(0xa0710000)
-        print '0xa0710000 0x%x' % val    
+        self.WaitForBBPUReady()
         
         # 9285
         self.write16(0xa0710068, 0x586a)
@@ -1421,17 +1427,19 @@ def main():
 
     parser = argparse.ArgumentParser(description='Firmware uploader for Rephone', prog='uploader')
     parser.add_argument('--port', '-p', help='Serial port device', default='/dev/ttyUSB0')
-    
-      # This is the Bootloader
-    FilenameBootloader = "W15.19.p2-uart/SEEED02A_DEMO_BOOTLOADER_V005_MT2502_MAUI_11CW1418SP5_W15_19.bin"
-    FilenameBootloaderExt = "W15.19.p2-uart/EXT_BOOTLOADER"
-    
-    # this is the Firmware
-    FilenameROM1 = "W15.19.p2-uart/ROM"
-    FilenameROM2 = "W15.19.p2-uart/VIVA"
+    parser.add_argument('--firmPath', '-f', help='Firmware path', default='W15.19.p2-uart')
     
     args = parser.parse_args()
+     
+    FirmwarePath= args.firmPath
     
+      # This is the Bootloader
+    FilenameBootloader = FirmwarePath + '/SEEED02A_DEMO_BOOTLOADER_V005_MT2502_MAUI_11CW1418SP5_W15_19.bin'
+    FilenameBootloaderExt = FirmwarePath + '/EXT_BOOTLOADER'
+    
+    # this is the Firmware
+    FilenameROM1 =  FirmwarePath +'/ROM'
+    FilenameROM2 =  FirmwarePath +'/VIVA'
     
      
     if not os.path.isfile(FilenameBootloader):
@@ -1469,7 +1477,7 @@ def main():
     print 'EFuse 0x%x' % value
 
     # 218  some Magic
-    # Power management block ???
+    # Power management block ??
     h.write16(0xa0700f00, 0x41)
     # 238
     h.write16(0xa0700f00, 0x51)
