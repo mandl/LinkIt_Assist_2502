@@ -82,6 +82,7 @@ Doing the upload
 ## Troubleshoot
 
 - Sometimes the first connect fails. Disconnect the device and reconnect it.
+- Disconnect the GPS or Basic Sensors module
 - If something goes wrong during upload. 
 	Disconnect the device from USB port and disconnect also the battery !!. Try again.
 - Flashed a wrong a incomplete firmware. Wait 15 seconds for watchdog reset.

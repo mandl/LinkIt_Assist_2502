@@ -77,6 +77,7 @@ class MTKFirmwareUploader(object):
     
     DA_ACK = 0x5A
     DA_NACK = 0xA5
+    DA_CONT = 0x69
     
     # internal bootloader upload size
     WRITE_SIZE = 1024
@@ -375,7 +376,7 @@ class MTKFirmwareUploader(object):
         if self.ser.read(4) != pkt:
             raise Exception('Invalid response length(writeFile)')
 
-
+        # signature length
         pkt = struct.pack('>I', 0x100)
         self.ser.write(pkt)
         if self.ser.read(4) != pkt:
@@ -676,6 +677,7 @@ class MTKFirmwareUploader(object):
             raise Exception('File is empty')
         # send a 4 k block 
         for i in range(fileSize / self.DA_WRITE_SIZE):
+            #time.sleep(0.1)
             var = f.read(self.DA_WRITE_SIZE)
             # print var.encode("hex")
            
@@ -686,9 +688,28 @@ class MTKFirmwareUploader(object):
             crc = self.getBufferCrc(var)
             self.ser.write(struct.pack('>H', crc))
             val, = struct.unpack('B', self.ser.read(1))
-            if  val != 0x69:
-                print 'Error code: %x' % val
-                raise Exception('Send CRC error ')
+            if  val != self.DA_CONT:
+                print 'Error: %x' % val
+                errorCode, = struct.unpack('>I', self.ser.read(4))
+                print 'Error code: %x' % errorCode
+                time.sleep(1)
+                gotAck, = struct.unpack('B', self.ser.read(1))
+                print 'Ack: %x' % gotAck
+                self.ser.write(struct.pack('B',self.DA_CONT))
+                self.ser.write("\x5a")  
+                self.ser.write(var)
+                crc = self.getBufferCrc(var)
+                self.ser.write(struct.pack('>H', crc))
+                val, = struct.unpack('B', self.ser.read(1))
+                print 'Ack: %x' % val
+                
+                val, = struct.unpack('B', self.ser.read(1))
+                
+                if val != self.DA_CONT:
+                    raise Exception('Send CRC error')
+                    
+                
+                
         
         if fileSize % self.DA_WRITE_SIZE:
             
@@ -702,8 +723,26 @@ class MTKFirmwareUploader(object):
             crc = self.getBufferCrc(var)
             self.ser.write(struct.pack('>H', crc))
             val, = struct.unpack('B', self.ser.read(1))
-            if val != 0x69:
-                raise Exception('Send CRC error')
+            if val != self.DA_CONT:
+                print 'Error: %x' % val
+                errorCode, = struct.unpack('>I', self.ser.read(4))
+                print 'Error code: %x' % errorCode
+                time.sleep(0.5)
+                gotAck, = struct.unpack('B', self.ser.read(1))
+                print 'Ack: %x' % gotAck
+                self.ser.write(struct.pack('B',self.DA_CONT))
+                self.ser.write("\x5a")  
+                self.ser.write(var)
+                crc = self.getBufferCrc(var)
+                self.ser.write(struct.pack('>H', crc))
+                val, = struct.unpack('B', self.ser.read(1))
+                print 'Ack: %x' % val
+                
+                val, = struct.unpack('B', self.ser.read(1))
+                
+                if val != self.DA_CONT:
+                    raise Exception('Send CRC error')
+                
         
         f.close()   
         print 'DA_LoadImage done' 
@@ -903,6 +942,7 @@ class MTKFirmwareUploader(object):
         
         val, = struct.unpack('B', self.ser.read(1))
         if val != self.DA_ACK:
+            print val
             raise Exception('no ack')
         
         val, = struct.unpack('B', self.ser.read(1))
@@ -1427,7 +1467,7 @@ def main():
 
     parser = argparse.ArgumentParser(description='Firmware uploader for Rephone', prog='uploader')
     parser.add_argument('--port', '-p', help='Serial port device', default='/dev/ttyUSB0')
-    parser.add_argument('--firmPath', '-f', help='Firmware path', default='W15.19.p2-uart')
+    parser.add_argument('--firmPath', '-f', help='Firmware path', default='W15.19.p2')
     
     args = parser.parse_args()
      
@@ -1487,7 +1527,7 @@ def main():
     # 278
     # GPIO control block
     # GPIO_CTRL_DOUT1 (GPIO_CTRL_ADDR + 0x0310)
-    # clear or set ???
+    # clear
     h.write32(0xa0020318, 0x2000)
     # 298
     # GPIO_CTRL_PULLEN0 (GPIO_CTRL_ADDR + 0x0100)
@@ -1495,7 +1535,7 @@ def main():
     h.write32(0xa0020014, 0x2000)
     # 318
     # GPIO_CTRL_MODE5        (GPIO_CTRL_ADDR + 0x0c50)
-    # clear or set ???
+    # set 
     h.write32(0xa0020c58, 0x700000)
    
 
@@ -1514,7 +1554,7 @@ def main():
     
     # 9004 0x10
     # Power management block
-    # PMIC_CTRL10
+    # PMIC_CTRL10 charger
     val = h.read16_old(0xa0700a28)
     print '0xa0700a28 0x%x' % val
     # 9018
@@ -1524,7 +1564,7 @@ def main():
     # PMIC_CTRL0
     val = h.read16_old(0xa0700a00)
     print '0xa0700a00 0x%x' % val    
-    # 9052
+    # 9052 charger control enable charger ?
     h.write16(0xa0700a00, 0xf272)
     
     h.BL_PowerUpBaseband()
