@@ -13,7 +13,6 @@ http://www.seeed.cc/rephone/
 
 2. [Download the Windows SDK](http://labs.mediatek.com/site/global/developer_tools/mediatek_linkit_assist_2502/sdk_intro/index.gsp)
 
-3. Use a Windows maschine for updating the firmware
 
 4. Switch off the device and connect it to USB. Copy autostart.txt in the root folder
 
@@ -22,9 +21,9 @@ http://www.seeed.cc/rephone/
 ##Running the sample
 
 
-make all
+	make all
 
-make upload
+	make upload
 
 ##Tools
 
