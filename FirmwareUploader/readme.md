@@ -16,7 +16,7 @@ Steps
 5. Upload **INT_SYSRAM** of the download agent to 0x70007000
 6. Upload **EXT_RAM** of the download agent  to 0x10020000
 7. Start download agent. Jump to address 0x70007000
-8. Connect to the download agent . Now the download agent  takes over the communication.
+8. Connect to the download agent . Now the download agent takes over the communication.
 9. Download agent starts to detect NOR/SF flash. Using the file **NOR_FLASH_TABLE**
 12. Upload **SEEED02A_DEMO_BOOTLOADER_V005_MT2502_MAUI_11CW1418SP5_W15_19.bin**
 13. Upload **EXT_BOOTLOADER**
@@ -82,7 +82,7 @@ Doing the upload
 ## Troubleshoot
 
 - Sometimes the first connect fails. Disconnect the device and reconnect it.
-- Disconnect the GPS or Basic Sensors module
+- Charge the battery before uploading
 - If something goes wrong during upload. 
 	Disconnect the device from USB port and disconnect also the battery !!. Try again.
 - Flashed a wrong a incomplete firmware. Wait 15 seconds for watchdog reset.
