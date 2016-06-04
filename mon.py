@@ -25,7 +25,8 @@ import re
 import argparse
 import traceback
 import os
-import mmap
+import struct
+
 
 
 
@@ -52,42 +53,93 @@ class MTKModem(object):
 	def close(self):
 		self.ser.close()
 		
-
+	
+	def getBufferCrc(self, Buffer):
+		
+	 	crcsum = 0x0000
+	 	for byte in Buffer:
+	 		crcsum = (crcsum + ord(byte)) & 0x000000FF
+	 	print('Checksum is 0x%x') % (crcsum)
+		return crcsum
+    
+	    	
+     
 	# reveive a paket
     #   
     #   (Header)      (lenght)   (paket id) (data)   (checksum)
-	#   00 55 00      45         71 
-	#
+	#   55 00            45         71                         2
+	
 
 	def receivePaket(self):
    		
-		pattern = '\x00\x55\x00'	
+		data = bytearray()
 		while 1:
-			data = self.ser.read(3)
-			if data != pattern:
-				continue
-			length = self.ser.read(1)
-			# print  ord(length)
-            # read data
-			data = self.ser.read(ord(length))
-			
-			clean = re.sub('[^\040-\176]', '', data)
-			# print data.encode("hex")
-			
-			id = data[:1].encode("hex")
-			# print id
-			if id == '71':
-				# debug mesg
-				debug_msg = data[19:]
-				debug_msg = debug_msg.strip(chr(0))
-				debug_msg = debug_msg.strip('\x0a')
+			data = self.ser.read(1)
+			if data == '\x55':
+				data = self.ser.read(1)
+				if data == '\x00':
+						self.getmsgclean()
 				
-				print debug_msg
-				# print debug_msg.encode("hex")
 		
-			# read checksum
-			checksum = self.ser.read(1)
+			elif data == '\xA5':
+				self.getA5msg()
+				
+			elif data == '\x00':
+				data = self.ser.read(1)
+				if data == '\xFF':
+					self.getFix12msg()
+			else:
+				
+				print '%02x' % struct.unpack('B', data),
+		
+					
 
+	# got a high priority messages
+					
+	def getA5msg(self):
+		# print 'A5'
+		length, = struct.unpack('B', self.ser.read(1))
+		data = self.ser.read(length)	
+		checksum = self.ser.read(1)
+		checksum = self.ser.read(1)	
+		
+	def getFix12msg(self):
+		
+		#print 'Fix 12 msg',
+		data = self.ser.read(12)
+		#print data.encode("hex")
+		
+			
+	def getmsgclean(self):
+				
+		msg = bytearray()
+		# get msg length
+		length, = struct.unpack('B', self.ser.read(1))
+		i = 0
+		while i < length:
+			data = self.ser.read(1)
+			if data == '\xA5':
+				# got a high prio A5 msg
+				self.getA5msg()
+		
+			else:
+				msg += data
+				i = i + 1
+		
+		id = msg[:1]
+		# print id
+		if id == '\x71':
+			# debug msg
+			debug_msg = msg[19:]
+			debug_msg = debug_msg.strip(chr(0))
+			debug_msg = debug_msg.strip('\x0a')
+			
+			print debug_msg
+		
+	
+		# read checksum
+		checksum = self.ser.read(1)
+		checksum = self.ser.read(1)			
 
 	#
 	# connect to catcher in the device
