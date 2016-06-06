@@ -28,17 +28,16 @@ import os
 import struct
 
 
-
-
 class MTKModem(object):
-
 	
-	def __init__(self):
+	def __init__(self, FileName, logOn):
 		
-		print 'Switch on the device and connect it to the USB port'
+		self.logOn = logOn
+		if self.logOn == True:
+			self.mFilenName = open(FileName, 'wb')
 
 	def open(self, port):
-		
+		print 'Switch on the device and connect it to the USB port'
 		print 'Try to open port %s. Press ctrl + c for break' % port
 		while 1:
 			try:
@@ -53,99 +52,132 @@ class MTKModem(object):
 	def close(self):
 		self.ser.close()
 		
-	
 	def getBufferCrc(self, Buffer):
-		
 	 	crcsum = 0x0000
 	 	for byte in Buffer:
 	 		crcsum = (crcsum + ord(byte)) & 0x000000FF
 	 	print('Checksum is 0x%x') % (crcsum)
 		return crcsum
     
-	    	
-     
+    #
+    # read with optional byte logging
+	#
+	def read(self, size=1):
+       	 data = bytearray()
+    	 data = self.ser.read(size)
+    	 if self.logOn == True:
+    	 	self.mFilenName.write(data)
+     	 return bytes(data)
+	#    	
+    # read and handle A5 messages
+	#
+	def readHandleA5(self): 
+		data = bytearray()
+		data = self.read(1)
+		while data == '\xA5':
+ 			self.getA5msg()
+ 			data = self.ser.read(1)
+ 		return bytes(data)
+    
 	# reveive a paket
     #   
     #   (Header)      (lenght)   (paket id) (data)   (checksum)
-	#   55 00            45         71                         2
+	#   55 00            45         71                 2
 	
-
-	def receivePaket(self):
-   		
-		data = bytearray()
+	def syncStream(self):
+		print 'Wait sync ...'
 		while 1:
-			data = self.ser.read(1)
+			data = self.read(1)
 			if data == '\x55':
-				data = self.ser.read(1)
-				if data == '\x00':
-						self.getmsgclean()
-				
+				data2 = self.read(1)
+				if data2 == '\x00':
+					# found frame start
+					
+					self.getmsgclean()
+					break
+		print 'Sync'
+		
+	def receivePaket(self):
+   		data = bytearray()
+		data2 = bytearray()
+		flagNew = True
+		while 1:
+			data = self.read(1)
+			if data == '\x55':
+				data2 = self.read(1)
+				if data2 == '\x00':
+					# found frame start
+					flagNew = True
+					self.getmsgclean()
 		
 			elif data == '\xA5':
+				flagNew = True
 				self.getA5msg()
-				
-			elif data == '\x00':
-				data = self.ser.read(1)
-				if data == '\xFF':
-					self.getFix12msg()
+	
 			else:
-				
+				if flagNew == True:
+					print ' \nNew: '
+					flagNew = False
 				print '%02x' % struct.unpack('B', data),
-		
-					
 
+	#
 	# got a high priority messages
-					
+	#
 	def getA5msg(self):
 		# print 'A5'
-		length, = struct.unpack('B', self.ser.read(1))
-		data = self.ser.read(length)	
-		checksum = self.ser.read(1)
-		checksum = self.ser.read(1)	
+		length, = struct.unpack('B', self.read(1))  # 0x0A
+		data = self.read(length)	
+		checksum = self.read(1)
+		checksum = self.read(1)	
 		
 	def getFix12msg(self):
-		
-		#print 'Fix 12 msg',
-		data = self.ser.read(12)
-		#print data.encode("hex")
-		
+		# print 'Fix 12 msg',
+		data = self.read(12)
+		# print data.encode("hex")
 			
 	def getmsgclean(self):
-				
 		msg = bytearray()
 		# get msg length
-		length, = struct.unpack('B', self.ser.read(1))
+		data = self.readHandleA5()
+		length, = struct.unpack('B', data)
 		i = 0
 		while i < length:
-			data = self.ser.read(1)
-			if data == '\xA5':
-				# got a high prio A5 msg
-				self.getA5msg()
-		
-			else:
-				msg += data
-				i = i + 1
-		
+			data = self.readHandleA5()
+			msg += data
+			i = i + 1
 		id = msg[:1]
-		# print id
+		
 		if id == '\x71':
-			# debug msg
-			debug_msg = msg[19:]
+			# vm_log* messages 
+			a = msg.index('\t', 10)
+			debug_msg = msg[a + 1:]
 			debug_msg = debug_msg.strip(chr(0))
 			debug_msg = debug_msg.strip('\x0a')
-			
+			if(debug_msg[:1] != '2'):
+				print 'fail'
 			print debug_msg
+			
+		elif id == '\x61':
+			# print ''
+			Nop = None
+		elif id == '\x65':
+			Nop = None
+		elif id == '\x78':
+			Nop = None	
+		elif id == '\x94':
+			Nop = None		
+		else:
+			print 'New ID: '
 		
-	
+			print("".join(" %02x" % i for i in msg))
 		# read checksum
-		checksum = self.ser.read(1)
-		checksum = self.ser.read(1)			
+		checksum = self.readHandleA5()
+		checksum = self.readHandleA5()	
 
 	#
 	# connect to catcher in the device
 	#
 	def switchOn(self):
-		
 		print 'Send switchOn'
 
 		step1 = '\x55\x00\x0c\x63\x30\x00\x08\x00\x01\x00\x00\x00\x0b\x00\x00\x00\x08'
@@ -182,14 +214,15 @@ def main():
 	parser.add_argument('--port', '-p', help='Serial port device', default='/dev/ttyACM1')
 
 	args = parser.parse_args()
-
-	h = MTKModem()
+	
+	h = MTKModem('logFile.bin', False)
 	
 	while 1:
 		try:
 			h.open(args.port);
 			time.sleep(2)
 			h.switchOn()
+			h.syncStream()
 			h.receivePaket()
 		except serial.SerialException as e:
 			# Disconnect of USB->UART occured
@@ -200,10 +233,6 @@ def main():
 			print 'USB not ready. wait....'
 			time.sleep(8)
         
-
-	
-
-
 if __name__ == '__main__':
     try:
         main()
