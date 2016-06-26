@@ -11,8 +11,9 @@ http://www.seeed.cc/rephone/
 
 1. Download the arm compiler [gcc-arm-none-eabi-4_9-2014q4-20141203-linux.tar.bz2](https://launchpad.net/gcc-arm-embedded)
 
-2. [Download the Windows SDK](http://labs.mediatek.com/site/global/developer_tools/mediatek_linkit_assist_2502/sdk_intro/index.gsp)
+2. Download the [Windows SDK](http://labs.mediatek.com/site/global/developer_tools/mediatek_linkit_assist_2502/sdk_intro/index.gsp)
 
+3. Install [pyserial](https://github.com/pyserial/pyserial).
 
 4. Switch off the device and connect it to USB. Copy autostart.txt in the root folder
 
@@ -29,6 +30,7 @@ http://www.seeed.cc/rephone/
 
 
 **merge_mtk.py**	adds a header and the size of the elf file for loading
+
 
 **uploader.py**	stops the running process and uploads the main.vxp to the device and restarts the application.
 
@@ -104,4 +106,14 @@ Sample
 	
 	vm_log_debug("%x",*HARDWARE_CODE);
 	 
+
+## Mac OS
+
+1. Install [python](https://www.python.org/downloads/mac-osx/)
+
+2. Use [fernvale-osx-codeless](https://github.com/jacobrosenthal/fernvale-osx-codeless) to get a com port.
+
+3. Install the [gcc-arm](https://launchpad.net/gcc-arm-embedded/4.9/4.9-2014-q4-major) for Mac.
+
+
 
