@@ -89,11 +89,17 @@ Doing the upload
 
 If nothing helps. Use the official windows version.
 
+
+## Mac OS X
+
+1. *firmwareUploader.py --port /dev/cu.usbmodem1410*
+
+
+Update does not work .... at moment ...
+
 ## To Do
 
 A better error handling. 
-
-Retry during upload a block
 
 May be we have some timing issues
 

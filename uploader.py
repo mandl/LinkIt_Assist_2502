@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 #
 #
 # This program is free software; you can redistribute it and/or modify it under
@@ -20,221 +20,222 @@ import serial
 import sys
 import time
 import traceback
+import binascii
+
 
 
 class MTKModem(object):
 
-	WRITE_SIZE = 400
+    WRITE_SIZE = 400
 
-	def __init__(self, port):
-		self.open(port)
+    def __init__(self, port):
+        self.open(port)
 
-	def open(self, port):
-		self.ser = serial.Serial(port, 115200, timeout=5)
-		self.ser.flushInput()
-		self.ser.flushOutput()
+    def open(self, port):
+        self.ser = serial.VTIMESerial(port, 115200, timeout=5)
+        self.ser.flushInput()
+        self.ser.flushOutput()
         
 
-	def SendCommand(self, command, getline=True, ignoreError=False):
-		print 'send: %s' % (command)
-		self.ser.write(command + '\r')
-		data = ''
-		if getline:
-			data = self.ReadLine(ignoreError)
-		return data 
+    def SendCommand(self, command, getline=True, ignoreError=False):
+        print ('send: %s' % (command))
+        self.ser.write((command + '\r').encode())
+        data = ''
+        if getline:
+            data = self.ReadLine(ignoreError)
+        return data 
 
-	def SendCommandResult(self, command,ignoreError=False):
-		out = []	
-		print 'send: %s' % (command)
-		self.ser.write(command + '\r')
-		while 1:
-			data = self.ser.readline().rstrip("\n\r")
-			if data == 'OK':
-				return out
-				break
-			if data == 'ERROR':
-				if ignoreError:
-					return out
-				raise Exception('Comm Error')
-			if data != '':
-				out.append(data)	
-			
+    def SendCommandResult(self, command,ignoreError=False):
+        out = []    
+        print ('send: %s' % (command))
+        self.ser.write((command + '\r').encode())
+        while 1:
+            data = self.ser.readline().decode().rstrip("\n\r")
+            if data == 'OK':
+                return out
+                break
+            if data == 'ERROR':
+                if ignoreError:
+                    return out
+                raise Exception('Comm Error')
+            if data != '':
+                out.append(data)    
+            
 
+    def ReadLine(self, ignoreError):
+        while 1:
+            data = self.ser.readline().decode().rstrip("\n\r")
+            if data == 'OK':
+                break
+            if data == 'ERROR':
+                if ignoreError:
+                    break
+                raise Exception('Comm Error')
+                
+            if data != '':
+                print (data)
 
-
-	def ReadLine(self, ignoreError):
-		while 1:
-			data = self.ser.readline().rstrip("\n\r")
-			if data == 'OK':
-				break
-			if data == 'ERROR':
-				if ignoreError:
-					break
-				raise Exception('Comm Error')
-				
-			if data != '':
-				print data
-
-	def ListFiles(self, path):
-		
-		fileList = self.SendCommandResult('AT+EFSL="' + path.encode("utf-16-be").encode("hex") + '"',True)
-		print "List path: %s" % path
-		for item in fileList:
-			diritem = item.split(",")
-			# get file size
-			filesize = diritem[1]
-			# attribute of file
-			attrib = diritem[2]
-			quoted = re.compile('"[^"]*"')
-			for value in quoted.findall(item):
-				# find filename
-				value = value.replace('"', "")
-				print (value.decode("hex").strip() + "\t\t" + str(filesize) + "\t" + str(attrib))
-		print ' '
-			
-
-
-	def DeleteFile(self, pathFilename):
-		# Folder operation Back to root folder
-		print 'Delete File %s' % pathFilename
-		self.SendCommand('AT+EFSF=3')
-		# send command ignore error if file does not exits
-		self.SendCommand('AT+EFSD="' + pathFilename.encode("utf-16-be").encode("hex") + '"', True, True)
-	
-	def createFolder(self,folderName):
-		
-		print "Create folder: %s" % folderName
-		self.SendCommand('AT+EFSF=3')
-		#ignore error
-		self.SendCommand('AT+EFSF=0,"'+folderName.encode("utf-16-be").encode("hex") +'"',True,True)	
-	
-
-	def sendFile(self, destpath,filename):
-   		if not os.path.isfile(filename):
-			raise Exception('Can not open file: %s') % (filename)
+    def ListFiles(self, path):
         
-		# open file		
-		f = file(filename, 'rb')
- 		st = os.stat(filename)
-		
-		size = st.st_size
-		print 'Bytes to send %d' % (size)
-		if size == 0:
-			raise Exception('File is empty')
-		
-		path = destpath + filename
-		filenamePath = path.encode("utf-16-be")
+        filenamePath = binascii.hexlify(path.encode("utf-16-be")).decode()
+        fileList = self.SendCommandResult('AT+EFSL="' + filenamePath + '"',True)
+        print ("List path: %s" % path)
+        for item in fileList:
+            diritem = item.split(",")
+            # get file size
+            filesize = diritem[1]
+            # attribute of file
+            attrib = diritem[2]
+            quoted = re.compile('"[^"]*"')
+            for value in quoted.findall(item):
+                # find filename
+                value = value.replace('"', "")
+                print (value.decode("hex").strip() + "\t\t" + str(filesize) + "\t" + str(attrib))
+        print (' ')
+            
 
-		print 'Filename Path %s' % path
+    def DeleteFile(self, pathFilename):
+        # Folder operation Back to root folder
+        print ('Delete File %s' % pathFilename)
+        self.SendCommand('AT+EFSF=3')
+        
+        folder = binascii.hexlify(pathFilename.encode("utf-16-be")).decode()
+        # send command ignore error if file does not exits
+        
+        self.SendCommand('AT+EFSD="' + folder + '"', True, True)
+    
+    def createFolder(self,folderName):
+        
+        print ("Create folder: %s" % folderName)
+        self.SendCommand('AT+EFSF=3')
+        #ignore error
+        folder = binascii.hexlify(folderName.encode("utf-16-be")).decode()
+        self.SendCommand('AT+EFSF=0,"'+ folder +'"',True,True)    
+    
 
-		# open file for write
-		self.SendCommand('AT+EFSW=0,"' + filenamePath.encode("hex") + '"')
-		
-		
-		# send data to open file
-		for i in range(st.st_size / self.WRITE_SIZE):
-			var = f.read(self.WRITE_SIZE)
-			data = var.encode("hex")
-			if size == 400:
-				# last paket send eof
- 				self.SendCommand('AT+EFSW=2,1,400,"' + data + '"')
-			else:
-				# send paket
-				self.SendCommand('AT+EFSW=2,0,400,"' + data + '"')
-			size = size - 400
-	
-		if size > 0:
-			# send last data to open file
-			var = f.read(size)
-			data = var.encode("hex")
-			# send lastpaket
-			self.SendCommand('AT+EFSW=2,1,' + str(size) + ',"' + data + '"')
-	
-		# close file
-		self.SendCommand('AT+EFSW=1,"' + filenamePath.encode("hex") + '"') 
+    def sendFile(self, destpath,filename):
+        if not os.path.isfile(filename):
+            raise Exception('Can not open file: %s') % (filename)
+        
+        # open file        
+        f = open(filename, 'rb')
+        st = os.stat(filename)
+        
+        size = st.st_size
+        print ('Bytes to send %d' % (size))
+        if size == 0:
+            raise Exception('File is empty')
+        
+        path = destpath + filename
+       
+        filenamePath = binascii.hexlify(path.encode("utf-16-be")).decode()
+        print ('Filename Path %s' % path)
+
+        # open file for write
+        self.SendCommand('AT+EFSW=0,"' + filenamePath + '"')
+               
+        # send data to open file
+        for i in range(st.st_size // self.WRITE_SIZE):
+            var = f.read(self.WRITE_SIZE)
+            data = binascii.hexlify(var).decode()
+            #data = var.encode("hex")
+            if size == 400:
+                # last paket send eof
+                 self.SendCommand('AT+EFSW=2,1,400,"' + data + '"')
+            else:
+                # send paket
+                self.SendCommand('AT+EFSW=2,0,400,"' + data + '"')
+            size = size - 400
+    
+        if size > 0:
+            # send last data to open file
+            var = f.read(size)
+            data = binascii.hexlify(var).decode()
+            #data = var.encode("hex")
+            # send lastpaket
+            self.SendCommand('AT+EFSW=2,1,' + str(size) + ',"' + data + '"')
+    
+        # close file
+        self.SendCommand('AT+EFSW=1,"' + filenamePath + '"') 
 
 
 
-	def flushCom(self):
-		self.ser.flushInput()
-		self.ser.flushOutput()
+    def flushCom(self):
+        self.ser.reset_input_buffer()
+        self.ser.reset_output_buffer()
 
 
 def main():
 
 
-	parser = argparse.ArgumentParser(description='Push Application Utility', prog='uploader')
+    parser = argparse.ArgumentParser(description='Push Application Utility', prog='uploader')
 
-	parser.add_argument('--port', '-p', help='Serial port device', default='/dev/ttyACM0')
-	# parser.add_argument('uploadfile', type=argparse.FileType('rb'), help='File for uploading')
+    parser.add_argument('--port', '-p', help='Serial port device', default='/dev/ttyACM0')
+    # parser.add_argument('uploadfile', type=argparse.FileType('rb'), help='File for uploading')
 
-	args = parser.parse_args()
-	if os.path.isfile('main.vxp') == False:
-		print 'Can not open main.vxp'
-		return
-	args = parser.parse_args()
-	if os.path.isfile('autostart.txt') == False:
-		print 'Can not open autostart.txt'
-		return
-	
-	h = MTKModem(args.port)
-	time.sleep(0.5)
+    args = parser.parse_args()
+    if os.path.isfile('main.vxp') == False:
+        print ('Can not open main.vxp')
+        return
+    args = parser.parse_args()
+    if os.path.isfile('autostart.txt') == False:
+        print ('Can not open autostart.txt')
+        return
+    
+    h = MTKModem(args.port)
+    time.sleep(0.5)
+    
+    h.SendCommand("AT")
+       
+    # exit all running process
+    h.SendCommand("AT+[666]EXIT_ALL", False)
+    time.sleep(2)
+    h.flushCom()
+     
+    # Change operation mode to obtain access to filesystem    
+    h.SendCommand("AT+ESUO=3")
+        
+    # AT+EFSR FileRead
+    # h.SendCommand('AT+EFSR\r')
 
-	
-	h.SendCommand('AT')
-   	
+    # File System Size  67 = C:\
+    # h.SendCommand('AT+EFS=67\r)
 
-	# exit all running process
-	h.SendCommand('AT+[666]EXIT_ALL', False)
-	time.sleep(2)
-	h.flushCom()
- 	
+    # Folder operation Back to root folder
+    h.SendCommand("AT+EFSF=3")
+    
+    h.createFolder("C:\MRE")
+    
+    h.DeleteFile("D:\autostart.txt")
+    h.DeleteFile("C:\autostart.txt")
 
-	# Change operation mode to obtain access to filesystem	
-	h.SendCommand('AT+ESUO=3')
-		
-	# AT+EFSR FileRead
-	# h.SendCommand('AT+EFSR\r')
+    h.DeleteFile("C:\MRE\main.vxp")
+    
+    h.sendFile("C:\MRE\\","main.vxp")
+    h.sendFile("C:\\","autostart.txt")
 
-	# File System Size  67 = C:\
-	# h.SendCommand('AT+EFS=67\r)
-
-	# Folder operation Back to root folder
-	h.SendCommand('AT+EFSF=3')
-	
-	h.createFolder('C:\MRE')
-	
-	h.DeleteFile('D:\autostart.txt')
-	h.DeleteFile('C:\autostart.txt')
-
-	h.DeleteFile('C:\MRE\main.vxp')
-	
-	h.sendFile('C:\MRE\\','main.vxp')
-	h.sendFile('C:\\','autostart.txt')
-
-	h.ListFiles('C:\MRE')
-	h.ListFiles('D:\MRE')
+    #h.ListFiles("C:\MRE")
+    #h.ListFiles("D:\MRE")
     # C: can also mount as disk ( power off the device )
-	h.ListFiles('C:')
-	# D: is a hidden volume
-	h.ListFiles('D:')
-	
-		
-	# Change operation mode to compatible
-	h.SendCommand('AT+ESUO=4')
+    #h.ListFiles("C:")
+    # D: is a hidden volume
+    #h.ListFiles("D:")
+    
+        
+    # Change operation mode to compatible
+    h.SendCommand("AT+ESUO=4")
 
-	h.SendCommand('AT+[666]REBOOT', False) 
-	
- 	
-	# AT+EFSD Delete File
+    h.SendCommand("AT+[666]REBOOT", False) 
+    
+     
+    # AT+EFSD Delete File
 
 
 if __name__ == '__main__':
     try:
         main()
        
-    except Exception, err:
-        sys.stderr.write('ERROR: %s\n' % str(err))
+    except Exception:
+        #sys.stderr.write('ERROR: %s\n' % str(err))
         traceback.print_exc()
-
 

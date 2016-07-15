@@ -37,8 +37,6 @@ http://www.seeed.cc/rephone/
 **mon.py**	a simple debug monitor. Shows vm_log* messages from the device. 
 Only works with Firmware Version **W15.19.p2** 
 
-
-
 	ToDo Understand the header format
 
 	ToDo Understand the resource file format and building
@@ -60,17 +58,14 @@ from the MediaTek_LinkIt_Assist_2502_SDK_2_0_46.zip
 ### Power off and connect USB
 
 
-Ubuntu Linux found **/dev/ttyUSB0** and switch after some seconds to  USB Mass Storage device (5.2 MB ). This is partions C:
+Ubuntu Linux found (idVendor=0e8d  idProduct=0003) **/dev/ttyUSB0** and switch after some seconds to  USB Mass Storage device  (idVendor=0e8d  idProduct=0002)(5.2 MB ). This is partions C:
 
 ### Power on and conncect to USB
 
-Ubuntu Linux found 
-
-
+Ubuntu Linux found  ( idVendor=0e8d  idProduct=0023 )
 
 
 **/dev/ttyACM0**  ( Mtk Modem Port )  used for uploading *.vxp Applications
-
 
 **/dev/ttyACM1**  ( Mtk Debug Port )  used for debugging 
 
@@ -103,17 +98,52 @@ Sample
 
 	static VMUINT32* HARDWARE_CODE = (VMUINT32*)0x80000008;
 	
-	
 	vm_log_debug("%x",*HARDWARE_CODE);
 	 
 
-## Mac OS
+## Mac OS (El Capitan) 10.11.5
 
 1. Install [python](https://www.python.org/downloads/mac-osx/)
 
-2. Use [fernvale-osx-codeless](https://github.com/jacobrosenthal/fernvale-osx-codeless) to get a com port.
+2. Install the [GCC ARM Embedded 4.9-2014-q4-major](https://launchpad.net/gcc-arm-embedded/4.9/4.9-2014-q4-major) for Mac.
 
-3. Install the [gcc-arm](https://launchpad.net/gcc-arm-embedded/4.9/4.9-2014-q4-major) for Mac.
+### Test the USB port
 
+Power on the device an connect it to the USB port.
 
+Open the terminal.
+
+	ioreg -p IOUSB -l
+		
+	+-o Product@14100000  <class AppleUSBDevice, id 0x1000007b1, registered, ma$
+        {
+           ...
+          "Bus Power Available" = 500
+          "USB Address" = 14
+          "bMaxPacketSize0" = 8
+          "iProduct" = 6
+          "iSerialNumber" = 0
+          ...
+          "USB Vendor Name" = "MediaTek Inc"
+          "idVendor" = 3725
+           ...
+        }
+
+	ls /dev/cu* 
+	
+	/dev/cu.usbmodem1411             /dev/cu.usbmodem1413
+
+Test the interface
+	
+	screen /dev/cu.usbmodem1411
+type 
+
+	AT
+	
+	OK
+
+Run the uploader tool
+
+	./uploader.py --port /dev/cu.usbmodem1411
+	
 
