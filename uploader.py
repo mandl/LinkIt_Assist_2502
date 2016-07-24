@@ -32,7 +32,7 @@ class MTKModem(object):
         self.open(port)
 
     def open(self, port):
-        self.ser = serial.VTIMESerial(port, 115200, timeout=5)
+        self.ser = serial.Serial(port, 115200, timeout=5, dsrdtr=True, rtscts=True)
         self.ser.flushInput()
         self.ser.flushOutput()
         

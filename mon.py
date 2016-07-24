@@ -41,7 +41,7 @@ class MTKModem(object):
         print ('Try to open port {0}. Press ctrl + c for break'.format(port))
         while 1:
             try:
-                self.ser = serial.VTIMESerial(port, 115200, timeout=5)
+                self.ser = serial.Serial(port, 115200, timeout=5, dsrdtr=True, rtscts=True)
                 
                 break
             except:
@@ -51,13 +51,7 @@ class MTKModem(object):
     def close(self):
         self.ser.close()
         
-    def getBufferCrc(self, Buffer):
-         crcsum = 0x0000
-         for byte in Buffer:
-             crcsum = (crcsum + ord(byte)) & 0x000000FF
-             #print('Checksum is 0x%x'(crcsum)
-             return crcsum
-    
+ 
     #
     # read with optional byte logging
     #
