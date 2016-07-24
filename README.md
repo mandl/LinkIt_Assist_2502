@@ -15,12 +15,19 @@ http://www.seeed.cc/rephone/
 
 3. Install [pyserial](https://github.com/pyserial/pyserial).
 
-4. Switch off the device and connect it to USB. Copy autostart.txt in the root folder
+4. Add your user to dailout group.
 
-5. Open the Makefile and set your **TOOLCHAIN** Path and your **LINKIT_ASSIST_SDK_PATH**
+	sudo adduser $USER dialout
+	
+5. Switch off the device and connect it to USB. Copy autostart.txt in the root folder
+
+6. Open the Makefile and set your **TOOLCHAIN** Path and your **LINKIT_ASSIST_SDK_PATH**
+
+7. Install [Python 3.5.x](https://www.python.org/)
 
 ##Running the sample
 
+1. Switch your device on
 
 	make all
 
@@ -103,7 +110,7 @@ Sample
 
 ## Mac OS (El Capitan) 10.11.5
 
-1. Install [python](https://www.python.org/downloads/mac-osx/)
+1. Install [Python 3.5.x](https://www.python.org/downloads/mac-osx/)
 
 2. Install the [GCC ARM Embedded 4.9-2014-q4-major](https://launchpad.net/gcc-arm-embedded/4.9/4.9-2014-q4-major) for Mac.
 
