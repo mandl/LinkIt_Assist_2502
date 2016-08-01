@@ -67,7 +67,7 @@ from the MediaTek_LinkIt_Assist_2502_SDK_2_0_46.zip
 
 Ubuntu Linux found (idVendor=0e8d  idProduct=0003) **/dev/ttyUSB0** and switch after some seconds to  USB Mass Storage device  (idVendor=0e8d  idProduct=0002)(5.2 MB ). This is partions C:
 
-### Power on and conncect to USB
+### Power on and connect to USB
 
 Ubuntu Linux found  ( idVendor=0e8d  idProduct=0023 )
 
@@ -153,4 +153,6 @@ Run the uploader tool
 
 	./uploader.py --port /dev/cu.usbmodem1411
 	
+Monitor tool
 
+	./mon.py -p /dev/cu.usbmodem1413 --osx
