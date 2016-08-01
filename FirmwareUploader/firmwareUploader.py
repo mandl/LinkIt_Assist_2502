@@ -1445,10 +1445,13 @@ def main():
     parser = argparse.ArgumentParser(description='Firmware uploader for Rephone', prog='uploader')
     parser.add_argument('--port', '-p', help='Serial port device', default='/dev/ttyUSB0')
     parser.add_argument('--firmPath', '-f', help='Firmware path', default='W15.19.p2')
+    parser.add_argument('--nobat', help='Upload without battery', action="store_true")
+    
     
     args = parser.parse_args()
      
     FirmwarePath = args.firmPath
+   
     
       # This is the Bootloader
     FilenameBootloader = FirmwarePath + '/SEEED02A_DEMO_BOOTLOADER_V005_MT2502_MAUI_11CW1418SP5_W15_19.bin'
@@ -1534,15 +1537,36 @@ def main():
     # PMIC_CTRL10 charger
     val = h.read16_old(0xa0700a28)
     print ('0xa0700a28 0x%x' % val)
-    # 9018
-    h.write16(0xa0700a28, 0x4010)
+      
+    
+    
+    if  args.nobat == False:
+        # 9018
+        h.write16(0xa0700a28, 0x4010)
+    else:
+        # Upload without battery
+        h.write16(0xa0700a24,0x15) 
+        #Read16  0xa0700a14 0x6109 
+        h.write16(0xa0700a14,0x6009 )
+        #h.read16 ( 0xa0700a14, 0x6009) 
+        h.write16( 0xa0700a14, 0x6049) 
+        #h.read16 ( 0xa0700a08, 0x0f) 
+        h.write16 (0xa0700a08, 0x10b) 
        
     # 9038 0xf262
     # PMIC_CTRL0
     val = h.read16_old(0xa0700a00)
     print ('0xa0700a00 0x%x' % val)
     # 9052 charger control enable charger ?
-    h.write16(0xa0700a00, 0xf272)
+    
+    if args.nobat == False:
+        h.write16(0xa0700a00, 0xf272)
+    else:
+        # Upload without battery
+        
+        h.write16( 0xa0700a00 ,0xf27a )
+        #h.read16(  0xa0700a28 ,0x00 )
+        h.write16( 0xa0700a28 ,0x8000)         
     
     h.BL_PowerUpBaseband()
         
