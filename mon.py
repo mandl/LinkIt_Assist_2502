@@ -30,19 +30,24 @@ import struct
 
 class MTKModem(object):
     
-    def __init__(self, FileName, logOn):
+    def __init__(self, FileName, logOn,OsxMode= False):
         
         self.logOn = logOn
         if self.logOn == True:
             self.mFilenName = open(FileName, 'wb')
+        self.OsxMode = OsxMode
 
     def open(self, port):
         print ('Switch on the device and connect it to the USB port')
         print ('Try to open port {0}. Press ctrl + c for break'.format(port))
         while 1:
             try:
-                self.ser = serial.Serial(port, 115200, timeout=5, dsrdtr=True, rtscts=True)
-                
+                if self.OsxMode:
+                    # select hands on OS x.....
+                    # use only read as workaround
+                    self.ser = serial.VTIMESerial(port, 115200, timeout=5, dsrdtr=True, rtscts=True)
+                else:
+                    self.ser = serial.Serial(port, 115200, timeout=5, dsrdtr=True, rtscts=True)
                 break
             except:
                 time.sleep(0.2)
@@ -85,8 +90,7 @@ class MTKModem(object):
             if data ==  b'\x55':
                 data2 = self.read(1)
                 if data2 == b'\x00':
-                    # found frame start
-                    
+                    # found frame start                  
                     self.getmsgclean()
                     break
         print ('Sync')
@@ -207,10 +211,14 @@ def main():
     parser = argparse.ArgumentParser(description='Mon Application Utility', prog='mon')
 
     parser.add_argument('--port', '-p', help='Serial port device', default='/dev/ttyACM1')
-
-    args = parser.parse_args()
+    parser.add_argument('--osx', help='Select osx mode.',action="store_true")
     
-    h = MTKModem('logFile.bin', False)
+    osx= False
+    args = parser.parse_args()
+    if args.osx:
+        osx= True
+    
+    h = MTKModem('logFile.bin', False, osx)
     
     while 1:
         try:

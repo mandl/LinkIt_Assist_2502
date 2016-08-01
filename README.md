@@ -15,12 +15,19 @@ http://www.seeed.cc/rephone/
 
 3. Install [pyserial](https://github.com/pyserial/pyserial).
 
-4. Switch off the device and connect it to USB. Copy autostart.txt in the root folder
+4. Add your user to dailout group.
 
-5. Open the Makefile and set your **TOOLCHAIN** Path and your **LINKIT_ASSIST_SDK_PATH**
+	sudo adduser $USER dialout
+	
+5. Switch off the device and connect it to USB. Copy autostart.txt in the root folder
+
+6. Open the Makefile and set your **TOOLCHAIN** Path and your **LINKIT_ASSIST_SDK_PATH**
+
+7. Install [Python 3.5.x](https://www.python.org/)
 
 ##Running the sample
 
+1. Switch your device on
 
 	make all
 
@@ -60,7 +67,7 @@ from the MediaTek_LinkIt_Assist_2502_SDK_2_0_46.zip
 
 Ubuntu Linux found (idVendor=0e8d  idProduct=0003) **/dev/ttyUSB0** and switch after some seconds to  USB Mass Storage device  (idVendor=0e8d  idProduct=0002)(5.2 MB ). This is partions C:
 
-### Power on and conncect to USB
+### Power on and connect to USB
 
 Ubuntu Linux found  ( idVendor=0e8d  idProduct=0023 )
 
@@ -103,7 +110,7 @@ Sample
 
 ## Mac OS (El Capitan) 10.11.5
 
-1. Install [python](https://www.python.org/downloads/mac-osx/)
+1. Install [Python 3.5.x](https://www.python.org/downloads/mac-osx/)
 
 2. Install the [GCC ARM Embedded 4.9-2014-q4-major](https://launchpad.net/gcc-arm-embedded/4.9/4.9-2014-q4-major) for Mac.
 
@@ -146,4 +153,6 @@ Run the uploader tool
 
 	./uploader.py --port /dev/cu.usbmodem1411
 	
+Monitor tool
 
+	./mon.py -p /dev/cu.usbmodem1413 --osx
