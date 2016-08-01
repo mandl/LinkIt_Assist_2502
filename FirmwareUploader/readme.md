@@ -56,7 +56,7 @@ called 71-rephone.rules with the following contents:
 ## Upload process
 
 1. Install the udev rule *71-rephone.rules*
-2. Connect the battery. Without a battery the upload will fail.
+2. Disconnect the battery.
 
 We need in the same folder
 
@@ -70,8 +70,8 @@ We need in the same folder
 
 Doing the upload
 
-1. Start the *firmwareUploader.py*
-2. Power off the device and connect it to the USB port.
+1. Start the *firmwareUploader.py -nobat*
+2. Disconnect the battery and connect the device to USB
 3. The upload is running. The red led goes on dimmed.
 4. See a lot of debug information.... wait for **Update done !!!!!!!!**...
 5. Disconnect the device from USB.
@@ -81,10 +81,9 @@ Doing the upload
 
 ## Troubleshoot
 
-- Sometimes the first connect fails. Disconnect the device and reconnect it.
-- Charge the battery before uploading
+
 - If something goes wrong during upload. 
-	Disconnect the device from USB port and disconnect also the battery !!. Try again.
+	Disconnect the device from USB port. Try again.
 - Flashed a wrong a incomplete firmware. Wait 15 seconds for watchdog reset.
 
 If nothing helps. Use the official windows version.
