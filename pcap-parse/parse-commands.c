@@ -92,7 +92,7 @@ int main(int argc, char **argv) {
 				memcpy(&value16, pkt->data, 2);
 
 				get_next_pkt(pcap, &pkt);  // dummy
-				printf("Read16  0x%04x 0x%02x \n", be32toh(addr),
+				printf("val=read16(0x%04x)  # 0x%02x \n", be32toh(addr),
 						be16toh(value16));
 				break;
 
@@ -111,7 +111,7 @@ int main(int argc, char **argv) {
 				memcpy(&value16, pkt->data, 2);
 				get_next_pkt(pcap, &pkt);  // write data echo back
 				get_next_pkt(pcap, &pkt);  // dummy
-				printf("Write16 0x%04x 0x%02x \n", be32toh(addr),
+				printf("h.write16(0x%04x,0x%02x) \n", be32toh(addr),
 						be16toh(value16));
 				break;
 
@@ -130,7 +130,7 @@ int main(int argc, char **argv) {
 				memcpy(&value32, pkt->data, 4);
 				get_next_pkt(pcap, &pkt);  // write data echo back
 				get_next_pkt(pcap, &pkt);  // dummy
-				printf("Write32 0x%04x 0x%04x \n", be32toh(addr),
+				printf("h.write32(0x%04x,0x%04x)\n", be32toh(addr),
 						be32toh(value32));
 				break;
 
@@ -149,7 +149,7 @@ int main(int argc, char **argv) {
 				memcpy(&value32, pkt->data, 4);
 				get_next_pkt(pcap, &pkt);  // read data echo back
 				get_next_pkt(pcap, &pkt);  // dummy
-				printf("Read32  0x%04x 0x%04x \n", be32toh(addr),
+				printf("val=h.read32(0x%04x) # 0x%04x \n", be32toh(addr),
 						be32toh(value32));
 				break;
 
@@ -168,7 +168,7 @@ int main(int argc, char **argv) {
 				get_next_pkt(pcap, &pkt);  // write data
 				memcpy(&value16, pkt->data, 2);
 				get_next_pkt(pcap, &pkt);  // write data echo back
-				printf("Write16 old 0x%04x 0x%02x \n", be32toh(addr),
+				printf("h.write16_old(0x%04x,0x%02x)\n", be32toh(addr),
 						be16toh(value16));
 				break;
 
@@ -186,14 +186,34 @@ int main(int argc, char **argv) {
 				get_next_pkt(pcap, &pkt);  // read data
 				memcpy(&value16, pkt->data, 2);
 
-				printf("Read16 old 0x%04x 0x%02x \n", be32toh(addr),
+				printf("val=h.read16_old(0x%04x) # 0x%02x \n", be32toh(addr),
 						be16toh(value16));
 
 				break;
 
 				//  MTK_COMMAND_DOWNLOAD_IMAGE
 			case 0xD7:
-				printf("Upload Image\n\n");
+
+				get_next_pkt(pcap, &pkt);  // commmand echo back
+				get_next_pkt(pcap, &pkt);  // address
+				get_next_pkt(pcap, &pkt);  // address echo back
+
+				memcpy(&addr, pkt->data, 4);
+
+				get_next_pkt(pcap, &pkt);  // length
+				get_next_pkt(pcap, &pkt);  // length echo back
+
+				memcpy(&value32, pkt->data, 4);
+
+				get_next_pkt(pcap, &pkt);  // signature
+				get_next_pkt(pcap, &pkt);  // signature echo back
+
+
+				printf("# Upload Image to address 0x%04x length 0x%04x \n", be32toh(addr),
+										be32toh(value32));
+
+
+
 
 				break;
 
@@ -207,49 +227,7 @@ int main(int argc, char **argv) {
 			}
 		}
 
-//		if ((pkt->data_length == 1) && (pkt->data[0] == 0xd7)) {
-//			uint32_t addr;
-//			uint32_t bytes;
-//			uint32_t sig_bytes;
-//			printf("Found download at offset %d\n", pkt_index);
-//
-//			get_next_pkt(pcap, &pkt);
-//			memcpy(&addr, pkt->data, 4);
-//			printf("Writing to address 0x%08x\n", be32toh(addr));
-//
-//			get_next_pkt(pcap, &pkt);
-//			memcpy(&bytes, pkt->data, 4);
-//			printf("Writing %d bytes\n", be32toh(bytes));
-//
-//			get_next_pkt(pcap, &pkt);
-//			memcpy(&sig_bytes, pkt->data, 4);
-//			printf("Signature is %d bytes\n", be32toh(sig_bytes));
-//
-//			printf("\n");
-//
-//			uint8_t data[be32toh(bytes)];
-//			uint32_t copied = 0;
-//			while (copied < be32toh(bytes)) {
-//				int ret;
-//				ret = get_next_pkt(pcap, &pkt);
-//				if (!ret) {
-//					fprintf(stderr, "Packet cut short\n");
-//					break;
-//				}
-//				memcpy(data + copied, pkt->data, pkt->data_length);
-//				copied += pkt->data_length;
-//			}
-//
-//			char name[32];
-//			snprintf(name, sizeof(name) - 1, "prog-0x%08x", be32toh(addr));
-//			int fd = open(name, O_WRONLY | O_CREAT, 0777);
-//			if (fd == -1) {
-//				perror("Unable to open file for writing");
-//				return 1;
-//			}
-//			write(fd, data, sizeof(data));
-//			close(fd);
-//		}
+
 	}
 
 	return 0;

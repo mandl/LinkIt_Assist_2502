@@ -95,22 +95,12 @@ class MTKFirmwareUploader(object):
     
     UNCHANED_DATA_BLOCKS = 1
     
-        
-    # global flag for EMI test
-    
-    flagEMI_Ok = False
     
     
     def __init__(self):
-        
-        print ('Switch off the device and connect it to the USB port.')
-        print ('Setup the right udev rules.')
-        print ('The first connect sometimes fails. Ubuntu mounts a USB Mass Storage device (5.2 MB ).')
-        print ('Disconnect and  reconnect the device to the USB port.')
-        print ('This firmware uploader is a beta version.')
-        print ('Do not blame us - if we break your device.')
-        print ('')
-        print ('Any help is welcome !!! ......')
+        # global flag for EMI test
+        self.flagEMI_Ok = False
+
         
     def checkFilesExit(self):
         
@@ -342,7 +332,7 @@ class MTKFirmwareUploader(object):
     # upload file
     def writeFile(self, adr, filename):
         
-        print ('Write file %s' % filename)
+        print ("Write file {0:s} to address 0x{1:x}".format(filename,adr))
         
         if not os.path.isfile(filename):
             raise Exception('Can not open file: %s') % (filename)
@@ -350,7 +340,7 @@ class MTKFirmwareUploader(object):
         f = open(filename, 'rb')
         
         fileSize = self.getSize(filename) 
-        print ('Bytes to send %d' % (fileSize))
+        print ("Bytes to send {0:d}".format(fileSize))
         if fileSize == 0:
             raise Exception('File is empty')
          
@@ -381,23 +371,23 @@ class MTKFirmwareUploader(object):
         for i in range(fileSize // self.WRITE_SIZE):
             var = f.read(self.WRITE_SIZE)
             self.ser.write(var)
-            print ("Block  %d send 1024k" % i)
+            print ("Block  {0:2d} send 1024k".format(i))
         
         if fileSize % self.WRITE_SIZE:
             
             var = f.read()
-            print ('Send last data %d' % len(var))
+            print ("Send last data {0:d}".format(len(var)))
             self.ser.write(var)
         # read CRC
         crc = self.ser.read(2)
         crc_val, = struct.unpack('<H', crc)
-        print ('Upload CRC 0x%x ' % crc_val)
+        print ("Upload CRC 0x{0:x}".format(crc_val))
         self.ser.read(2)
         return crc_val
            
     def startProg(self, adr):
         
-        print ('Start program. good luck....')
+        print ("Start program at 0x{0:x}. good luck".format(adr))
         command = struct.pack('B', self.MTK_RUN_CODE)
         self.ser.write(command)
         if self.ser.read(1) != command:
@@ -407,7 +397,7 @@ class MTKFirmwareUploader(object):
         if self.ser.read(4) != pkt:
             raise Exception('Invalid response address')   
         self.ser.read(2)  
-        print ('Program is running')
+        print ("Program is running")
 
     # Doing the internal PSRAM Calibration
     # 
@@ -456,11 +446,11 @@ class MTKFirmwareUploader(object):
         self.write32(0xa0050090, 0x0)
                 
         EMI_Start = 0x1f1f1f1f
-        EMI_Next = 0x01010101
+        EMI_Next  = 0x01010101
         
         self.flagEMI_Ok = False
         for x in range(0, 31):
-            print ('EMI 0%x ' % EMI_Start)
+            print ("EMI 0x{0:08x} ".format(EMI_Start))
             # EMI_CTRL_IDLC
             self.write32(0xa00500d0, EMI_Start)
             # 872
@@ -868,8 +858,12 @@ class MTKFirmwareUploader(object):
         
         # Target address is zero. Do nothing!
         if target_rom_addr != 0x0000:
-            print ('Target address is zero. Fix me ...')
-            raise Exception('Target address is not zero')
+            print ('Target address is not zero. Fix me ...')
+            val, = struct.unpack('>I', self.ser.read(4))
+            print("address 0x{x}".format(val)) 
+            val, = struct.unpack('B', self.ser.read(1))
+            if val != self.DA_ACK:
+                raise Exception('DA_ERASE_MAUI_INFO no ack')
         print ('DA_ERASE_MAUI_INFO done')
          
     def DA_WriteCMD(self, FileName1, FileName2): 
@@ -886,8 +880,6 @@ class MTKFirmwareUploader(object):
         # Packet Length: 4096
         self.ser.write(b"\x01")
         self.ser.write(b"\x00\x00\x10\x00")
-        
-        
         
         time.sleep(0.1)
         
@@ -1233,7 +1225,7 @@ class MTKFirmwareUploader(object):
         # 0x00 00 00 00
         
         # range ????
-        val, = struct.unpack('>I', self.ser.read(4))
+        val, = struct.unpack('>I', self.ser.read(4)) 
         val, = struct.unpack('>I', self.ser.read(4))
         
         # range ????
@@ -1445,7 +1437,9 @@ def main():
     parser = argparse.ArgumentParser(description='Firmware uploader for Rephone', prog='uploader')
     parser.add_argument('--port', '-p', help='Serial port device', default='/dev/ttyUSB0')
     parser.add_argument('--firmPath', '-f', help='Firmware path', default='W15.19.p2')
-    parser.add_argument('--nobat', help='Upload without battery', action="store_true")
+    parser.add_argument('--nobattery', '-nobat',help='Upload without battery', action="store_true")
+    parser.add_argument('--native', help='Upload a test binary and execute it', action="store_true")
+    parser.add_argument('--nofatformat', help='Do not format the FAT partition', action="store_true")
     
     
     args = parser.parse_args()
@@ -1461,19 +1455,36 @@ def main():
     FilenameROM1 = FirmwarePath + '/ROM'
     FilenameROM2 = FirmwarePath + '/VIVA'
     
+    
+    if args.native == False:
+        if not os.path.isfile(FilenameBootloader):
+                raise Exception('Can not open file: %s') % (FilenameBootloader)
+        if not os.path.isfile(FilenameBootloaderExt):
+                raise Exception('Can not open file: %s') % (FilenameBootloaderExt)
+        if not os.path.isfile(FilenameROM1):
+                raise Exception('Can not open file: %s') % (FilenameROM1)
+        if not os.path.isfile(FilenameROM2):
+                raise Exception('Can not open file: %s') % (FilenameROM2)
+            
+   
+    print ('Setup the right udev rules.')
+   
+    
+    if args.nobattery == True:
+        print("Doing upload without battery mode.")   
+        print("Disconnect the battery and connect device to the USB port.")
+    else:
+        print("Connect the battery to the device.") 
+        print("Switch off the device and connect it to the USB port.")  
+        print("The first connect sometimes fails. Ubuntu mounts a USB Mass Storage device (5.2 MB ).")  
+        print("Disconnect and  reconnect the device to the USB port.")
+        print("or use the --nobattery option")
      
-    if not os.path.isfile(FilenameBootloader):
-            raise Exception('Can not open file: %s') % (FilenameBootloader)
-    if not os.path.isfile(FilenameBootloaderExt):
-            raise Exception('Can not open file: %s') % (FilenameBootloaderExt)
-    if not os.path.isfile(FilenameROM1):
-            raise Exception('Can not open file: %s') % (FilenameROM1)
-    if not os.path.isfile(FilenameROM2):
-            raise Exception('Can not open file: %s') % (FilenameROM2)
         
     h = MTKFirmwareUploader()
     
-    h.checkFilesExit()
+    if args.native == False:
+        h.checkFilesExit()
       
     h.open(args.port)
     h.connectBootloader()
@@ -1540,11 +1551,12 @@ def main():
       
     
     
-    if  args.nobat == False:
+    if  args.nobattery == False:
         # 9018
         h.write16(0xa0700a28, 0x4010)
     else:
         # Upload without battery
+        # CHR_CON9
         h.write16(0xa0700a24,0x15) 
         #Read16  0xa0700a14 0x6109 
         h.write16(0xa0700a14,0x6009 )
@@ -1559,51 +1571,62 @@ def main():
     print ('0xa0700a00 0x%x' % val)
     # 9052 charger control enable charger ?
     
-    if args.nobat == False:
+    if args.nobattery == False:
         h.write16(0xa0700a00, 0xf272)
     else:
         # Upload without battery
         
         h.write16( 0xa0700a00 ,0xf27a )
         #h.read16(  0xa0700a28 ,0x00 )
+        #Enable USB Download mode (required for no-battery operation) 
         h.write16( 0xa0700a28 ,0x8000)         
     
     h.BL_PowerUpBaseband()
         
     h.BL_RemapEMI()
     
-    h.BL_UploadAndStartDA_Bootloader()
-   
-    # 9819 DA is running
     
-    # #Get SYNC_CHAR C0 DA return BB = 142 
-    h.DA_WaitForSync()
-    print ('DA Loader is running')
-    print (' ')
-    print (' ')
-     
-    h.DA_DetectFlash()
-    
-    h.DA_FormatCBR()   
-    
-    h.DA_DownloadBootLoader(FilenameBootloader, FilenameBootloaderExt)
-    
-    h.DA_CheckEFuse()
-    
-    h.DA_CBRInfo()
-      
-    h.DA_SetMemBlock(FilenameROM1, FilenameROM2)
-    
-    h.DA_ERASE_MAUI_INFO()
-    
-    h.DA_WriteCMD(FilenameROM1, FilenameROM2)
-    
-    h.DA_doFATParition()
-    
-    h.DA_disconnect() 
-    
-    print ('Update done !!!!!!!!')
-    print ('Disconnect Rephone from USB')
+    if args.native == True:
+        h.writeFile(0x10020000, FirmwarePath)
+        h.startProg(0x10020000)   
+       
+        
+    else:
+        h.BL_UploadAndStartDA_Bootloader()
+       
+        # 9819 DA is running
+        
+        # #Get SYNC_CHAR C0 DA return BB = 142 
+        h.DA_WaitForSync()
+        print ('DA Loader is running')
+        print (' ')
+        print (' ')
+         
+        h.DA_DetectFlash()
+        
+        h.DA_FormatCBR()   
+        
+        h.DA_DownloadBootLoader(FilenameBootloader, FilenameBootloaderExt)
+        
+        h.DA_CheckEFuse()
+        
+        h.DA_CBRInfo()
+          
+        h.DA_SetMemBlock(FilenameROM1, FilenameROM2)
+        
+        h.DA_ERASE_MAUI_INFO()
+        
+        h.DA_WriteCMD(FilenameROM1, FilenameROM2)
+        
+        
+        if args.nofatformat == False:
+        
+            h.DA_doFATParition()
+        
+        h.DA_disconnect() 
+        
+        print ('Update done !!!!!!!!')
+        print ('Disconnect Rephone from USB')
     
     h.close()
 

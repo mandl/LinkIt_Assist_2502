@@ -33,8 +33,7 @@ class MTKModem(object):
 
     def open(self, port):
         self.ser = serial.Serial(port, 115200, timeout=5, dsrdtr=True, rtscts=True)
-        self.ser.flushInput()
-        self.ser.flushOutput()
+        
         
 
     def SendCommand(self, command, getline=True, ignoreError=False):
@@ -89,14 +88,15 @@ class MTKModem(object):
             quoted = re.compile('"[^"]*"')
             for value in quoted.findall(item):
                 # find filename
-                value = value.replace('"', "")
-                print (value.decode("hex").strip() + "\t\t" + str(filesize) + "\t" + str(attrib))
-        print (' ')
+                value = value.replace('"', "")               
+                myname = binascii.unhexlify(value)
+                print("{0:30s} {1:10s} {2:5s}".format( myname.decode('utf-16-be'),filesize,attrib))
+        print("")
             
 
     def DeleteFile(self, pathFilename):
         # Folder operation Back to root folder
-        print ('Delete File %s' % pathFilename)
+        print ("Delete File {0:s}".format(pathFilename))
         self.SendCommand('AT+EFSF=3')
         
         folder = binascii.hexlify(pathFilename.encode("utf-16-be")).decode()
@@ -163,6 +163,9 @@ class MTKModem(object):
     def flushCom(self):
         self.ser.reset_input_buffer()
         self.ser.reset_output_buffer()
+        
+    def close(self):
+        self.ser.close()
 
 
 def main():
@@ -214,21 +217,21 @@ def main():
     h.sendFile("C:\MRE\\","main.vxp")
     h.sendFile("C:\\","autostart.txt")
 
-    #h.ListFiles("C:\MRE")
+    h.ListFiles("C:\MRE")
     #h.ListFiles("D:\MRE")
     # C: can also mount as disk ( power off the device )
-    #h.ListFiles("C:")
+    h.ListFiles("C:")
     # D: is a hidden volume
-    #h.ListFiles("D:")
-    
-        
+    h.ListFiles("D:")
+            
     # Change operation mode to compatible
     h.SendCommand("AT+ESUO=4")
 
     h.SendCommand("AT+[666]REBOOT", False) 
     
-     
-    # AT+EFSD Delete File
+    h.close()
+    
+  
 
 
 if __name__ == '__main__':
@@ -236,6 +239,6 @@ if __name__ == '__main__':
         main()
        
     except Exception:
-        #sys.stderr.write('ERROR: %s\n' % str(err))
+        
         traceback.print_exc()
 

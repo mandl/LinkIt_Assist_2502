@@ -84,6 +84,10 @@ Partions D: can only accessed via AT commands from the modem port. see *uploader
 
 Firmware Version **W15.19.p2-uart** 
 
+### Connect to USB without battery
+
+Ubuntu Linux found (idVendor=0e8d  idProduct=0003) **/dev/ttyUSB0**. 
+The device resets and connects again.
 
 ## Links
 
