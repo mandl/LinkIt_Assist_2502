@@ -44,14 +44,11 @@ This is undesirable.
 To work around this problem, create a udev rule under /etc/udev/rules.d/
 called 71-rephone.rules with the following contents:
 
-    SUBSYSTEM=="tty", ATTRS{idVendor}=="0e8d",\
-        ATTRS{idProduct}=="0003",\
-        MODE="0660", SYMLINK+="rephone"
+	ATTRS{idVendor}=="0e8d" ATTRS{idProduct}=="0003", ENV{ID_MM_DEVICE_IGNORE}="1"
 
-    ACTION=="add|change", SUBSYSTEM=="usb",\
-        ENV{DEVTYPE}=="usb_device", ATTRS{idVendor}=="0e8d",\
-        ATTRS{idProduct}=="0003",\
-        ENV{ID_MM_DEVICE_IGNORE}="1"
+	ATTRS{idVendor}=="0e8d" ATTRS{idProduct}=="0023", ENV{ID_MM_DEVICE_IGNORE}="1"
+	
+
 
 ## Upload process
 

@@ -18,12 +18,17 @@ http://www.seeed.cc/rephone/
 4. Add your user to dailout group.
 
 	sudo adduser $USER dialout
-	
-5. Switch off the device and connect it to USB. Copy autostart.txt in the root folder
 
-6. Open the Makefile and set your **TOOLCHAIN** Path and your **LINKIT_ASSIST_SDK_PATH**
+5. Open the Makefile and set your **TOOLCHAIN** Path and your **LINKIT_ASSIST_SDK_PATH**
 
 7. Install [Python 3.5.x](https://www.python.org/)
+
+8. Install  udev rule under **/etc/udev/rules.d/** called **71-rephone.rules**. The magic job is here setting ID_MM_DEVICE_IGNORE environment value to inform ModemManager to skip device.
+
+	ATTRS{idVendor}=="0e8d" ATTRS{idProduct}=="0003", ENV{ID_MM_DEVICE_IGNORE}="1"
+	ATTRS{idVendor}=="0e8d" ATTRS{idProduct}=="0023", ENV{ID_MM_DEVICE_IGNORE}="1"
+	
+
 
 ##Running the sample
 
