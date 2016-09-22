@@ -158,6 +158,23 @@ class MTKModem(object):
         # close file
         self.SendCommand('AT+EFSW=1,"' + filenamePath + '"') 
 
+    def sendAutostartTxt(self):
+    
+        path = "C:\\autostart.txt"
+        filenamePath = binascii.hexlify(path.encode("utf-16-be")).decode()
+        
+        # open file for write
+        self.SendCommand('AT+EFSW=0,"' + filenamePath + '"')
+        
+        # send last data to open file
+        var = b"[autostart]\nApp=C:\MRE\main.vxp\n"
+        data = binascii.hexlify(var).decode()
+        
+        # send paket
+        self.SendCommand('AT+EFSW=2,1,' + str(len(var)) + ',"' + data + '"')
+        
+        # close file
+        self.SendCommand('AT+EFSW=1,"' + filenamePath + '"')
 
 
     def flushCom(self):
@@ -209,20 +226,30 @@ def main():
     
     h.createFolder("C:\MRE")
     
-    h.DeleteFile("D:\autostart.txt")
-    h.DeleteFile("C:\autostart.txt")
+    h.DeleteFile("D:\\autostart.txt")
+    h.DeleteFile("C:\\autostart.txt")
 
     h.DeleteFile("C:\MRE\main.vxp")
     
     h.sendFile("C:\MRE\\","main.vxp")
-    h.sendFile("C:\\","autostart.txt")
+    h.sendAutostartTxt()
 
     h.ListFiles("C:\MRE")
     #h.ListFiles("D:\MRE")
     # C: can also mount as disk ( power off the device )
     h.ListFiles("C:")
     # D: is a hidden volume
-    h.ListFiles("D:")
+    h.ListFiles("D:\@bt")
+    
+    h.ListFiles("D:@BTNotify")
+    
+    h.ListFiles("D:@mre")
+    
+    h.ListFiles("D:@BTMre")
+    
+    h.ListFiles("D:NVRAM")
+    
+    h.ListFiles("D:@wap\wps")
             
     # Change operation mode to compatible
     h.SendCommand("AT+ESUO=4")

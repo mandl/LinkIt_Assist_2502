@@ -2,6 +2,7 @@
 
 #Capture USB traffic
 
+1. Setup wireshark
 
 	sudo modprobe usbmon
 	
@@ -9,5 +10,10 @@
 	
 	wireshark
 	
-Save file as *.pcap
+2. Capture the traffic between the device and the download tool
 
+3. Save file as *.pcap
+
+4. run parse-commands
+
+	./parse-commands *.pcap
