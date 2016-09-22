@@ -26,15 +26,14 @@ import argparse
 import traceback
 import os
 import struct
+from serial import serial_for_url
 
 
 class MTKModem(object):
     
-    def __init__(self, FileName, logOn,OsxMode= False):
+    def __init__(self, OsxMode= False):
         
-        self.logOn = logOn
-        if self.logOn == True:
-            self.mFilenName = open(FileName, 'wb')
+        
         self.OsxMode = OsxMode
 
     def open(self, port):
@@ -43,14 +42,15 @@ class MTKModem(object):
         while 1:
             try:
                 if self.OsxMode:
-                    # select hands on OS x.....
+                    # select hangs on OS x.....
                     # use only read as workaround
-                    self.ser = serial.VTIMESerial(port, 115200, timeout=5, dsrdtr=True, rtscts=True)
+                    self.ser = serial.VTIMESerial(port, 115200, timeout=2, dsrdtr=True, rtscts=True)
                 else:
-                    self.ser = serial.Serial(port, 115200, timeout=5, dsrdtr=True, rtscts=True)
+                    #self.ser = serial_for_url('spy:///dev/ttyACM1', 115200, timeout=2, dsrdtr=True, rtscts=True)
+                    self.ser = serial.Serial(port, 115200, timeout=2, dsrdtr=True)
                 break
             except:
-                time.sleep(0.2)
+                #time.sleep(0.2)
                 continue
     
     def close(self):
@@ -64,8 +64,7 @@ class MTKModem(object):
         data = bytearray()
         
         data = self.ser.read(size)
-        if self.logOn == True:
-            self.mFilenName.write(data)
+        
         return bytes(data)
     #        
     # read and handle A5 messages
@@ -101,6 +100,8 @@ class MTKModem(object):
         flagNew = True
         while 1:
             data = self.read(1)
+            if data == None:
+                continue
             if data == b'\x55':
                 data2 = self.read(1)
                 if data2 == b'\x00':
@@ -114,9 +115,9 @@ class MTKModem(object):
     
             else:
                 if flagNew == True:
-                    print (' \nNew: ')
+                   
                     flagNew = False
-                #print (' {0:02x}'.format(struct.unpack('B', data)))
+                    #print ("New {0:x}".format(16))
                 
 
     #
@@ -126,7 +127,7 @@ class MTKModem(object):
         # print 'A5'
         length, = struct.unpack('B', self.read(1))  # 0x0A
         data = self.read(length)    
-        checksum = self.read(1)
+        FrameNumber = self.read(1) #FrameNumber ?
         checksum = self.read(1)    
         
     def getFix12msg(self):
@@ -149,26 +150,55 @@ class MTKModem(object):
         
         if id == b'\x71':
             # vm_log* messages 
-            a = msg.index(b'\t', 10)
+            try:
+                a = msg.index(b'\t', 10)
+                
+            except ValueError as e:   
+                print (a)
+                return
             debug_msg = msg[a + 1:]
             debug_msg = debug_msg.strip(b'\x00')
             debug_msg = debug_msg.strip(b'\x0a')
-            #if(debug_msg[:1] != '2'):
-            #    print ('fail')
+          
             print (debug_msg.decode())
             
+       
+            
+            
         elif id == b'\x61':
-            # print ''
-            Nop = None
+            debug_msg = msg[a + 1:]
+            #no text
+            
+        elif id == b'\x62':
+            #BT Module debug
+            debug_msg = msg[a + 9:]
+            print (debug_msg.decode("utf-8", "ignore"))
+             
         elif id == b'\x65':
-            Nop = None
+            #AT* messages
+            debug_msg = msg[a + 13:]
+            debug_msg = debug_msg.strip(b'\x00')
+            debug_msg = debug_msg.strip(b'\x0a')
+            print (debug_msg.decode("utf-8", "ignore"))
         elif id == b'\x78':
-            Nop = None    
+            debug_msg = msg[a + 5:]  
+            print (debug_msg.decode("utf-8", "ignore")) 
         elif id == b'\x94':
-            Nop = None        
+            Nop = None   
+        elif id == b'\x81':  
+            debug_msg = msg[a + 1:] 
+        elif id == b'\x83':  
+            # GPS Messages
+            debug_msg = msg[a + 9:]
+            debug_msg = debug_msg.replace(b'\x00',b'')
+            debug_msg = debug_msg.replace(b'\x0a',b'')
+            debug_msg = debug_msg.replace(b'\x0d',b'')
+            print (debug_msg.decode("utf-8", "ignore"))
+              
         else:
             print ('New ID: ')        
             print("".join(" %02x" % i for i in msg))
+            
         # read checksum
         checksum = self.readHandleA5()
         checksum = self.readHandleA5()    
@@ -218,22 +248,23 @@ def main():
     if args.osx:
         osx= True
     
-    h = MTKModem('logFile.bin', False, osx)
+    h = MTKModem( osx)
     
     while 1:
         try:
             h.open(args.port);
-            time.sleep(2)
+            time.sleep(1)
+            print("Port open")
             h.switchOn()
             h.syncStream()
             h.receivePaket()
         except serial.SerialException as e:
             # Disconnect of USB->UART occured
             h.close()
-            print ('USB disconnect')
+            print ("USB disconnect")
         except OSError as e:
             h.close()
-            print ('USB not ready. wait....')
+            print ("USB not ready. wait 8s....")
             time.sleep(8)
         
 if __name__ == '__main__':
