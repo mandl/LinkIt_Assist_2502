@@ -1506,7 +1506,8 @@ class MTKFirmwareUploader(object):
 
 def main():
 
-
+    print("Bug kills rephone .. do not use !!!")
+    return
     parser = argparse.ArgumentParser(description='Firmware uploader for Rephone', prog='uploader')
     parser.add_argument('--port', '-p', help='Serial port device', default='/dev/ttyUSB0')
     parser.add_argument('--log', '-log', help='Set log level', default='ERROR')
