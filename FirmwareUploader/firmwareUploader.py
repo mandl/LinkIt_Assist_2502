@@ -754,7 +754,8 @@ class MTKFirmwareUploader(object):
         (load_addr,attr,max_size,file_len,file_type) =self.parseHeader(FileName1)
         
         # FIX ME  
-        #0x20000
+        #0x20000  remove high byte
+        load_addr = load_addr & 0x00FFFFFF
         logging.debug ('startAddress1 0x%x ' % load_addr)
         # Mem begin Address  address  image 1  ROM
         self.ser.write(struct.pack('>I', load_addr))
@@ -773,7 +774,8 @@ class MTKFirmwareUploader(object):
         
         (load_addr,attr,max_size,file_len,file_type) = self.parseHeader(FileName2)
         # fix me is this dynamic
-        #0x001D64D0
+        #0x001D64D0 remove high byte
+        load_addr = load_addr & 0x00FFFFFF
         logging.debug ('startAddress2 0x%x' % load_addr)
         # send MEM_BEGIN_ADDR(0x001D64D0)  address of image 2  VIVA
         self.ser.write(struct.pack('>I', load_addr))
