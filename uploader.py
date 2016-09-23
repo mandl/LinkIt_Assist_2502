@@ -198,9 +198,7 @@ def main():
         print ('Can not open main.vxp')
         return
     args = parser.parse_args()
-    if os.path.isfile('autostart.txt') == False:
-        print ('Can not open autostart.txt')
-        return
+   
     
     h = MTKModem(args.port)
     time.sleep(0.5)
