@@ -4,4 +4,4 @@
 /maindbg.axf
 *.o
 *.bin
-.DS_Store
+**/.DS_Store

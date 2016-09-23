@@ -785,8 +785,9 @@ class MTKFirmwareUploader(object):
         logging.debug ('endAddress2 0x%x' % endAddress2)
         self.ser.write(struct.pack('>I', endAddress2))
         
-        # send IMAGE_TYPE(0x00000108)
-        self.ser.write(file_type.to_bytes(4, byteorder='big'))
+        # send IMAGE_TYPE(0x00000108)     VIVA
+        self.ser.write(b"\x00\x00\x01\x08")
+    
         
         val = self.ser.read(1)
         if val != self.DA_ACK:
@@ -1507,8 +1508,10 @@ class MTKFirmwareUploader(object):
     
 
 def main():
-
     
+    print ("Bug.. Uploader does brick your phone...")
+    print ("Wait for new hardware... ")
+    return
     parser = argparse.ArgumentParser(description='Firmware uploader for Rephone', prog='uploader')
     parser.add_argument('--port', '-p', help='Serial port device', default='/dev/ttyUSB0')
     parser.add_argument('--log', '-log', help='Set log level', default='ERROR')
