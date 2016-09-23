@@ -1,0 +1,4 @@
+ATTRS{idVendor}=="0e8d" ATTRS{idProduct}=="0003", ENV{ID_MM_DEVICE_IGNORE}="1"
+ATTRS{idVendor}=="0e8d" ATTRS{idProduct}=="0023", ENV{ID_MM_DEVICE_IGNORE}="1"
+
+
