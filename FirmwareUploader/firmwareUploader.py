@@ -754,7 +754,8 @@ class MTKFirmwareUploader(object):
         (load_addr,attr,max_size,file_len,file_type) =self.parseHeader(FileName1)
         
         # FIX ME  
-        #0x20000
+        #0x20000  remove high byte
+        load_addr = load_addr & 0x00FFFFFF
         logging.debug ('startAddress1 0x%x ' % load_addr)
         # Mem begin Address  address  image 1  ROM
         self.ser.write(struct.pack('>I', load_addr))
@@ -773,7 +774,8 @@ class MTKFirmwareUploader(object):
         
         (load_addr,attr,max_size,file_len,file_type) = self.parseHeader(FileName2)
         # fix me is this dynamic
-        #0x001D64D0
+        #0x001D64D0 remove high byte
+        load_addr = load_addr & 0x00FFFFFF
         logging.debug ('startAddress2 0x%x' % load_addr)
         # send MEM_BEGIN_ADDR(0x001D64D0)  address of image 2  VIVA
         self.ser.write(struct.pack('>I', load_addr))
@@ -783,8 +785,9 @@ class MTKFirmwareUploader(object):
         logging.debug ('endAddress2 0x%x' % endAddress2)
         self.ser.write(struct.pack('>I', endAddress2))
         
-        # send IMAGE_TYPE(0x00000108)
-        self.ser.write(file_type.to_bytes(4, byteorder='big'))
+        # send IMAGE_TYPE(0x00000108)     VIVA
+        self.ser.write(b"\x00\x00\x01\x08")
+    
         
         val = self.ser.read(1)
         if val != self.DA_ACK:
@@ -1505,8 +1508,10 @@ class MTKFirmwareUploader(object):
     
 
 def main():
-
     
+    print ("Bug.. Uploader does brick your phone...")
+    print ("Wait for new hardware... ")
+    return
     parser = argparse.ArgumentParser(description='Firmware uploader for Rephone', prog='uploader')
     parser.add_argument('--port', '-p', help='Serial port device', default='/dev/ttyUSB0')
     parser.add_argument('--log', '-log', help='Set log level', default='ERROR')
