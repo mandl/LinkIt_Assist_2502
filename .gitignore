@@ -3,3 +3,5 @@
 /main.vxp
 /maindbg.axf
 *.o
+*.bin
+.DS_Store
