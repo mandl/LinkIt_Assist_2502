@@ -264,8 +264,8 @@ def main():
             print ("USB disconnect")
         except OSError as e:
             h.close()
-            print ("USB not ready. wait 8s....")
-            time.sleep(8)
+            print ("USB not ready. wait 2s....")
+            time.sleep(2)
         
 if __name__ == '__main__':
     try:

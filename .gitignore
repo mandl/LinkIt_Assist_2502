@@ -1,7 +1,7 @@
-/main.axf
-/main.elf
-/main.vxp
-/maindbg.axf
+**/main.axf
+**/main.elf
+**/main.vxp
+**/maindbg.axf
 *.o
 *.bin
 **/.DS_Store
