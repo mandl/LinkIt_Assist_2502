@@ -58,7 +58,8 @@ static void wlan_callback(void* user_data, VM_WLAN_REQUEST_RESULT result_type)
 }
 static void wlan_scan(void)
 {
-    vm_wlan_mode_set(VM_WLAN_MODE_STA, wlan_callback, NULL);
+	vm_log_debug("wlan scan");
+	vm_wlan_mode_set(VM_WLAN_MODE_STA, wlan_callback, NULL);
 }
 
 void handle_sysevt(VMINT message, VMINT param)

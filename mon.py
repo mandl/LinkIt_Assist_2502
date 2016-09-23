@@ -160,7 +160,7 @@ class MTKModem(object):
             debug_msg = debug_msg.strip(b'\x00')
             debug_msg = debug_msg.strip(b'\x0a')
           
-            print (debug_msg.decode())
+            print (debug_msg.decode("utf-8","backslashreplace"))
             
        
             

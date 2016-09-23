@@ -18,12 +18,11 @@
 #include "vmtype.h" 
 #include "vmsystem.h"
 #include "vmlog.h" 
-#include "ResID.h"
 #include "WLANConnect.h"
 #include "vmwlan.h"
 
-#define AP_SSID "Xperia ray_null"
-#define AP_PASSWORD "12345678"
+#define AP_SSID "Demo"
+#define AP_PASSWORD "Demo"
 #define AP_AUTHORIZE_MODE   VM_WLAN_AUTHORIZE_MODE_WPA2_ONLY_PSK
 
 static VM_RESULT g_wlan_job_id;
