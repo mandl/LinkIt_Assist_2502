@@ -23,8 +23,6 @@ import struct
 import sys
 import time
 import traceback
-import binascii
-import logging
 from time import sleep
 
 
@@ -42,7 +40,7 @@ from time import sleep
 #  mtk_cmd_new_read32 = 0xd1,
 #  mtk_cmd_new_write16 = 0xd2,
 #  mtk_cmd_new_write32 = 0xd4,
-#  mtk_jump_to_da = 0xd5,
+#  // mtk_jump_to_da = 0xd5,
 #  mtk_jump_to_bl = 0xd6,
 #  mtk_get_sec_conf = 0xd8,
 #  mtk_send_cert = 0xe0,
@@ -62,25 +60,25 @@ from time import sleep
 
 class MTKFirmwareUploader(object):
 
-    MTK_COMMAND_WRITE16 = b'\xD2'
-    MTK_COMMAND_WRITE32 = b'\xD4'
-    MTK_COMMAND_READ32 = b'\xD1'
+    MTK_COMMAND_WRITE16 = 0xD2
+    MTK_COMMAND_WRITE32 = 0xD4
+    MTK_COMMAND_READ32 = 0xD1
 
     # write 16 bit    0xA1  + Address 32 bit + lentgh (words) + data
-    MTK_COMMAND_WRITE16_OLD = b'\xA1'
+    MTK_COMMAND_WRITE16_OLD = 0xA1
     
     # read 16bit    0xA1 + Address 32 bit + length ( words )
-    MTK_COMMAND_READ16_OLD = b'\xA2'
+    MTK_COMMAND_READ16_OLD = 0xA2
 
-    MTK_COMMAND_DOWNLOAD_IMAGE = b'\xD7'
+    MTK_COMMAND_DOWNLOAD_IMAGE = 0xD7
 
-    MTK_RUN_CODE = b'\xd5'
+    MTK_RUN_CODE = 0xd5
     
     
-    DA_ACK   = b'\x5A'
-    DA_NACK  = b'\xA5'
-    DA_CONT  = b'\x69'
-    DA_FLUSH = b'\xE2'
+    DA_ACK = 0x5A
+    DA_NACK = 0xA5
+    DA_CONT = 0x69
+    DA_FLUSH = 0xE2
     
     # internal bootloader upload size
     WRITE_SIZE = 1024
@@ -120,7 +118,6 @@ class MTKFirmwareUploader(object):
         while 1:
             try:
                 self.ser = serial.Serial(port, 115200, timeout=5, dsrdtr=True, rtscts=True)
-                #self.ser = serial.serial_for_url("spy://"+ port, 115200, timeout=5, dsrdtr=True, rtscts=True)
                 print ('Connect to Port %s' % port)
                 break
             except:
@@ -131,16 +128,16 @@ class MTKFirmwareUploader(object):
     def connectBootloader(self):
 
         print ('Try to connect bootloader...')
-        self.ser.write(b'\xa0')
+        self.ser.write(struct.pack('B', 0xa0))
         if  self.ser.read(1) != b'\x5F':
             raise Exception('sync lost 1')
-        self.ser.write(b'\x0a') 
+        self.ser.write(struct.pack('B', 0x0a)) 
         if self.ser.read(1) != b'\xf5':
             raise Exception('sync lost 2') 
-        self.ser.write(b'\x50')
+        self.ser.write(struct.pack('B', 0x50))
         if self.ser.read(1) != b'\xaf' :
             raise Exception('sync lost 3')
-        self.ser.write(b'\x05') 
+        self.ser.write(struct.pack('B', 0x05)) 
         if self.ser.read(1) != b'\xfa' :
             raise Exception('sync lost 4')
         print ('Connect to bootloader...')
@@ -153,8 +150,10 @@ class MTKFirmwareUploader(object):
     """ write a 16 bit register """
     def write16(self, adr, data):
         pkt = struct.pack('>I', adr)
-        self.ser.write(self.MTK_COMMAND_WRITE16)
-        if self.ser.read(1) != self.MTK_COMMAND_WRITE16:
+        
+        command = struct.pack('B', self.MTK_COMMAND_WRITE16)
+        self.ser.write(command)
+        if self.ser.read(1) != command:
             raise Exception('Invalid response command')
         self.ser.write(pkt)
         # write address        
@@ -177,9 +176,9 @@ class MTKFirmwareUploader(object):
     def write16_old(self, adr, data):
         pkt = struct.pack('>I', adr)
         
-        
-        self.ser.write(self.MTK_COMMAND_WRITE16_OLD)
-        if self.ser.read(1) != self.MTK_COMMAND_WRITE16_OLD:
+        command = struct.pack('B', self.MTK_COMMAND_WRITE16_OLD)
+        self.ser.write(command)
+        if self.ser.read(1) != command:
             raise Exception('Invalid response command')
         self.ser.write(pkt)
         # write address        
@@ -201,8 +200,9 @@ class MTKFirmwareUploader(object):
     """ Read a 16 bit register old way"""
     def read16_old(self, adr):
         pkt = struct.pack('>I', adr)
-        self.ser.write(self.MTK_COMMAND_READ16_OLD)
-        if self.ser.read(1) != self.MTK_COMMAND_READ16_OLD:
+        command = struct.pack('B', self.MTK_COMMAND_READ16_OLD)
+        self.ser.write(command)
+        if self.ser.read(1) != command:
             raise Exception('Invalid response command(Read 16 bit)')
         self.ser.write(pkt)
         if self.ser.read(4) != pkt:
@@ -218,8 +218,10 @@ class MTKFirmwareUploader(object):
     """ write a 32 bit register """
     def write32(self, adr, data):
         pkt = struct.pack('>I', adr)
-        self.ser.write(self.MTK_COMMAND_WRITE32)
-        if self.ser.read(1) != self.MTK_COMMAND_WRITE32:
+        
+        command = struct.pack('B', self.MTK_COMMAND_WRITE32)
+        self.ser.write(command)
+        if self.ser.read(1) != command:
             raise Exception('Invalid response command')
         self.ser.write(pkt)
         if self.ser.read(4) != pkt:
@@ -238,8 +240,10 @@ class MTKFirmwareUploader(object):
     """ read a 32 bit register """
     def read32(self, adr):
         pkt = struct.pack('>I', adr)
-        self.ser.write(self.MTK_COMMAND_READ32)
-        if self.ser.read(1) != self.MTK_COMMAND_READ32:
+        
+        command = struct.pack('B', self.MTK_COMMAND_READ32)
+        self.ser.write(command)
+        if self.ser.read(1) != command:
             raise Exception('Invalid response command')
         self.ser.write(pkt)
         if self.ser.read(4) != pkt:
@@ -260,7 +264,7 @@ class MTKFirmwareUploader(object):
         return st.st_size
     
     def DA_WaitForSync(self):
-        logging.debug ('Wait for DA sync.......')
+        print ('Wait for DA sync.......')
         time.sleep(0.3)
         value = 0x00
         
@@ -268,10 +272,10 @@ class MTKFirmwareUploader(object):
         #                Version 
         # 0xC0  0x03 0x02 0x8e
        
-        while value != b'\xC0':
+        while value != 0xC0:
             print ('Wait for 0XC0')
-            value = self.ser.read(1)
-            
+            val = self.ser.read(1)
+            value, = struct.unpack('B', val)
         version, = struct.unpack('>H', self.ser.read(2))
         print ('DA_Version 0x%x' % version)
        
@@ -297,7 +301,7 @@ class MTKFirmwareUploader(object):
                 integer = f.read(2)
      
         f.close()
-        logging.debug(('Checksum of %s is 0x%x') % (filename, crcsum))
+        print(('Checksum of %s is 0x%x') % (filename, crcsum))
         return crcsum
     def getFileCrcByte(self, filename, crcsum=0x0000):
         
@@ -312,7 +316,7 @@ class MTKFirmwareUploader(object):
                 crcsum = (crcsum + byte) & 0x0000FFFF
 
         f.close()
-        logging.debug("Checksum of %s is 0x%x" %(filename, crcsum))
+        print("Checksum of {0:s} is 0x{1:x}".format(filename, crcsum))
         return crcsum
     
     
@@ -321,14 +325,14 @@ class MTKFirmwareUploader(object):
         for byte in Buffer:
             crcsum = (crcsum + byte) & 0x0000FFFF
         
-        logging.debug("Checksum is 0x%4x" %(crcsum))
+        print("Checksum is 0x{0:4x}".format(crcsum))
         return crcsum
     
    
     # upload file
     def writeFile(self, adr, filename):
         
-        logging.debug ("Write file %s to address 0x%x" % (filename,adr))
+        print ("Write file {0:s} to address 0x{1:x}".format(filename,adr))
         
         if not os.path.isfile(filename):
             raise Exception('Can not open file: %s') % (filename)
@@ -336,12 +340,14 @@ class MTKFirmwareUploader(object):
         f = open(filename, 'rb')
         
         fileSize = self.getSize(filename) 
-        logging.debug ("Bytes to send %d" % (fileSize))
+        print ("Bytes to send {0:d}".format(fileSize))
         if fileSize == 0:
             raise Exception('File is empty')
+         
         
-        self.ser.write(self.MTK_COMMAND_DOWNLOAD_IMAGE)
-        if self.ser.read(1) != self.MTK_COMMAND_DOWNLOAD_IMAGE:
+        command = struct.pack('B', self.MTK_COMMAND_DOWNLOAD_IMAGE)
+        self.ser.write(command)
+        if self.ser.read(1) != command:
             raise Exception('Invalid response command(writeFile)')
         
         pkt = struct.pack('>I', adr)
@@ -365,38 +371,39 @@ class MTKFirmwareUploader(object):
         for i in range(fileSize // self.WRITE_SIZE):
             var = f.read(self.WRITE_SIZE)
             self.ser.write(var)
-            logging.debug("Block %2d send 1024k" % (i))
+            print ("Block  {0:2d} send 1024k".format(i))
         
         if fileSize % self.WRITE_SIZE:
             
             var = f.read()
-            logging.debug ("Send last data %d" % (len(var)))
+            print ("Send last data {0:d}".format(len(var)))
             self.ser.write(var)
         # read CRC
         crc = self.ser.read(2)
         crc_val, = struct.unpack('<H', crc)
-        logging.debug("Upload CRC 0x%x" % (crc_val))
+        print ("Upload CRC 0x{0:x}".format(crc_val))
         self.ser.read(2)
         return crc_val
            
     def startProg(self, adr):
         
-        logging.debug ("Start program at 0x%x. good luck" % (adr))
-        self.ser.write( self.MTK_RUN_CODE)
-        if self.ser.read(1) !=  self.MTK_RUN_CODE:
+        print ("Start program at 0x{0:x}. good luck".format(adr))
+        command = struct.pack('B', self.MTK_RUN_CODE)
+        self.ser.write(command)
+        if self.ser.read(1) != command:
             raise Exception('Invalid response command start')
         pkt = struct.pack('>I', adr)
         self.ser.write(pkt)
         if self.ser.read(4) != pkt:
             raise Exception('Invalid response address')   
         self.ser.read(2)  
-        logging.debug ("Program is running")
+        print ("Program is running")
 
     # Doing the internal PSRAM Calibration
     # 
     def BL_EMI_PSRAM_Calibration(self):
 
-        logging.debug ('BL_EMI_PSRAM_Calibration')
+        print ('BL_EMI_PSRAM_Calibration')
         
         # 338  External memory block
         # https://github.com/xobs/fernly/blob/master/include/fernvale-emi.h
@@ -443,7 +450,7 @@ class MTKFirmwareUploader(object):
         
         self.flagEMI_Ok = False
         for x in range(0, 31):
-            logging.debug ("EMI 0x%08x" % EMI_Start)
+            print ("EMI 0x{0:08x} ".format(EMI_Start))
             # EMI_CTRL_IDLC
             self.write32(0xa00500d0, EMI_Start)
             # 872
@@ -486,10 +493,10 @@ class MTKFirmwareUploader(object):
         if  self.flagEMI_Ok == False:
             raise Exception('EMI Training fail...... stop')
         
-        logging.debug ('BL_EMI_PSRAM_Calibration')
+        print ('BL_EMI_PSRAM_Calibration')
             
     def timingOk(self):  
-        logging.debug ('timingOk')
+        print ('timingOk')
         # reset MBIST engine
         self.write32(0xa0050300, 0x0)   
         # To Do Fixme   
@@ -509,7 +516,7 @@ class MTKFirmwareUploader(object):
     # Doing deep pattern testing    
     def timingDeepTesting(self):   
         
-        logging.debug ('timingDeepTesting') 
+        print ('timingDeepTesting') 
         # To Do Fixme 
         self.write32(0xa0050308, 0x2000003f)
         # 8160
@@ -625,29 +632,29 @@ class MTKFirmwareUploader(object):
         while(1):
            
             print (' wait for DA ready')
-            gotAck = self.ser.read(1)
+            gotAck, = struct.unpack('B', self.ser.read(1))
             print ('Got %x' % gotAck)
             if gotAck == self.DA_FLUSH:
                 break
         print ('DA flush ready:')
-        self.ser.write(self.DA_CONT)
+        self.ser.write(struct.pack('B', self.DA_CONT))
          # send again
-        self.ser.write(self.DA_ACK)
+        self.ser.write(struct.pack('B', self.DA_ACK))
        
         self.ser.write(var)
         crc = self.getBufferCrc(var)
         self.ser.write(struct.pack('>H', crc))
-        val = self.ser.read(1)
+        val, = struct.unpack('B', self.ser.read(1))
         print ('Ack: %x' % val)
-        val = self.ser.read(1)
+        val, = struct.unpack('B', self.ser.read(1))
         if val != self.DA_CONT:
             raise Exception('Send CRC error')
         return crc, val, gotAck
 
     def DA_LoadImage(self, filename):
-        logging.debug ('DA_LoadImage')
+        print ('DA_LoadImage')
         
-        logging.debug ('Write file %s' % filename)
+        print ('Write file %s' % filename)
         
         if not os.path.isfile(filename):
             raise Exception('Can not open file: %s') % (filename)
@@ -655,7 +662,7 @@ class MTKFirmwareUploader(object):
         f = open(filename, 'rb')
         
         fileSize = self.getSize(filename) 
-        logging.debug ('Bytes to send %d' % (fileSize))
+        print ('Bytes to send %d' % (fileSize))
         if fileSize == 0:
             raise Exception('File is empty')
         # send a 4 k block 
@@ -664,13 +671,13 @@ class MTKFirmwareUploader(object):
             var = f.read(self.DA_WRITE_SIZE)
             # print var.encode("hex")
            
-            self.ser.write(self.DA_ACK)  
+            self.ser.write(struct.pack('B', self.DA_ACK))  
             self.ser.write(var)
             
-            logging.debug ("Block  %d send 4k" % i)
+            print ("Block  %d send 4k" % i)
             crc = self.getBufferCrc(var)
             self.ser.write(struct.pack('>H', crc))
-            val = self.ser.read(1)
+            val, = struct.unpack('B', self.ser.read(1))
             if  val != self.DA_CONT:
                 print ('Got Error: %x' % val)
                 errorCode, = struct.unpack('>I', self.ser.read(4))
@@ -680,15 +687,15 @@ class MTKFirmwareUploader(object):
         if fileSize % self.DA_WRITE_SIZE:
             
             var = f.read()
-            logging.debug ('Send last data %d' % len(var))
-            self.ser.write(self.DA_ACK)  
+            print ('Send last data %d' % len(var))
+            self.ser.write(struct.pack('B', self.DA_ACK))  
             self.ser.write(var)
             
             # wait some time ??
             time.sleep(1)
             crc = self.getBufferCrc(var)
             self.ser.write(struct.pack('>H', crc))
-            val = self.ser.read(1)
+            val, = struct.unpack('B', self.ser.read(1))
             if val != self.DA_CONT:
                 print ('Error: %x' % val)
                 errorCode, = struct.unpack('>I', self.ser.read(4))
@@ -697,7 +704,7 @@ class MTKFirmwareUploader(object):
                 
         
         f.close()   
-        logging.debug ('DA_LoadImage done')
+        print ('DA_LoadImage done')
         
     def DA_CheckEFuse(self):
         print ('Check Efuse backup data...')
@@ -707,21 +714,21 @@ class MTKFirmwareUploader(object):
         # da_check_efuse_backup_data: maker (0xabababab), efuse_backup_data_1 (0x00013072), efuse_backup_data_2 (0x0001d88c)
         self.ser.write(b"\x75")
         val, = struct.unpack('>I', self.ser.read(4))
-        logging.debug ('maker 0x%x' % val)
+        print ('maker 0x%x' % val)
         val, = struct.unpack('>I', self.ser.read(4))
-        logging.debug ('efuse_backup_data_1 0x%x' % val)
+        print ('efuse_backup_data_1 0x%x' % val)
         val, = struct.unpack('>I', self.ser.read(4))
-        logging.debug ('efuse_backup_data_2 0x%x' % val)
+        print ('efuse_backup_data_2 0x%x' % val)
     
     def DA_CBRInfo(self):
-        print('DA_CBRInfo')
+        print ('DA_CBRInfo')
         # Write NOR images...
         # get_CBRinfo...
         # 10656
         self.ser.write(b"\x52")
-        val = self.ser.read(1)
+        val, = struct.unpack('B', self.ser.read(1))
         if val != self.DA_NACK:
-            print ('val: 0x{:02x}'.format(ord(val)))
+            print ('val: 0x%x' % val)
             raise Exception('no nack')
         
         # cbr not found
@@ -731,7 +738,7 @@ class MTKFirmwareUploader(object):
         
     
     def DA_SetMemBlock(self, FileName1, FileName2):   
-        print('DA_SetMemBlock')
+        print ('DA_SetMemBlock')
         # 10668
         # SV5_CMD_SetMemBlock...
         # send MEM_BEGIN_ADDR(0x00020000)
@@ -739,9 +746,8 @@ class MTKFirmwareUploader(object):
         
         fileSize1 = self.getSize(FileName1)
         fileSize2 = self.getSize(FileName2)
-        logging.debug ('%s size: 0x%x' % (FileName1, fileSize1))
-        logging.debug ('%s size: 0x%x' % (FileName2, fileSize2))
-        
+        print ('%s size: 0x%x' % (FileName1, fileSize1))
+        print ('%s size: 0x%x' % (FileName2, fileSize2))
         # send command
         self.ser.write(b"\xd3")
         
@@ -751,62 +757,60 @@ class MTKFirmwareUploader(object):
         # block count  write 2 images
         self.ser.write(b"\x02")
         
-        (load_addr,attr,max_size,file_len,file_type) =self.parseHeader(FileName1)
-        
-        # FIX ME  
-        #0x20000  remove high byte
-        load_addr = load_addr & 0x00FFFFFF
-        logging.debug ('startAddress1 0x%x ' % load_addr)
+        # FIX ME  Is this dynamic ???
+        startAddress1 = 0x20000
+        print ('startAddress1 0x%x ' % startAddress1)
         # Mem begin Address  address  image 1  ROM
-        self.ser.write(struct.pack('>I', load_addr))
+        self.ser.write(struct.pack('>I', startAddress1))
         # Mem end Address
-        endAddress1 = load_addr + fileSize1 - 1
-        logging.debug ('endAddress1 0x%x' % endAddress1)
+        endAddress1 = startAddress1 + fileSize1 - 1
+        print ('endAddress1 0x%x' % endAddress1)
         self.ser.write(struct.pack('>I', endAddress1))
-        # File Type
-        self.ser.write(file_type.to_bytes(4, byteorder='big'))
-        val = self.ser.read(1)
+        # Type
+        self.ser.write(b"\x00\x00\x01\00")
+        
+        
+        val, = struct.unpack('B', self.ser.read(1))
         if val != self.DA_ACK:
-            print ('val: 0x{:02x}'.format(ord(val)))
+           
             error, = struct.unpack('>I', self.ser.read(4))
             print ('Error Code : %d' % error)
             raise Exception('no ack')
         
-        (load_addr,attr,max_size,file_len,file_type) = self.parseHeader(FileName2)
         # fix me is this dynamic
-        #0x001D64D0 remove high byte
-        load_addr = load_addr & 0x00FFFFFF
-        logging.debug ('startAddress2 0x%x' % load_addr)
+        startAddress2 = 0x001D64D0
+        print ('startAddress2 0x%x' % startAddress2)
         # send MEM_BEGIN_ADDR(0x001D64D0)  address of image 2  VIVA
-        self.ser.write(struct.pack('>I', load_addr))
+        self.ser.write(struct.pack('>I', startAddress2))
         
         # send MEM_END_ADDR(0x004D7BBB)
-        endAddress2 = load_addr + fileSize2 - 1
-        logging.debug ('endAddress2 0x%x' % endAddress2)
+        endAddress2 = startAddress2 + fileSize2 - 1
+        print ('endAddress2 0x%x' % endAddress2)
         self.ser.write(struct.pack('>I', endAddress2))
         
-        # send IMAGE_TYPE(0x00000108)     VIVA
+        # send IMAGE_TYPE(0x00000108)
         self.ser.write(b"\x00\x00\x01\x08")
-    
         
-        val = self.ser.read(1)
+        val, = struct.unpack('B', self.ser.read(1))
         if val != self.DA_ACK:
-            print ('val: 0x{:02x}'.format(ord(val)))
+            print ('val: 0x%x' % val)
             raise Exception('no ack')
         
+        
+        
         # UNCHANED_DATA_BLOCKS=(0x02)
-        self.UNCHANED_DATA_BLOCKS = ord(self.ser.read(1))  # 0x02
-        logging.debug ('UNCHANED_DATA_BLOCKS {0:d}'.format(self.UNCHANED_DATA_BLOCKS))
-        val = self.ser.read(1)
+        self.UNCHANED_DATA_BLOCKS, = struct.unpack('B', self.ser.read(1))  # 0x02
+        print ('UNCHANED_DATA_BLOCKS %d' % self.UNCHANED_DATA_BLOCKS)
+        val, = struct.unpack('B', self.ser.read(1))
         if val == self.DA_ACK:
-            logging.debug ('Got ACK:')
+            print ('Got ACK: 0x%x' % val)
             print ('Format...') 
                          
             # 10695
             # bin index = 0 format time = 27
             # get format time
             formatTime, = struct.unpack('>I', self.ser.read(4))  # format time = 27
-            logging.debug ('Start formatTime: 0x%x' % formatTime)
+            print ('Start formatTime: 0x%x' % formatTime)
             # 10703
             
             # Wait bin[0] format time 0/27
@@ -814,9 +818,8 @@ class MTKFirmwareUploader(object):
             while formatTime > 0:
                 val = self.ser.read(1)
                 formatTime = formatTime - 1
-                print("*", end=" ") 
-                logging.debug ('formatTime: 0x%x' % formatTime)
-            print ("Format next...")
+                print ('formatTime: 0x%x' % formatTime)
+            
             # 10757   
             # bin index = 1 format time = 48
             formatTime, = struct.unpack('>I', self.ser.read(4))  # format time = 48
@@ -824,67 +827,18 @@ class MTKFirmwareUploader(object):
             # Wait bin[1] format time 0/48
             # Wait bin[1] format time 1/48#
             while formatTime > 0:
-                val = self.ser.read(1)
+                val, = struct.unpack('B', self.ser.read(1))
                 formatTime = formatTime - 1
-                print("*", end=" ")
-                logging.debug ('formatTime: 0x%x' % formatTime)
-            print ("Done")
-        val = self.ser.read(1)
-        print ('Format Val 0x{0:02x}'.format(ord(val)))
+                print ('formatTime: 0x%x' % formatTime)
         
-        logging.debug ('DA_SetMemBlock done')
+        val, = struct.unpack('B', self.ser.read(1))
+        print ('Format Val 0x%x' % val)
         
-    def parseHeader(self,FileName):
-    
-        f = open(FileName, 'rb')
-        # 'MMM', highest byte - version 
-        magic_ver, = struct.unpack('<I', f.read(4)) 
-      
-        if (magic_ver & 0x00FFFFFF) != 0x004D4D4D:
-            raise Exception('Did not found magic 4D4D4D')
-        logging.debug ('magic_ver 0x%x' % magic_ver)
+        print ('DA_SetMemBlock done')
         
-        # Total header size, incl. struct gfh_header 
-        size, = struct.unpack('<H', f.read(2))
-        logging.debug ('header_size 0x%x' % size)
-        header_type, = struct.unpack('<H', f.read(2))
-        logging.debug ('header_type 0x%x' % header_type)
-        
-        logging.debug ('FILE_INFO')
-        
-        # /* 0 - gfh_file_info */
-         # "FILE_INFO", zero-padded 
-        f.read(12)
-        
-        file_ver, = struct.unpack('<I', f.read(4)) 
-        logging.debug ('file_ver 0x%x' % file_ver)
-        file_type, = struct.unpack('<H', f.read(2))
-        logging.debug ('file_type 0x%x' % file_type)
-        flash_dev, = struct.unpack('B', f.read(1))
-        logging.debug ('flash_dev 0x%x' % flash_dev)
-        sig_type = struct.unpack('B', f.read(1))
-        logging.debug ('sig_type 0x%x' % sig_type )
-        load_addr, = struct.unpack('<I', f.read(4)) 
-        logging.debug ('load_addr 0x%x' % load_addr)
-        file_len, = struct.unpack('<I', f.read(4))
-        logging.debug ('file_len 0x%x' % file_len)
-        max_size, = struct.unpack('<I', f.read(4)) 
-        logging.debug ('max_size 0x%x' % max_size)
-        content_offset = struct.unpack('<I', f.read(4))
-        logging.debug ('content_offset 0x%x' % content_offset)
-        sig_len, = struct.unpack('<I', f.read(4)) 
-        logging.debug ('sig_len 0x%x' % sig_len)
-        sig_type, = struct.unpack('<I', f.read(4)) 
-        logging.debug ('sig_type 0x%x' % sig_type)
-        attr, = struct.unpack('<I', f.read(4))
-        logging.debug ('attr 0x%x' % attr) 
-        
-        f.close()
-        return  (load_addr,attr,max_size,file_len,file_type)
-      
     def  DA_ERASE_MAUI_INFO(self):   
         
-        print('DA_ERASE_MAUI_INFO')
+        print ('DA_ERASE_MAUI_INFO')
         # SV5_CMD_ERASE_MAUI_INFO...
         # Send DA_ERASE_MAUI_INFO(0x5B).
         # 10862
@@ -892,36 +846,35 @@ class MTKFirmwareUploader(object):
         self.ser.write(b"\x5B")
         # get the target_MauiInfo_addr: 0x0
         target_MauiInfo_addr, = struct.unpack('>I', self.ser.read(4))
-        logging.debug ('target_MauiInfo_addr: 0x%x' % target_MauiInfo_addr)
+        print ('target_MauiInfo_addr: 0x%x' % target_MauiInfo_addr)
         
         # get the target_rom_addr: 0x0
         target_rom_addr, = struct.unpack('>I', self.ser.read(4))
-        logging.debug ('target_rom_addr: 0x%x' % target_rom_addr)
+        print ('target_rom_addr: 0x%x' % target_rom_addr)
         
         # get the target_blk_addr: 0x20000
         target_blk_addr, = struct.unpack('>I', self.ser.read(4))
-        logging.debug ('target_blk_addr: 0x%x' % target_blk_addr)
+        print ('target_blk_addr: 0x%x' % target_blk_addr)
         
         # Target address is zero. Do nothing!
         if target_rom_addr != 0x0000:
             print ('Target address is not zero. Fix me ...')
             val, = struct.unpack('>I', self.ser.read(4))
             print("address 0x{x}".format(val)) 
-            val = self.ser.read(1)
+            val, = struct.unpack('B', self.ser.read(1))
             if val != self.DA_ACK:
-                print ('val: 0x{:02x}'.format(ord(val)))
                 raise Exception('DA_ERASE_MAUI_INFO no ack')
-        logging.debug ('DA_ERASE_MAUI_INFO done')
+        print ('DA_ERASE_MAUI_INFO done')
          
     def DA_WriteCMD(self, FileName1, FileName2): 
-        print('DA_WriteCMD' )
+        print   ('DA_WriteCMD' )
         # 10888
         # Send DA_WRITE_CMD(0xD5).
         # send command
         self.ser.write(b"\xD5")
-        val = self.ser.read(1)
+        val, = struct.unpack('B', self.ser.read(1))
         if val != self.DA_ACK:
-            print ('val: 0x{:02x}'.format(ord(val)))
+            print ('val 0%x' % val)
             raise Exception('DA_WRITE_CMD(0xD5) no ack')
     
         # Packet Length: 4096
@@ -930,14 +883,12 @@ class MTKFirmwareUploader(object):
         
         time.sleep(0.1)
         
-        val = self.ser.read(1)
+        val, = struct.unpack('B', self.ser.read(1))
         if val != self.DA_ACK:
-            print ('val: 0x{:02x}'.format(ord(val)))
             raise Exception('no ack')
         
-        val = self.ser.read(1)
+        val, = struct.unpack('B', self.ser.read(1))
         if val != self.DA_ACK:
-            print ('val: 0x{:02x}'.format(ord(val)))
             raise Exception('no ack')
               
        
@@ -952,26 +903,24 @@ class MTKFirmwareUploader(object):
         
         wait_time = self.UNCHANED_DATA_BLOCKS * 32.0 * 1024.0 * (7.0 / 100000.0);
         
-        logging.debug ('Wait time %d' % wait_time)
+        print ('Wait time %d' % wait_time)
         
-        print ('Program nor flash. Wait 10s....')
+        print ('program nor flash. Wait 10s....')
         
         # FIX ME  can we calculate this ?
         time.sleep(10)
         
-        val = self.ser.read(1)
+        val, = struct.unpack('B', self.ser.read(1))
         if val != self.DA_ACK:
-            print ('val: 0x{:02x}'.format(ord(val)))
+            print (val)
             raise Exception('no ack')
         
-        val = self.ser.read(1)
+        val, = struct.unpack('B', self.ser.read(1))
         if val != self.DA_ACK:
-            print ('val: 0x{:02x}'.format(ord(val)))
             raise Exception('no ack')
         
-        val = self.ser.read(1)
+        val, = struct.unpack('B', self.ser.read(1))
         if val != self.DA_ACK:
-            print ('val: 0x{:02x}'.format(ord(val)))
             raise Exception('no ack') 
         
             
@@ -984,9 +933,8 @@ class MTKFirmwareUploader(object):
         self.ser.write(struct.pack('>H', crc_FileName1))
         
         # Checksum matched (image index = 0)
-        val = self.ser.read(1)
+        val, = struct.unpack('B', self.ser.read(1))
         if val != self.DA_ACK:
-            print ('val: 0x{:02x}'.format(ord(val)))
             raise Exception('Checksum (image index = 0) do not match')
                 
         crc_image1 = self.getFileCrcByte(FileName2)
@@ -996,15 +944,16 @@ class MTKFirmwareUploader(object):
         self.ser.write(struct.pack('>H', crc_image1))
         
         # Checksum matched (image index = 1)
-        val = self.ser.read(1)
+        val, = struct.unpack('B', self.ser.read(1))
         if val != self.DA_ACK:
-            print ('val: 0x{:02x}'.format(ord(val)))
             raise Exception(' Checksum (image index = 1) do not match')
   
     # detect the internal flash
     # using the flash information table from file
     def DA_DetectFlash(self):
-        print('DA_DetectFlash')
+        
+        print ('DA_DetectFlash')
+       
         # 9829
         self.ser.write(b"\xa5")
         # Version
@@ -1023,17 +972,16 @@ class MTKFirmwareUploader(object):
         # 27Mhz Clock
         self.ser.write(b"\x02")
         
-        logging.debug('NOR/SF flash detect')
-        logging.debug('This part could fail if a unknown NOR flash is in place')
+        print ('NOR/SF flash detect')
+        print ('This part could fail if a unknown NOR flash is in place')
         # flash table size 259
         self.ser.write(b"\x00\x00\x01\x03")   
         
-        val = self.ser.read(1)
+        val, = struct.unpack('B', self.ser.read(1))
         if val != self.DA_ACK:
-            print ('val: 0x{:02x}'.format(ord(val)))
             raise Exception('flash table size. get no ack')
         
-        logging.debug('Read nor flash tabe from disk %s' % self.FilenameNorTable)
+        print ('Read nor flash tabe from disk %s' % self.FilenameNorTable)
         f = open(self.FilenameNorTable, 'rb') 
         filename_nor_table_size = self.getSize(self.FilenameNorTable)
         
@@ -1041,36 +989,30 @@ class MTKFirmwareUploader(object):
         
         found_flag = False
         
-        logging.debug('nor_flash_count %d' % nor_flash_count)
+        print ('nor_flash_count %d' % nor_flash_count)
     
         for x in range(0, nor_flash_count):   
             nor_flash_data = f.read(36)
             if nor_flash_data == '':
                 break
-            logging.debug (binascii.hexlify(nor_flash_data))
+            print (nor_flash_data)
             self.ser.write(nor_flash_data)
-            val = self.ser.read(1)
+            val, = struct.unpack('B', self.ser.read(1))
             if val == self.DA_ACK:
                
-                logging.debug('Nor flash found')
+                print ('Nor flash found')
                 found_flag = True
                 break
         
         if(found_flag != True):
             raise Exception('Do not found nor flash inside the device. stop.....')
               
-        val = self.ser.read(1) 
-        if val != self.DA_NACK: 
-            raise Exception("Get no nack")
-
-        val = self.ser.read(1) 
-        if val != self.DA_CONT: 
-            raise Exception("Get no DA_CONT")
-     
+        val = self.ser.read(2)  
+        print (val)
         # 9899
         # 0x5a 0xa5 0x69
         
-        logging.debug('Detect Nand flash')
+        print ('Detect Nand flash')
         # 9904 host
         # 0x00 00 00 00
         # Table size is null. so we have no nand ????
@@ -1079,49 +1021,45 @@ class MTKFirmwareUploader(object):
         
         # 9907
         # 10301
-        logging.debug('Get Nor Nand flash report from target. wait ....')
-              
-        var = self.ser.read(394)
-        logging.debug (binascii.hexlify(var))
-        logging.debug(len(var))
-        #if(len(var) != 394):
-        #    print (len(var))
-        #    raise Exception("Lost Char..Nor Nand flash report")
+        print ('Get Nor Nand flash report from target. wait ....')
         
+        
+        var = self.ser.read(394)
+        print (var)
+        print (len(var))
     
     def DA_FormatCBR(self):  
-        print('Format CBR')
+        print ('Format CBR')
         # 10302
         # Format CBR
         self.ser.write(b"\x56")
-        val = self.ser.read(1)
+        val, = struct.unpack('B', self.ser.read(1))
         if val != self.DA_ACK:
-            print ('val: 0x{:02x}'.format(ord(val)))
             raise Exception('DA_FormatCBR. get no ack')
     
     def DA_DownloadBootLoader(self, fileName1, fileName2):
-        print('DA_DownloadBootLoader')
+        
+        print ('DA_DownloadBootLoader')
+        
         SizeFileName1 = self.getSize(fileName1)
         SizeFileName2 = self.getSize(fileName2)
-        logging.debug ('%s size: 0x%x' % (fileName1, SizeFileName1))
-        logging.debug ('%s size: 0x%x' % (fileName2, SizeFileName2))
-                     
+        print ('%s size: 0x%x' % (fileName1, SizeFileName1))
+        print ('%s size: 0x%x' % (fileName2, SizeFileName2))
+          
         # 10412
         # self.DA_LoadImage(self.FilenameBootloaderExt)          
         # 10309
         # Format HB    set serial flash
         self.ser.write(b"\x55\07")
-        val = self.ser.read(1)
+        val, = struct.unpack('B', self.ser.read(1))
         if val != self.DA_ACK:
-            print ('val: 0x{:02x}'.format(ord(val)))
             raise Exception('DA_DownloadBootLoader. get no ack')
         
         # Download Bootloader
         self.ser.write(b"\x51")
         
-        val = self.ser.read(1)
+        val, = struct.unpack('B', self.ser.read(1))
         if val != self.DA_ACK:
-            print ('val: 0x{:02x}'.format(ord(val)))
             raise Exception('DA_DownloadBootLoader. get no ack')
         
         # da_write_boot_loader:: send PACKET SIZE(0x00001000)
@@ -1131,14 +1069,12 @@ class MTKFirmwareUploader(object):
         # da_write_boot_loader send Flash Device Type(0x07)
         self.ser.write(b"\x07")
         # da_write_boot_loader  check Flash Device Type... response 0x5a
-        val = self.ser.read(1)
+        val, = struct.unpack('B', self.ser.read(1))
         if val != self.DA_ACK:
-            print ('val: 0x{:02x}'.format(ord(val)))
             raise Exception(' check Flash Device Type... no ack')
         # da_write_boot_loader check Header Block response 0x5a
-        val = self.ser.read(1)
+        val, = struct.unpack('B', self.ser.read(1))
         if val != self.DA_ACK:
-            print ('val: 0x{:02x}'.format(ord(val)))
             raise Exception(' check Header Block response. no ack')
         
         # da_write_boot_loader:: 1st download ...
@@ -1146,11 +1082,10 @@ class MTKFirmwareUploader(object):
         self.ser.write(b"\x00\x00\x00\x02")
 
         # da_write_boot_loader ask DA to format HB (0x5A)
-        self.ser.write(self.DA_ACK)
-        self.ser.write(self.DA_ACK)
-        val = self.ser.read(1)
+        self.ser.write(struct.pack('B', self.DA_ACK))
+        self.ser.write(struct.pack('B', self.DA_ACK))
+        val, = struct.unpack('B', self.ser.read(1))
         if val != self.DA_ACK:
-            print ('val: 0x{:02x}'.format(ord(val)))
             raise Exception(' da_write_boot_loader ask DA to format HB. no ack')
   
         # da_write_boot_loader : send BL[0] - BL_EXIST_MAGIC(0x5A).
@@ -1163,21 +1098,18 @@ class MTKFirmwareUploader(object):
         # da_write_boot_loader:: send BL[0] - BL_BEGIN_DEV_ADDR(load addr)(0x70006000).
         # SEEED02A_DEMO_BOOTLOADER_V005_MT2502_MAUI_11CW1418SP5_W15_19.bin
         
-        (load_addr,attr,max_size,file_len) = self.parseHeader(fileName1)
-
-
-        logging.debug('startAddress1 0x%x' % load_addr)
-        
-        self.ser.write(load_addr.to_bytes(4, byteorder='big'))
-        
+        # FIX ME Can this change ???
+        startAddress1 = 0x70006000
+        print ('startAddress1 0x%x' % startAddress1)
+        self.ser.write(b"\x70\x00\x60\x00")
         # da_write_boot_loader:: send BL[0] - BL_BOUNDARY_DEV_ADDR(load addr+file_len)(0x70007C68).
-        endAddress1 = load_addr + SizeFileName1 - 1
-        logging.debug('endAddress1 0x%x' % endAddress1)
-        self.ser.write(endAddress1.to_bytes(4, byteorder='big'))
+        endAddress1 = startAddress1 + SizeFileName1 - 1
+        print ('endAddress1 0x%x' % endAddress1)
+        self.ser.write(b"\x70\x00\x7C\x68")
         # da_write_boot_loader::: send BL[0] - BL_ATTRIBUTE(0x00000001)
         self.ser.write(b"\x00\x00\x00\x01")
         # da_write_boot_loader:::  send BL[0] - BL_MAX_SIZE(0xFFFFFFFF)
-        self.ser.write(max_size.to_bytes(4, byteorder='big'))
+        self.ser.write(b"\xFF\xFF\xFF\xFF")
         # DA_cmd::CMD_DownloadBootLoader(): send BL[0] - AC_C enable (0).
         self.ser.write(b"\x00")
         # DA_cmd::CMD_DownloadBootLoader(): send BL[0] - AC Final Offset (0) = FILE_CONTENT_OFFSET (0x00000140) + AC Offset (0).
@@ -1185,21 +1117,21 @@ class MTKFirmwareUploader(object):
         # DA_cmd::CMD_DownloadBootLoader(): send BL[0] - AC Length (0).
         self.ser.write(b"\x00\x00\x00\x00")
         # DA_cmd::CMD_DownloadBootLoader(): send BL[0] - BL_SIZE(0x00001C68).
-        self.ser.write(file_len.to_bytes(4, byteorder='big'))
+       
+        self.ser.write(b"\x00\x00\x1C\x68")
         # DA_cmd::CMD_DownloadBootLoader(): send BL[0] - BL_RESERVED_BLOCK(0).
         self.ser.write(b"\x00")
         # DA_cmd::CMD_DownloadBootLoader(): send BL[0] - BL_ALIGN_TYPE(0)
         self.ser.write(b"\x00")
         # DA_cmd::CMD_DownloadBootLoader(): send BL[0] - BL_FILEINFO_ATTR(0x01).
-        self.ser.write(attr.to_bytes(4, byteorder='big'))
+        self.ser.write(b"\x00\x00\x00\x01")
         # DA_cmd::CMD_DownloadBootLoader(): wait for ACK.DA_cmd::CMD_DownloadBootLoader(): ACK(0x5A) OK!
-        val = self.ser.read(1)
+        val, = struct.unpack('B', self.ser.read(1))
         if val != self.DA_ACK:
-            print ('val: 0x{:02x}'.format(ord(val)))
             raise Exception(' CMD_DownloadBootLoader(): wait for ACK.DA_cmd::CMD_DownloadBootLoader(). no ack')
                 
         # da_write_boot_loader : send BL[1] - BL_EXIST_MAGIC(0x5A)
-        self.ser.write(self.DA_ACK)
+        self.ser.write(struct.pack('B', self.DA_ACK))
                  
         # 10365
         # DA_cmd::CMD_DownloadBootLoader(): send BL[1] - BL_DEV(0x07).  
@@ -1208,19 +1140,18 @@ class MTKFirmwareUploader(object):
         self.ser.write(b"\x00\x02")
         # da_write_boot_loader:: send BL[1] - BL_BEGIN_DEV_ADDR(load addr)(0x10003000).
         # EXT_BOOTLOADER
-        
-        (load_addr,attr,max_size,file_len) = self.parseHeader(fileName2)
-       
-        logging.debug('startAddress2 0x%x' % load_addr)
-        self.ser.write(load_addr.to_bytes(4, byteorder='big'))
+        # FIX ME Can this change ???
+        startAddress2 = 0x10003000
+        print ('startAddress2 0x%x' % startAddress2)
+        self.ser.write(b"\x10\x00\x30\x00")
         # da_write_boot_loader:: send BL[1] - BL_BOUNDARY_DEV_ADDR(load addr+file_len)(0x1001CF20)
-        endAddress2 = load_addr + SizeFileName2 - 1
-        logging.debug('endAddress2 0x%x' % endAddress2)
-        self.ser.write(endAddress2.to_bytes(4, byteorder='big'))
+        endAddress2 = startAddress2 + SizeFileName2 - 1
+        print ('endAddress2 0x%x' % endAddress2)
+        self.ser.write(b"\x10\x01\xCF\x20")
         # da_write_boot_loader::: send BL[1] - BL_ATTRIBUTE(0x00000000)
         self.ser.write(b"\x00\x00\x00\x00")
         # da_write_boot_loader:::  send BL[1] - BL_MAX_SIZE(0xFFFFFFFF).
-        self.ser.write(max_size.to_bytes(4, byteorder='big'))
+        self.ser.write(b"\xFF\xFF\xFF\xFF")
         # DA_cmd::CMD_DownloadBootLoader(): send BL[1] - AC_C enable (0).
         self.ser.write(b"\x00") 
         # DA_cmd::CMD_DownloadBootLoader(): send BL[1] - AC Final Offset (0) = FILE_CONTENT_OFFSET (0x00000060) + AC Offset (0).
@@ -1228,31 +1159,28 @@ class MTKFirmwareUploader(object):
         # DA_cmd::CMD_DownloadBootLoader(): send BL[1] - AC Length (0).
         self.ser.write(b"\x00\x00\x00\x00")
         # DA_cmd::CMD_DownloadBootLoader(): send BL[1] - BL_SIZE(0x00019F20).
-        self.ser.write(file_len.to_bytes(4, byteorder='big'))
+        self.ser.write(b"\x00\x01\x9F\x20")
         # DA_cmd::CMD_DownloadBootLoader(): send BL[1] - BL_RESERVED_BLOCK(0).
         self.ser.write(b"\x00") 
         # DA_cmd::CMD_DownloadBootLoader(): send BL[1] - BL_ALIGN_TYPE(0).
         self.ser.write(b"\x00") 
         # DA_cmd::CMD_DownloadBootLoader(): send BL[1] - BL_FILEINFO_ATTR(0x03).
-        self.ser.write(attr.to_bytes(4, byteorder='big'))
+        self.ser.write(b"\x00\x00\x00\x03")
         # DA_cmd::CMD_DownloadBootLoader(): wait for ACK.DA_cmd::CMD_DownloadBootLoader(): ACK(0x5A) OK!
-        val = self.ser.read(1)
+        val, = struct.unpack('B', self.ser.read(1))
         if val != self.DA_ACK:
-            print ('val: 0x{:02x}'.format(ord(val)))
             raise(' wait for ACK.DA_cmd::CMD_DownloadBootLoader(). no ack')
         
         # DA_cmd::CMD_DownloadBootLoader(): Set BL Profiles - wait for ACK.
         
         # DA_cmd::CMD_DownloadBootLoader(): Set BL Profiles - ACK(0x5A) OK!
-        val = self.ser.read(1)
+        val, = struct.unpack('B', self.ser.read(1))
         if val != self.DA_ACK:
-            print ('val: 0x{:02x}'.format(ord(val)))
             raise(' Set BL Profiles. no ack')
         # DA_cmd::CMD_DownloadBootLoader(): BL Self Update Check - wait for ACK.
         # DA_cmd::CMD_DownloadBootLoader(): BL Self Update Check - ACK(0x5A) OK!
-        val = self.ser.read(1)
+        val, = struct.unpack('B', self.ser.read(1))
         if val != self.DA_ACK:
-            print ('val: 0x{:02x}'.format(ord(val)))
             raise(' BL Self Update Check. no ack')
         
         #10396  begin upload !!!!!!!!!!!!!!!
@@ -1265,20 +1193,18 @@ class MTKFirmwareUploader(object):
         # 10619
         # 0x5a 00 00 00 02
         # da_write_boot_loader download finish response is 0x5a
-        val = self.ser.read(1)
+        val, = struct.unpack('B', self.ser.read(1))
         if val != self.DA_ACK:
-            print ('val: 0x{:02x}'.format(ord(val)))
             raise(' download finish response. no ack')
         # da_write_boot_loader download finish response status is 0x0002
         val, = struct.unpack('>I', self.ser.read(4))
         if val != 0x0002:
-            print("Val {0}".format(val))
             raise Exception('Wrong response status != 0x0002')
                
             
     def DA_doFATParition(self):
         
-        print('DA_doFATParition')
+        print ('DA_doFATParition')
         # Fixme
         # DA_FORMAT_FAT_CMD(0xB8)
         self.ser.write(b"\xB8")
@@ -1293,10 +1219,10 @@ class MTKFirmwareUploader(object):
         
         # FAT range : Start address = 0x00500000
         val, = struct.unpack('>I', self.ser.read(4))
-        logging.debug( 'Nor FAT range : Start address = 0x%x' % val)
+        print ('Nor FAT range : Start address = 0x%x' % val)
         # FAT range : Length        = 0x00afe000.
         val, = struct.unpack('>I', self.ser.read(4))
-        logging.debug('Nor FAT range : Length        = 0x%x' % val)
+        print ('Nor FAT range : Length        = 0x%x' % val)
         # 0x00 00 00 00
         
         # range ????
@@ -1315,47 +1241,46 @@ class MTKFirmwareUploader(object):
         # 0b cd 01
         
         # loop ????
-        logging.debug('Wait for ready...')
+        print ('Wait for ready...')
         while 1:
-            val = self.ser.read(1)
+            val, = struct.unpack('>B', self.ser.read(1))
             if val == self.DA_ACK:
                 break
                    
-        logging.debug( 'Wait for ready2...')
+        print ('Wait for ready2...')
         while 1:
-            val = self.ser.read(1)
+            val, = struct.unpack('>B', self.ser.read(1))
             if val == self.DA_ACK:
                 break
         
-        logging.debug( 'Wait for format done' )  
+        print ('Wait for format done' )  
         while 1:
             status, = struct.unpack('>I', self.ser.read(4))
             print (('0x%x') % status)
             if status == 0xBCD or status == 0x00:
-                 val = self.ser.read(1)
+                 val, = struct.unpack('B', self.ser.read(1))
             else:
                 val, = struct.unpack('>I', self.ser.read(4))
                 print ('fail address: 0x%' % val)
-                val = self.ser.read(1)
-                if val == self.DA_CONT:
+                val, = struct.unpack('>I', self.ser.read(1))
+                if val == 0x69:
                     continue
                 raise Exception('Format fail. Stop...')
             
-            self.ser.write(self.DA_ACK)
+            self.ser.write(struct.pack('B', self.DA_ACK))
             print ('Formating.. 0x%x' % status)
             if  status == 0x00:
                 break
        
-        val = self.ser.read(1)
+        val, = struct.unpack('>B', self.ser.read(1))
         if val != self.DA_ACK:
-            print ('val: 0x{:02x}'.format(ord(val)))
             raise Exception('Format fail. no ack...')
              
         
-        logging.debug('DA_doFATParition done')
+        print ('DA_doFATParition done')
     
     def WaitForBBPUReady(self):
-        logging.debug( 'wait for ready BBPU')
+        print ('wait for ready BBPU')
         while  1:
             # wait for ready
             val = self.read16_old(0xa0710000)
@@ -1364,20 +1289,20 @@ class MTKFirmwareUploader(object):
                 break
         
     def BL_PowerUpBaseband(self):
-        logging.debug('BL_PowerUpBaseband')
+        print ('BL_PowerUpBaseband')
         # 9072 0x8
         # 0xa0710000  RTC reg
         # Baseband power up
         val = self.read16_old(0xa0710000)
-        logging.debug('0xa0710000 0x%x' % val)
+        print ('0xa0710000 0x%x' % val)
         # 9086 0x0
         # read power key
         val = self.read16_old(0xa0710050)
-        logging.debug( '0xa0710050 0x%x' % val)    
+        print ('0xa0710050 0x%x' % val)    
         # 9100 0x0
         # read power key
         val = self.read16_old(0xa0710054)
-        logging.debug('0xa0710054 0x%x' % val)
+        print ('0xa0710054 0x%x' % val)
         # 9114
         # RTC alarm mask
         self.write16(0xa0710010, 0x0)
@@ -1438,12 +1363,12 @@ class MTKFirmwareUploader(object):
         self.WaitForBBPUReady()    
     
     def BL_RemapEMI(self):
-        logging.debug('BL_RemapEMI')
+        print ('BL_RemapEMI')
         
         # 9444 0x0
         # Remap EMI
         val = self.read32(0xa0510000)
-        logging.debug('0xa0510000 0x%x' % val) 
+        print ('0xa0510000 0x%x' % val) 
         val &= 0xFFFFFFFC;
         val |= 0x00000002;  # set bits
         # 9462
@@ -1452,7 +1377,7 @@ class MTKFirmwareUploader(object):
         # 9482 0x02
       
         val = self.read32(0xa0510000)
-        logging.debug('0xa0510000 0x%x' % val)
+        print ('0xa0510000 0x%x' % val)
         val &= 0xFFFFFFFC;
         val |= 0x00000002;
         # 9500
@@ -1464,7 +1389,7 @@ class MTKFirmwareUploader(object):
     # Execute the uploaded DA-Loader
     def BL_UploadAndStartDA_Bootloader(self):
         
-        logging.debug('BL_UploadAndStartDA_Bootloader')
+        print ('BL_UploadAndStartDA_Bootloader')
         # 9520 Upload
     
         # 9538 Upload INT_SYSRAM  to 0x70007000
@@ -1489,17 +1414,17 @@ class MTKFirmwareUploader(object):
         self.startProg(0x70007000)   
           
     def DA_disconnect(self):
-        print( 'DA_disconnect')
+        print ('DA_disconnect')
         self.ser.write(b"\xD9")
                        
         self.ser.write(b"\x00\x00\x00\x00")
         
         
-        val = self.ser.read(1)
+        val, = struct.unpack('B', self.ser.read(1))
         if val != self.DA_ACK:
-            print ('val: 0x{:02x}'.format(ord(val)))
+            print ('val 0%x' % val)
             raise Exception('DA_disconnect. no ack')
-        logging.debug('DA_disconnect done')
+        print ('DA_disconnect done')
              
         
     def flushCom(self):
@@ -1508,13 +1433,10 @@ class MTKFirmwareUploader(object):
     
 
 def main():
-    
-    print ("Bug.. Uploader does brick your phone...")
-    print ("Wait for new hardware... ")
-    return
+
+
     parser = argparse.ArgumentParser(description='Firmware uploader for Rephone', prog='uploader')
     parser.add_argument('--port', '-p', help='Serial port device', default='/dev/ttyUSB0')
-    parser.add_argument('--log', '-log', help='Set log level', default='ERROR')
     parser.add_argument('--firmPath', '-f', help='Firmware path', default='W15.19.p2')
     parser.add_argument('--nobattery', '-nobat',help='Upload without battery', action="store_true")
     parser.add_argument('--native', help='Upload a test binary and execute it', action="store_true")
@@ -1522,11 +1444,6 @@ def main():
     
     
     args = parser.parse_args()
-   
-    numeric_level = getattr(logging, args.log.upper(), None)
-    if not isinstance(numeric_level, int):
-        raise ValueError('Invalid log level: %s' % loglevel)
-    logging.basicConfig(format='%(levelname)s:%(message)s',level=numeric_level)
      
     FirmwarePath = args.firmPath
    
@@ -1589,7 +1506,7 @@ def main():
     
     # 204 0x26400000  EFuse block
     value = h.read32(0xa01c0108)
-    logging.debug('EFuse 0x%x' % value)
+    print ('EFuse 0x%x' % value)
 
     # 218  some Magic
     # Power management block ??
@@ -1631,7 +1548,7 @@ def main():
     # Power management block
     # PMIC_CTRL10 charger
     val = h.read16_old(0xa0700a28)
-    logging.debug('0xa0700a28 0x%x' % val)
+    print ('0xa0700a28 0x%x' % val)
       
     
     
@@ -1652,7 +1569,7 @@ def main():
     # 9038 0xf262
     # PMIC_CTRL0
     val = h.read16_old(0xa0700a00)
-    logging.debug('0xa0700a00 0x%x' % val)
+    print ('0xa0700a00 0x%x' % val)
     # 9052 charger control enable charger ?
     
     if args.nobattery == False:
@@ -1671,23 +1588,20 @@ def main():
     
     
     if args.native == True:
-        logging.debug("Do native load")
         h.writeFile(0x10020000, FirmwarePath)
         h.startProg(0x10020000)   
        
         
     else:
-        
-       
-        
         h.BL_UploadAndStartDA_Bootloader()
        
         # 9819 DA is running
         
         # #Get SYNC_CHAR C0 DA return BB = 142 
         h.DA_WaitForSync()
-        
-        print('DA Loader is running')
+        print ('DA Loader is running')
+        print (' ')
+        print (' ')
          
         h.DA_DetectFlash()
         
