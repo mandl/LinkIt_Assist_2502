@@ -47,7 +47,10 @@ called 71-rephone.rules with the following contents:
 	ATTRS{idVendor}=="0e8d" ATTRS{idProduct}=="0003", ENV{ID_MM_DEVICE_IGNORE}="1"
 
 	ATTRS{idVendor}=="0e8d" ATTRS{idProduct}=="0023", ENV{ID_MM_DEVICE_IGNORE}="1"
-	
+
+## Backup your flash
+
+see [backup](https://github.com/mandl/fernly/blob/master/read_flash.md)	
 
 
 ## Upload process
