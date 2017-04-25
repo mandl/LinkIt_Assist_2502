@@ -1,4 +1,4 @@
-#This is a toolchain for LinkIt_Assist_2502 for Linux
+# This is a toolchain for LinkIt_Assist_2502 for Linux
 
 
 
@@ -7,7 +7,7 @@ http://labs.mediatek.com/site/global/developer_tools/mediatek_linkit_assist_2502
 http://www.seeed.cc/rephone/
 
 
-##Setup 
+## Setup 
 
 1. Download the arm compiler [gcc-arm-none-eabi-4_9-2014q4-20141203-linux.tar.bz2](https://launchpad.net/gcc-arm-embedded)
 
@@ -25,12 +25,13 @@ http://www.seeed.cc/rephone/
 
 8. Install  udev rule under **/etc/udev/rules.d/** called **71-rephone.rules**. The magic job is here setting ID_MM_DEVICE_IGNORE environment value to inform ModemManager to skip device.
 
+
 	ATTRS{idVendor}=="0e8d" ATTRS{idProduct}=="0003", ENV{ID_MM_DEVICE_IGNORE}="1"
 	ATTRS{idVendor}=="0e8d" ATTRS{idProduct}=="0023", ENV{ID_MM_DEVICE_IGNORE}="1"
 	
 
 
-##Running the sample
+## Running the sample
 
 1. Switch your device on
 
@@ -38,7 +39,7 @@ http://www.seeed.cc/rephone/
 
 	make upload
 
-##Tools
+## Tools
 
 
 **merge_mtk.py**	adds a header and the size of the elf file for loading
@@ -70,7 +71,15 @@ from the MediaTek_LinkIt_Assist_2502_SDK_2_0_46.zip
 ### Power off and connect USB
 
 
-Ubuntu Linux found (idVendor=0e8d  idProduct=0003) **/dev/ttyUSB0** and switch after some seconds to  USB Mass Storage device  (idVendor=0e8d  idProduct=0002)(5.2 MB ). This is partions C:
+Ubuntu Linux found
+
+*(idVendor=0e8d  idProduct=0003)* **/dev/ttyUSB0** and
+
+switch after some seconds to  USB Mass Storage device 
+
+*(idVendor=0e8d  idProduct=0002)*
+
+(5.2 MB ). This is partions C:
 
 ### Power on and connect to USB
 
@@ -99,6 +108,8 @@ The device resets and connects again.
 There is also a **Arduino IDE for RePhone for GNU/Linux users**
 
 [Arduino IDE for RePhone on GNU/Linux](https://github.com/robarago/ArduinoGNULinux4RePhone)
+
+[Arduino IDE for RePhone on OSX and Windows](https://github.com/Seeed-Studio/Seeed_Platform)
 
 or with **Eclipse**
 

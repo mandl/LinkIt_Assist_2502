@@ -484,14 +484,19 @@ class MTKFirmwareUploader(object):
             
             if self.waitForReadyAndGetTest() == True:
                 self.timingOk()
+                # reset MBIST engine
+               
             EMI_Start = EMI_Start - EMI_Next
                      
             # reset MBIST engine
             self.write32(0xa0050300, 0x0)
+            
+            if self.flagEMI_Ok == True:
+                break
                
             # loop 
         if  self.flagEMI_Ok == False:
-            raise Exception('EMI Training fail...... stop')
+            raise Exception('EMI Training fail...... stop!!! Fix me...')
         
         print ('BL_EMI_PSRAM_Calibration')
             
@@ -507,7 +512,10 @@ class MTKFirmwareUploader(object):
         self.write32(0xa0050300, 0xa55a2325)
         # 0x03
         if self.waitForReadyAndGetTest() == True:
+            print('timingOk ok')
             self.timingDeepTesting()
+        else:
+            print('timingOk fail')
         # 7993
         # reset MBIST engine
         self.write32(0xa0050300, 0x0)

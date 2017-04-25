@@ -70,7 +70,7 @@ We need in the same folder
 
 Doing the upload
 
-1. Start the *firmwareUploader.py -nobat*
+1. Start the **firmwareUploader.py -nobat**
 2. Disconnect the battery and connect the device to USB
 3. The upload is running. The red led goes on dimmed.
 4. See a lot of debug information.... wait for **Update done !!!!!!!!**...
@@ -94,7 +94,27 @@ If nothing helps. Use the official windows version.
 1. *firmwareUploader.py --port /dev/cu.usbmodem1410*
 
 
-Update does not work .... at moment ...
+Update does **not** work .... at moment ...
+
+    DA_LoadImage done
+    Check Efuse backup data...
+    maker 0x5a5a5a5a
+    efuse_backup_data_1 0x0
+    efuse_backup_data_2 0x500000
+    DA_CBRInfo
+    val: 0x0
+    Traceback (most recent call last):
+    File "./firmwareUploader.py", line 1645, in <module>
+    main()
+    File "./firmwareUploader.py", line 1622, in main
+    h.DA_CBRInfo()
+    File "./firmwareUploader.py", line 740, in DA_CBRInfo
+    raise Exception('no nack')
+    Exception: no nack
+
+Try this version from Mediatek Labs
+
+[mediatek_linkit_sdk_tools_osx](http://download.labs.mediatek.com/mediatek_linkit_sdk_tool_osx-1.1.21.tar.gz)
 
 ## To Do
 
