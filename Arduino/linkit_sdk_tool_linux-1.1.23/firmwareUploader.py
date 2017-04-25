@@ -1450,7 +1450,7 @@ def main():
 
     parser = argparse.ArgumentParser(description='Firmware uploader for Rephone', prog='uploader')
     parser.add_argument('--port', '-p', help='Serial port device', default='/dev/ttyUSB0')
-    parser.add_argument('--firmPath', '-f', help='Firmware path', default='W15.19.p2')
+    parser.add_argument('--firmPath', '-f', help='Firmware path', default='W15.19.p2-uart')
     parser.add_argument('--nobattery', '-nobat',help='Upload without battery', action="store_true")
     parser.add_argument('--native', help='Upload a test binary and execute it', action="store_true")
     parser.add_argument('--nofatformat', help='Do not format the FAT partition', action="store_true")

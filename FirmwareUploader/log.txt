@@ -1,0 +1,3043 @@
+Setup the right udev rules.
+Doing upload without battery mode.
+Disconnect the battery and connect device to the USB port.
+Try to open port /dev/ttyUSB0. Press ctrl+c for break
+Connect to Port /dev/ttyUSB0
+Try to connect bootloader...
+Connect to bootloader...
+If something goes wrong.
+Restart your device. Disconnect it from USB and battery!!!...
+Hardware Code 6261 
+EFuse 0x26400000
+BL_EMI_PSRAM_Calibration
+EMI 0x1f1f1f1f 
+EMI 0x1e1e1e1e 
+EMI 0x1d1d1d1d 
+EMI 0x1c1c1c1c 
+EMI 0x1b1b1b1b 
+EMI 0x1a1a1a1a 
+EMI 0x19191919 
+EMI 0x18181818 
+EMI 0x17171717 
+EMI 0x16161616 
+EMI 0x15151515 
+EMI 0x14141414 
+EMI 0x13131313 
+EMI 0x12121212 
+EMI 0x11111111 
+EMI 0x10101010 
+EMI 0x0f0f0f0f 
+EMI 0x0e0e0e0e 
+EMI 0x0d0d0d0d 
+EMI 0x0c0c0c0c 
+EMI 0x0b0b0b0b 
+EMI 0x0a0a0a0a 
+EMI 0x09090909 
+EMI 0x08080808 
+EMI 0x07070707 
+EMI 0x06060606 
+EMI 0x05050505 
+EMI 0x04040404 
+EMI 0x03030303 
+EMI 0x02020202 
+timingOk
+timingOk fail
+EMI 0x01010101 
+timingOk
+timingOk ok
+timingDeepTesting
+BL_EMI_PSRAM_Calibration
+0xa0700a28 0x10
+0xa0700a00 0xf262
+BL_PowerUpBaseband
+0xa0710000 0xf
+0xa0710050 0x1fd5
+0xa0710054 0x0
+wait for ready BBPU
+wait for ready BBPU
+wait for ready BBPU
+wait for ready BBPU
+wait for ready BBPU
+BL_RemapEMI
+0xa0510000 0x0
+0xa0510000 0x2
+BL_UploadAndStartDA_Bootloader
+Checksum of Download_Agent/6261/INT_SYSRAM is 0xd397
+Write file Download_Agent/6261/INT_SYSRAM to address 0x70007000
+Bytes to send 1344
+Block   0 send 1024k
+Send last data 320
+Upload CRC 0xd397
+Checksum of Download_Agent/6261/EXT_RAM is 0xffa9
+Write file Download_Agent/6261/EXT_RAM to address 0x10020000
+Bytes to send 123660
+Block   0 send 1024k
+Block   1 send 1024k
+Block   2 send 1024k
+Block   3 send 1024k
+Block   4 send 1024k
+Block   5 send 1024k
+Block   6 send 1024k
+Block   7 send 1024k
+Block   8 send 1024k
+Block   9 send 1024k
+Block  10 send 1024k
+Block  11 send 1024k
+Block  12 send 1024k
+Block  13 send 1024k
+Block  14 send 1024k
+Block  15 send 1024k
+Block  16 send 1024k
+Block  17 send 1024k
+Block  18 send 1024k
+Block  19 send 1024k
+Block  20 send 1024k
+Block  21 send 1024k
+Block  22 send 1024k
+Block  23 send 1024k
+Block  24 send 1024k
+Block  25 send 1024k
+Block  26 send 1024k
+Block  27 send 1024k
+Block  28 send 1024k
+Block  29 send 1024k
+Block  30 send 1024k
+Block  31 send 1024k
+Block  32 send 1024k
+Block  33 send 1024k
+Block  34 send 1024k
+Block  35 send 1024k
+Block  36 send 1024k
+Block  37 send 1024k
+Block  38 send 1024k
+Block  39 send 1024k
+Block  40 send 1024k
+Block  41 send 1024k
+Block  42 send 1024k
+Block  43 send 1024k
+Block  44 send 1024k
+Block  45 send 1024k
+Block  46 send 1024k
+Block  47 send 1024k
+Block  48 send 1024k
+Block  49 send 1024k
+Block  50 send 1024k
+Block  51 send 1024k
+Block  52 send 1024k
+Block  53 send 1024k
+Block  54 send 1024k
+Block  55 send 1024k
+Block  56 send 1024k
+Block  57 send 1024k
+Block  58 send 1024k
+Block  59 send 1024k
+Block  60 send 1024k
+Block  61 send 1024k
+Block  62 send 1024k
+Block  63 send 1024k
+Block  64 send 1024k
+Block  65 send 1024k
+Block  66 send 1024k
+Block  67 send 1024k
+Block  68 send 1024k
+Block  69 send 1024k
+Block  70 send 1024k
+Block  71 send 1024k
+Block  72 send 1024k
+Block  73 send 1024k
+Block  74 send 1024k
+Block  75 send 1024k
+Block  76 send 1024k
+Block  77 send 1024k
+Block  78 send 1024k
+Block  79 send 1024k
+Block  80 send 1024k
+Block  81 send 1024k
+Block  82 send 1024k
+Block  83 send 1024k
+Block  84 send 1024k
+Block  85 send 1024k
+Block  86 send 1024k
+Block  87 send 1024k
+Block  88 send 1024k
+Block  89 send 1024k
+Block  90 send 1024k
+Block  91 send 1024k
+Block  92 send 1024k
+Block  93 send 1024k
+Block  94 send 1024k
+Block  95 send 1024k
+Block  96 send 1024k
+Block  97 send 1024k
+Block  98 send 1024k
+Block  99 send 1024k
+Block  100 send 1024k
+Block  101 send 1024k
+Block  102 send 1024k
+Block  103 send 1024k
+Block  104 send 1024k
+Block  105 send 1024k
+Block  106 send 1024k
+Block  107 send 1024k
+Block  108 send 1024k
+Block  109 send 1024k
+Block  110 send 1024k
+Block  111 send 1024k
+Block  112 send 1024k
+Block  113 send 1024k
+Block  114 send 1024k
+Block  115 send 1024k
+Block  116 send 1024k
+Block  117 send 1024k
+Block  118 send 1024k
+Block  119 send 1024k
+Send last data 780
+Upload CRC 0xffa9
+Start program at 0x70007000. good luck
+Program is running
+Wait for DA sync.......
+Wait for 0XC0
+DA_Version 0x302
+DA Version BB 0x142
+DA sync done
+DA Loader is running
+ 
+ 
+DA_DetectFlash
+NOR/SF flash detect
+This part could fail if a unknown NOR flash is in place
+Read nor flash tabe from disk Download_Agent/6261/NOR_FLASH_TABLE
+nor_flash_count 258
+b'\xd2\x00\x00\x00\xb0G\x04\x1081\x04\x10\x00\x00\x00\x00\x01\x00\xbf\x00&\x00\x01\x00\x00\x00\x00\x00<G\x04\x10\x00\x00\x00\x00'
+b'\xd3\x00\x00\x00\xf0G\x04\x1081\x04\x10\x00\x00\x00\x00\x01\x00\xbf\x00&\x00\x02\x00\x00\x00\x00\x00<G\x04\x10\x00\x00\x00\x00'
+b'\xd4\x00\x00\x000H\x04\x1081\x04\x10\x00\x00\x00\x00\x01\x00\xbf\x00&\x00\x03\x00\x00\x00\x00\x00<G\x04\x10\x00\x00\x00\x00'
+b'\xd5\x00\x00\x00pG\x04\x1081\x04\x10\x00\x00\x00\x00\x01\x00\xbf\x00&\x00(\x00\x00\x00\x00\x00<G\x04\x10\x00\x00\x00\x00'
+b'\xd6\x00\x00\x00\xb0G\x04\x1081\x04\x10\x00\x00\x00\x00\x01\x00\xbf\x00&\x00!\x00\x00\x00\x00\x00<G\x04\x10\x00\x00\x00\x00'
+b'\xd7\x00\x00\x00\xf0G\x04\x1081\x04\x10\x00\x00\x00\x00\x01\x00\xbf\x00&\x00"\x00\x00\x00\x00\x00<G\x04\x10\x00\x00\x00\x00'
+b'\xd8\x00\x00\x000H\x04\x1081\x04\x10\x00\x00\x00\x00\x01\x00\xbf\x00&\x00#\x00\x00\x00\x00\x00<G\x04\x10\x00\x00\x00\x00'
+b'\xd9\x00\x00\x00\xc4O\x04\x1081\x04\x10 I\x04\x10\x01\x00\xc2\x00%\x004\x00\x00\x00\x00\x00\xa0H\x04\x10\x08I\x04\x10'
+b'\x10\x01\x00\x00\xc4O\x04\x1081\x04\x10 I\x04\x10\x01\x00\xc2\x00 \x00\x14\x00\x00\x00\x00\x00\xa0H\x04\x10\x08I\x04\x10'
+b'\xda\x00\x00\x00\x04P\x04\x1081\x04\x10 I\x04\x10\x01\x00\xc2\x00%\x005\x00\x00\x00\x00\x00\xa0H\x04\x10\x08I\x04\x10'
+b'\xdb\x00\x00\x00DP\x04\x1081\x04\x10 I\x04\x10\x01\x00\xc2\x00%\x006\x00\x00\x00\x00\x00\xa0H\x04\x10\x08I\x04\x10'
+b'\xdc\x00\x00\x00\x84P\x04\x1081\x04\x10 I\x04\x10\x01\x00\xc2\x00%\x007\x00\x00\x00\x00\x00\xa0H\x04\x10\x08I\x04\x10'
+b'\xef\x00\x00\x00\xc4P\x04\x1081\x04\x10 I\x04\x10\x01\x00\xc2\x00%\x008\x00\x00\x00\x00\x00\xa0H\x04\x10\x08I\x04\x10'
+Nor flash found
+b'\xa5i'
+Detect Nand flash
+Get Nor Nand flash report from target. wait ....
+b'\x00\x00\x0c\xa2\x00\x00\x00\x00\x00\x08\x00\xef\x01\x00\x00\x00\x01\x00\x00\x00\x00\xc2\x00%\x008\x00\x00\x00\x00\x0c\x02\x00\x00\x01\x80\xff\xff\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x0c\x01\x00\x00\x00\x00\x00\x00\x0b\xeb\x00\xff\xff\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x0ck\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xd0\x00\x00\x00\x00\x00\x01\x01\x00\x80\x00\x00\xff\xff\xff\xc2%8\x00\x00\x00\x00\x00\x00\xab\xab\xab\xab\x00\x010r\x00\x01\xd8\x8c\x00\x010r\x00\x01\xd8\x8cZZ\x00\x00\x00\x00\x00\x00\x04\x07\xc1'
+198
+Format CBR
+DA_DownloadBootLoader
+W15.19.p2/SEEED02A_DEMO_BOOTLOADER_V005_MT2502_MAUI_11CW1418SP5_W15_19.bin size: 0x1c68
+W15.19.p2/EXT_BOOTLOADER size: 0x19f20
+startAddress1 0x70006000
+endAddress1 0x70007c67
+startAddress2 0x10003000
+endAddress2 0x1001cf1f
+DA_LoadImage
+Write file W15.19.p2/SEEED02A_DEMO_BOOTLOADER_V005_MT2502_MAUI_11CW1418SP5_W15_19.bin
+Bytes to send 7272
+Block  0 send 4k
+Checksum is 0xfb9e
+Send last data 3176
+Checksum is 0x811e
+DA_LoadImage done
+DA_LoadImage
+Write file W15.19.p2/EXT_BOOTLOADER
+Bytes to send 106272
+Block  0 send 4k
+Checksum is 0x7337
+Block  1 send 4k
+Checksum is 0x5699
+Block  2 send 4k
+Checksum is 0x79f8
+Block  3 send 4k
+Checksum is 0x6e8d
+Block  4 send 4k
+Checksum is 0x45a7
+Block  5 send 4k
+Checksum is 0x8355
+Block  6 send 4k
+Checksum is 0xd85d
+Block  7 send 4k
+Checksum is 0xa06c
+Block  8 send 4k
+Checksum is 0x6906
+Block  9 send 4k
+Checksum is 0x6d3c
+Block  10 send 4k
+Checksum is 0x9d1b
+Block  11 send 4k
+Checksum is 0x 9ab
+Block  12 send 4k
+Checksum is 0x3ea9
+Block  13 send 4k
+Checksum is 0xca82
+Block  14 send 4k
+Checksum is 0xd642
+Block  15 send 4k
+Checksum is 0x253a
+Block  16 send 4k
+Checksum is 0x8b09
+Block  17 send 4k
+Checksum is 0x93b0
+Block  18 send 4k
+Checksum is 0x7856
+Block  19 send 4k
+Checksum is 0x996a
+Block  20 send 4k
+Checksum is 0x9ac2
+Block  21 send 4k
+Checksum is 0x   0
+Block  22 send 4k
+Checksum is 0x   3
+Block  23 send 4k
+Checksum is 0x4984
+Block  24 send 4k
+Checksum is 0x70c0
+Send last data 3872
+Checksum is 0x1b21
+DA_LoadImage done
+Check Efuse backup data...
+maker 0xabababab
+efuse_backup_data_1 0x13072
+efuse_backup_data_2 0x1d88c
+DA_CBRInfo
+Code: 3152
+DA_SetMemBlock
+W15.19.p2/ROM size: 0x1b60d0
+W15.19.p2/VIVA size: 0x3016ec
+startAddress1 0x20000 
+endAddress1 0x1d60cf
+startAddress2 0x1d64d0
+endAddress2 0x4d7bbb
+UNCHANED_DATA_BLOCKS 2
+Got ACK: 0x5a
+Format...
+Start formatTime: 0x1b
+formatTime: 0x1a
+formatTime: 0x19
+formatTime: 0x18
+formatTime: 0x17
+formatTime: 0x16
+formatTime: 0x15
+formatTime: 0x14
+formatTime: 0x13
+formatTime: 0x12
+formatTime: 0x11
+formatTime: 0x10
+formatTime: 0xf
+formatTime: 0xe
+formatTime: 0xd
+formatTime: 0xc
+formatTime: 0xb
+formatTime: 0xa
+formatTime: 0x9
+formatTime: 0x8
+formatTime: 0x7
+formatTime: 0x6
+formatTime: 0x5
+formatTime: 0x4
+formatTime: 0x3
+formatTime: 0x2
+formatTime: 0x1
+formatTime: 0x0
+Start formatTime: 0x30
+formatTime: 0x2f
+formatTime: 0x2e
+formatTime: 0x2d
+formatTime: 0x2c
+formatTime: 0x2b
+formatTime: 0x2a
+formatTime: 0x29
+formatTime: 0x28
+formatTime: 0x27
+formatTime: 0x26
+formatTime: 0x25
+formatTime: 0x24
+formatTime: 0x23
+formatTime: 0x22
+formatTime: 0x21
+formatTime: 0x20
+formatTime: 0x1f
+formatTime: 0x1e
+formatTime: 0x1d
+formatTime: 0x1c
+formatTime: 0x1b
+formatTime: 0x1a
+formatTime: 0x19
+formatTime: 0x18
+formatTime: 0x17
+formatTime: 0x16
+formatTime: 0x15
+formatTime: 0x14
+formatTime: 0x13
+formatTime: 0x12
+formatTime: 0x11
+formatTime: 0x10
+formatTime: 0xf
+formatTime: 0xe
+formatTime: 0xd
+formatTime: 0xc
+formatTime: 0xb
+formatTime: 0xa
+formatTime: 0x9
+formatTime: 0x8
+formatTime: 0x7
+formatTime: 0x6
+formatTime: 0x5
+formatTime: 0x4
+formatTime: 0x3
+formatTime: 0x2
+formatTime: 0x1
+formatTime: 0x0
+Format Val 0x5a
+DA_SetMemBlock done
+DA_ERASE_MAUI_INFO
+target_MauiInfo_addr: 0x0
+target_rom_addr: 0x0
+target_blk_addr: 0x20000
+DA_ERASE_MAUI_INFO done
+DA_WriteCMD
+DA_LoadImage
+Write file W15.19.p2/ROM
+Bytes to send 1794256
+Block  0 send 4k
+Checksum is 0x42fb
+Block  1 send 4k
+Checksum is 0xad3a
+Block  2 send 4k
+Checksum is 0xd00d
+Block  3 send 4k
+Checksum is 0xae25
+Block  4 send 4k
+Checksum is 0xfd75
+Block  5 send 4k
+Checksum is 0xd4b8
+Block  6 send 4k
+Checksum is 0x9a4b
+Block  7 send 4k
+Checksum is 0xac64
+Block  8 send 4k
+Checksum is 0xcd23
+Block  9 send 4k
+Checksum is 0x7da1
+Block  10 send 4k
+Checksum is 0x9ee0
+Block  11 send 4k
+Checksum is 0x50bc
+Block  12 send 4k
+Checksum is 0x6532
+Block  13 send 4k
+Checksum is 0x3272
+Block  14 send 4k
+Checksum is 0x5183
+Block  15 send 4k
+Checksum is 0x1243
+Block  16 send 4k
+Checksum is 0x 6d8
+Block  17 send 4k
+Checksum is 0xaf55
+Block  18 send 4k
+Checksum is 0x d05
+Block  19 send 4k
+Checksum is 0xb96c
+Block  20 send 4k
+Checksum is 0xab6f
+Block  21 send 4k
+Checksum is 0x  c2
+Block  22 send 4k
+Checksum is 0xb510
+Block  23 send 4k
+Checksum is 0x32f9
+Block  24 send 4k
+Checksum is 0x 64f
+Block  25 send 4k
+Checksum is 0xfbdd
+Block  26 send 4k
+Checksum is 0xbbac
+Block  27 send 4k
+Checksum is 0xd52b
+Block  28 send 4k
+Checksum is 0xa44c
+Block  29 send 4k
+Checksum is 0xad07
+Block  30 send 4k
+Checksum is 0x8190
+Block  31 send 4k
+Checksum is 0x94be
+Block  32 send 4k
+Checksum is 0xb40a
+Block  33 send 4k
+Checksum is 0xa682
+Block  34 send 4k
+Checksum is 0x87e1
+Block  35 send 4k
+Checksum is 0xd031
+Block  36 send 4k
+Checksum is 0x7c3f
+Block  37 send 4k
+Checksum is 0x8808
+Block  38 send 4k
+Checksum is 0x7a97
+Block  39 send 4k
+Checksum is 0x9adb
+Block  40 send 4k
+Checksum is 0x8ca3
+Block  41 send 4k
+Checksum is 0x2eee
+Block  42 send 4k
+Checksum is 0x9fc2
+Block  43 send 4k
+Checksum is 0x84a0
+Block  44 send 4k
+Checksum is 0x8f67
+Block  45 send 4k
+Checksum is 0xbc66
+Block  46 send 4k
+Checksum is 0xc880
+Block  47 send 4k
+Checksum is 0xd183
+Block  48 send 4k
+Checksum is 0x91f7
+Block  49 send 4k
+Checksum is 0x48c0
+Block  50 send 4k
+Checksum is 0x94f0
+Block  51 send 4k
+Checksum is 0xa7d5
+Block  52 send 4k
+Checksum is 0xf41e
+Block  53 send 4k
+Checksum is 0xcf70
+Block  54 send 4k
+Checksum is 0x369b
+Block  55 send 4k
+Checksum is 0xe632
+Block  56 send 4k
+Checksum is 0xd74a
+Block  57 send 4k
+Checksum is 0xd214
+Block  58 send 4k
+Checksum is 0x9980
+Block  59 send 4k
+Checksum is 0x8f85
+Block  60 send 4k
+Checksum is 0x8b37
+Block  61 send 4k
+Checksum is 0x6143
+Block  62 send 4k
+Checksum is 0x8d90
+Block  63 send 4k
+Checksum is 0xaf6f
+Block  64 send 4k
+Checksum is 0x752f
+Block  65 send 4k
+Checksum is 0xb8e9
+Block  66 send 4k
+Checksum is 0x c3d
+Block  67 send 4k
+Checksum is 0x588a
+Block  68 send 4k
+Checksum is 0x7b07
+Block  69 send 4k
+Checksum is 0x7318
+Block  70 send 4k
+Checksum is 0x55a7
+Block  71 send 4k
+Checksum is 0x8b5b
+Block  72 send 4k
+Checksum is 0x99d4
+Block  73 send 4k
+Checksum is 0x3d58
+Block  74 send 4k
+Checksum is 0x3ad6
+Block  75 send 4k
+Checksum is 0x4ed1
+Block  76 send 4k
+Checksum is 0x916c
+Block  77 send 4k
+Checksum is 0xb6c9
+Block  78 send 4k
+Checksum is 0xb2bb
+Block  79 send 4k
+Checksum is 0x48d8
+Block  80 send 4k
+Checksum is 0x4775
+Block  81 send 4k
+Checksum is 0x7494
+Block  82 send 4k
+Checksum is 0xeb55
+Block  83 send 4k
+Checksum is 0xc4c2
+Block  84 send 4k
+Checksum is 0x625b
+Block  85 send 4k
+Checksum is 0x7209
+Block  86 send 4k
+Checksum is 0xc3ba
+Block  87 send 4k
+Checksum is 0x6b7e
+Block  88 send 4k
+Checksum is 0x5533
+Block  89 send 4k
+Checksum is 0x48b4
+Block  90 send 4k
+Checksum is 0x917c
+Block  91 send 4k
+Checksum is 0xd22d
+Block  92 send 4k
+Checksum is 0xc150
+Block  93 send 4k
+Checksum is 0xf104
+Block  94 send 4k
+Checksum is 0x7a1a
+Block  95 send 4k
+Checksum is 0xa90c
+Block  96 send 4k
+Checksum is 0x 39b
+Block  97 send 4k
+Checksum is 0x9655
+Block  98 send 4k
+Checksum is 0x9787
+Block  99 send 4k
+Checksum is 0x31e6
+Block  100 send 4k
+Checksum is 0xd9bb
+Block  101 send 4k
+Checksum is 0x1eb2
+Block  102 send 4k
+Checksum is 0x7130
+Block  103 send 4k
+Checksum is 0xa9ec
+Block  104 send 4k
+Checksum is 0x7385
+Block  105 send 4k
+Checksum is 0xab25
+Block  106 send 4k
+Checksum is 0x68d9
+Block  107 send 4k
+Checksum is 0x95dd
+Block  108 send 4k
+Checksum is 0xafac
+Block  109 send 4k
+Checksum is 0xb313
+Block  110 send 4k
+Checksum is 0xc11e
+Block  111 send 4k
+Checksum is 0xf376
+Block  112 send 4k
+Checksum is 0x8303
+Block  113 send 4k
+Checksum is 0xf5e5
+Block  114 send 4k
+Checksum is 0xa265
+Block  115 send 4k
+Checksum is 0x9e57
+Block  116 send 4k
+Checksum is 0x7c52
+Block  117 send 4k
+Checksum is 0x8efb
+Block  118 send 4k
+Checksum is 0x74ed
+Block  119 send 4k
+Checksum is 0x314a
+Block  120 send 4k
+Checksum is 0x9983
+Block  121 send 4k
+Checksum is 0xb72d
+Block  122 send 4k
+Checksum is 0xbeb2
+Block  123 send 4k
+Checksum is 0x68a4
+Block  124 send 4k
+Checksum is 0xb64e
+Block  125 send 4k
+Checksum is 0x9a79
+Block  126 send 4k
+Checksum is 0x6d9c
+Block  127 send 4k
+Checksum is 0xf2b3
+Block  128 send 4k
+Checksum is 0x4dc4
+Block  129 send 4k
+Checksum is 0xf130
+Block  130 send 4k
+Checksum is 0x6cf9
+Block  131 send 4k
+Checksum is 0xcc52
+Block  132 send 4k
+Checksum is 0x1531
+Block  133 send 4k
+Checksum is 0xec86
+Block  134 send 4k
+Checksum is 0x3686
+Block  135 send 4k
+Checksum is 0x36b4
+Block  136 send 4k
+Checksum is 0x275f
+Block  137 send 4k
+Checksum is 0xa23e
+Block  138 send 4k
+Checksum is 0x cb9
+Block  139 send 4k
+Checksum is 0xb9e9
+Block  140 send 4k
+Checksum is 0x11c9
+Block  141 send 4k
+Checksum is 0xc4af
+Block  142 send 4k
+Checksum is 0x8896
+Block  143 send 4k
+Checksum is 0xcdd8
+Block  144 send 4k
+Checksum is 0xac65
+Block  145 send 4k
+Checksum is 0xe812
+Block  146 send 4k
+Checksum is 0xd571
+Block  147 send 4k
+Checksum is 0x3a86
+Block  148 send 4k
+Checksum is 0x2058
+Block  149 send 4k
+Checksum is 0xce90
+Block  150 send 4k
+Checksum is 0x ad4
+Block  151 send 4k
+Checksum is 0xa56e
+Block  152 send 4k
+Checksum is 0x9cb4
+Block  153 send 4k
+Checksum is 0xf8cc
+Block  154 send 4k
+Checksum is 0xd391
+Block  155 send 4k
+Checksum is 0xdd09
+Block  156 send 4k
+Checksum is 0x9a7f
+Block  157 send 4k
+Checksum is 0xe1de
+Block  158 send 4k
+Checksum is 0xd13f
+Block  159 send 4k
+Checksum is 0x 181
+Block  160 send 4k
+Checksum is 0xe033
+Block  161 send 4k
+Checksum is 0xbed3
+Block  162 send 4k
+Checksum is 0x 821
+Block  163 send 4k
+Checksum is 0x3d68
+Block  164 send 4k
+Checksum is 0xa82e
+Block  165 send 4k
+Checksum is 0xae04
+Block  166 send 4k
+Checksum is 0xe0ad
+Block  167 send 4k
+Checksum is 0xb4a6
+Block  168 send 4k
+Checksum is 0xfe47
+Block  169 send 4k
+Checksum is 0x4a73
+Block  170 send 4k
+Checksum is 0x3cd7
+Block  171 send 4k
+Checksum is 0x3e21
+Block  172 send 4k
+Checksum is 0x25e3
+Block  173 send 4k
+Checksum is 0x3844
+Block  174 send 4k
+Checksum is 0x520a
+Block  175 send 4k
+Checksum is 0xa4f0
+Block  176 send 4k
+Checksum is 0x d38
+Block  177 send 4k
+Checksum is 0x4484
+Block  178 send 4k
+Checksum is 0x9d23
+Block  179 send 4k
+Checksum is 0x85bc
+Block  180 send 4k
+Checksum is 0xe798
+Block  181 send 4k
+Checksum is 0xdd91
+Block  182 send 4k
+Checksum is 0xf351
+Block  183 send 4k
+Checksum is 0xa192
+Block  184 send 4k
+Checksum is 0x c21
+Block  185 send 4k
+Checksum is 0x6a49
+Block  186 send 4k
+Checksum is 0xa7ee
+Block  187 send 4k
+Checksum is 0xfff5
+Block  188 send 4k
+Checksum is 0x aaa
+Block  189 send 4k
+Checksum is 0x2bf1
+Block  190 send 4k
+Checksum is 0xbfb1
+Block  191 send 4k
+Checksum is 0x7562
+Block  192 send 4k
+Checksum is 0xe9b8
+Block  193 send 4k
+Checksum is 0xd51d
+Block  194 send 4k
+Checksum is 0xaf54
+Block  195 send 4k
+Checksum is 0xe4ff
+Block  196 send 4k
+Checksum is 0xee84
+Block  197 send 4k
+Checksum is 0xb740
+Block  198 send 4k
+Checksum is 0xb344
+Block  199 send 4k
+Checksum is 0xb126
+Block  200 send 4k
+Checksum is 0xaf86
+Block  201 send 4k
+Checksum is 0x9806
+Block  202 send 4k
+Checksum is 0xcfb5
+Block  203 send 4k
+Checksum is 0xc383
+Block  204 send 4k
+Checksum is 0xd012
+Block  205 send 4k
+Checksum is 0xe41d
+Block  206 send 4k
+Checksum is 0xe9c5
+Block  207 send 4k
+Checksum is 0x d97
+Block  208 send 4k
+Checksum is 0x9c08
+Block  209 send 4k
+Checksum is 0x1a5c
+Block  210 send 4k
+Checksum is 0x76f0
+Block  211 send 4k
+Checksum is 0xb765
+Block  212 send 4k
+Checksum is 0xb056
+Block  213 send 4k
+Checksum is 0x177c
+Block  214 send 4k
+Checksum is 0xb918
+Block  215 send 4k
+Checksum is 0xbff6
+Block  216 send 4k
+Checksum is 0x7e6a
+Block  217 send 4k
+Checksum is 0xdf3c
+Block  218 send 4k
+Checksum is 0xcbee
+Block  219 send 4k
+Checksum is 0x8d16
+Block  220 send 4k
+Checksum is 0xf32c
+Block  221 send 4k
+Checksum is 0x3dd5
+Block  222 send 4k
+Checksum is 0xc2cc
+Block  223 send 4k
+Checksum is 0xc6a2
+Block  224 send 4k
+Checksum is 0xc755
+Block  225 send 4k
+Checksum is 0xbbab
+Block  226 send 4k
+Checksum is 0xdc1c
+Block  227 send 4k
+Checksum is 0xdd7e
+Block  228 send 4k
+Checksum is 0x8eb2
+Block  229 send 4k
+Checksum is 0x 94f
+Block  230 send 4k
+Checksum is 0x117e
+Block  231 send 4k
+Checksum is 0x4ccb
+Block  232 send 4k
+Checksum is 0x9c44
+Block  233 send 4k
+Checksum is 0x 68e
+Block  234 send 4k
+Checksum is 0x9240
+Block  235 send 4k
+Checksum is 0x28f1
+Block  236 send 4k
+Checksum is 0x4ca8
+Block  237 send 4k
+Checksum is 0x5af6
+Block  238 send 4k
+Checksum is 0x7295
+Block  239 send 4k
+Checksum is 0x1deb
+Block  240 send 4k
+Checksum is 0xd276
+Block  241 send 4k
+Checksum is 0x3d83
+Block  242 send 4k
+Checksum is 0xfa82
+Block  243 send 4k
+Checksum is 0xbbca
+Block  244 send 4k
+Checksum is 0xc68d
+Block  245 send 4k
+Checksum is 0x9e09
+Block  246 send 4k
+Checksum is 0x85b9
+Block  247 send 4k
+Checksum is 0x8d2a
+Block  248 send 4k
+Checksum is 0xa0a7
+Block  249 send 4k
+Checksum is 0x6116
+Block  250 send 4k
+Checksum is 0x7bff
+Block  251 send 4k
+Checksum is 0xd8a2
+Block  252 send 4k
+Checksum is 0x94b1
+Block  253 send 4k
+Checksum is 0x155f
+Block  254 send 4k
+Checksum is 0x7971
+Block  255 send 4k
+Checksum is 0x4190
+Block  256 send 4k
+Checksum is 0x249f
+Block  257 send 4k
+Checksum is 0x45f4
+Block  258 send 4k
+Checksum is 0xcc0b
+Block  259 send 4k
+Checksum is 0x62ae
+Block  260 send 4k
+Checksum is 0xbad4
+Block  261 send 4k
+Checksum is 0x8faa
+Block  262 send 4k
+Checksum is 0x6b87
+Block  263 send 4k
+Checksum is 0x74ad
+Block  264 send 4k
+Checksum is 0x60d5
+Block  265 send 4k
+Checksum is 0x5889
+Block  266 send 4k
+Checksum is 0xe023
+Block  267 send 4k
+Checksum is 0x214a
+Block  268 send 4k
+Checksum is 0xcbe2
+Block  269 send 4k
+Checksum is 0xcdcb
+Block  270 send 4k
+Checksum is 0x808f
+Block  271 send 4k
+Checksum is 0xab6b
+Block  272 send 4k
+Checksum is 0xad10
+Block  273 send 4k
+Checksum is 0xecfe
+Block  274 send 4k
+Checksum is 0x1963
+Block  275 send 4k
+Checksum is 0xebad
+Block  276 send 4k
+Checksum is 0xdb4c
+Block  277 send 4k
+Checksum is 0x cfa
+Block  278 send 4k
+Checksum is 0x 304
+Block  279 send 4k
+Checksum is 0xee2f
+Block  280 send 4k
+Checksum is 0xf5ab
+Block  281 send 4k
+Checksum is 0x 8bc
+Block  282 send 4k
+Checksum is 0xd5e1
+Block  283 send 4k
+Checksum is 0x ff8
+Block  284 send 4k
+Checksum is 0xed64
+Block  285 send 4k
+Checksum is 0x e1b
+Block  286 send 4k
+Checksum is 0x18b9
+Block  287 send 4k
+Checksum is 0xed6f
+Block  288 send 4k
+Checksum is 0xf733
+Block  289 send 4k
+Checksum is 0xf712
+Block  290 send 4k
+Checksum is 0xfdee
+Block  291 send 4k
+Checksum is 0xe58d
+Block  292 send 4k
+Checksum is 0x 310
+Block  293 send 4k
+Checksum is 0x66b7
+Block  294 send 4k
+Checksum is 0x24ae
+Block  295 send 4k
+Checksum is 0xbe07
+Block  296 send 4k
+Checksum is 0xaf7d
+Block  297 send 4k
+Checksum is 0x67d2
+Block  298 send 4k
+Checksum is 0x 264
+Block  299 send 4k
+Checksum is 0xaff1
+Block  300 send 4k
+Checksum is 0x 574
+Block  301 send 4k
+Checksum is 0x 7a9
+Block  302 send 4k
+Checksum is 0xf3a8
+Block  303 send 4k
+Checksum is 0xecaa
+Block  304 send 4k
+Checksum is 0xeebe
+Block  305 send 4k
+Checksum is 0x cb5
+Block  306 send 4k
+Checksum is 0xf2aa
+Block  307 send 4k
+Checksum is 0xe70a
+Block  308 send 4k
+Checksum is 0xec0f
+Block  309 send 4k
+Checksum is 0x 3b3
+Block  310 send 4k
+Checksum is 0xc936
+Block  311 send 4k
+Checksum is 0xf3f6
+Block  312 send 4k
+Checksum is 0xf162
+Block  313 send 4k
+Checksum is 0x24bf
+Block  314 send 4k
+Checksum is 0x1660
+Block  315 send 4k
+Checksum is 0xf124
+Block  316 send 4k
+Checksum is 0xe8a6
+Block  317 send 4k
+Checksum is 0xffbd
+Block  318 send 4k
+Checksum is 0xe3c0
+Block  319 send 4k
+Checksum is 0x1b13
+Block  320 send 4k
+Checksum is 0xdcb8
+Block  321 send 4k
+Checksum is 0xf8f4
+Block  322 send 4k
+Checksum is 0xf8b1
+Block  323 send 4k
+Checksum is 0xd893
+Block  324 send 4k
+Checksum is 0x1f33
+Block  325 send 4k
+Checksum is 0x15f1
+Block  326 send 4k
+Checksum is 0x448e
+Block  327 send 4k
+Checksum is 0x2396
+Block  328 send 4k
+Checksum is 0xe7a5
+Block  329 send 4k
+Checksum is 0x f28
+Block  330 send 4k
+Checksum is 0x 5a4
+Block  331 send 4k
+Checksum is 0x166c
+Block  332 send 4k
+Checksum is 0xf818
+Block  333 send 4k
+Checksum is 0x a75
+Block  334 send 4k
+Checksum is 0xb06b
+Block  335 send 4k
+Checksum is 0x85ea
+Block  336 send 4k
+Checksum is 0xa9bf
+Block  337 send 4k
+Checksum is 0xfa07
+Block  338 send 4k
+Checksum is 0x74cd
+Block  339 send 4k
+Checksum is 0x39b2
+Block  340 send 4k
+Checksum is 0xc0bc
+Block  341 send 4k
+Checksum is 0xd400
+Block  342 send 4k
+Checksum is 0x628a
+Block  343 send 4k
+Checksum is 0x95be
+Block  344 send 4k
+Checksum is 0xf5a7
+Block  345 send 4k
+Checksum is 0x9524
+Block  346 send 4k
+Checksum is 0x5c29
+Block  347 send 4k
+Checksum is 0x6b42
+Block  348 send 4k
+Checksum is 0xa047
+Block  349 send 4k
+Checksum is 0xf450
+Block  350 send 4k
+Checksum is 0xfe87
+Block  351 send 4k
+Checksum is 0x7679
+Block  352 send 4k
+Checksum is 0x9e16
+Block  353 send 4k
+Checksum is 0x9b58
+Block  354 send 4k
+Checksum is 0xb3d0
+Block  355 send 4k
+Checksum is 0x4abc
+Block  356 send 4k
+Checksum is 0x2bb9
+Block  357 send 4k
+Checksum is 0x9967
+Block  358 send 4k
+Checksum is 0xf38f
+Block  359 send 4k
+Checksum is 0x91ca
+Block  360 send 4k
+Checksum is 0x4c0a
+Block  361 send 4k
+Checksum is 0xb881
+Block  362 send 4k
+Checksum is 0x9058
+Block  363 send 4k
+Checksum is 0x9f60
+Block  364 send 4k
+Checksum is 0x1ac7
+Block  365 send 4k
+Checksum is 0xa5ed
+Block  366 send 4k
+Checksum is 0xbba6
+Block  367 send 4k
+Checksum is 0x8927
+Block  368 send 4k
+Checksum is 0xac9c
+Block  369 send 4k
+Checksum is 0x3bd2
+Block  370 send 4k
+Checksum is 0x117f
+Block  371 send 4k
+Checksum is 0xd235
+Block  372 send 4k
+Checksum is 0xb7a7
+Block  373 send 4k
+Checksum is 0xd677
+Block  374 send 4k
+Checksum is 0x1c8e
+Block  375 send 4k
+Checksum is 0xe1a7
+Block  376 send 4k
+Checksum is 0xfc8b
+Block  377 send 4k
+Checksum is 0x67d5
+Block  378 send 4k
+Checksum is 0x 19a
+Block  379 send 4k
+Checksum is 0xa1e6
+Block  380 send 4k
+Checksum is 0xe6f2
+Block  381 send 4k
+Checksum is 0xe176
+Block  382 send 4k
+Checksum is 0x144a
+Block  383 send 4k
+Checksum is 0x144f
+Block  384 send 4k
+Checksum is 0xf814
+Block  385 send 4k
+Checksum is 0xee86
+Block  386 send 4k
+Checksum is 0x3cbd
+Block  387 send 4k
+Checksum is 0xa925
+Block  388 send 4k
+Checksum is 0x3c91
+Block  389 send 4k
+Checksum is 0xf8c4
+Block  390 send 4k
+Checksum is 0x2043
+Block  391 send 4k
+Checksum is 0x6fb8
+Block  392 send 4k
+Checksum is 0xabdc
+Block  393 send 4k
+Checksum is 0xaae4
+Block  394 send 4k
+Checksum is 0x4a42
+Block  395 send 4k
+Checksum is 0x2bd4
+Block  396 send 4k
+Checksum is 0xc98a
+Block  397 send 4k
+Checksum is 0xf148
+Block  398 send 4k
+Checksum is 0xd19a
+Block  399 send 4k
+Checksum is 0x9c5f
+Block  400 send 4k
+Checksum is 0x9a1a
+Block  401 send 4k
+Checksum is 0xb8d6
+Block  402 send 4k
+Checksum is 0x cc9
+Block  403 send 4k
+Checksum is 0x3526
+Block  404 send 4k
+Checksum is 0xc082
+Block  405 send 4k
+Checksum is 0x7f95
+Block  406 send 4k
+Checksum is 0x4698
+Block  407 send 4k
+Checksum is 0x743b
+Block  408 send 4k
+Checksum is 0x48f5
+Block  409 send 4k
+Checksum is 0xd9fc
+Block  410 send 4k
+Checksum is 0x8bf3
+Block  411 send 4k
+Checksum is 0xf7be
+Block  412 send 4k
+Checksum is 0x6dd0
+Block  413 send 4k
+Checksum is 0xab8a
+Block  414 send 4k
+Checksum is 0x   8
+Block  415 send 4k
+Checksum is 0xbbec
+Block  416 send 4k
+Checksum is 0x1d45
+Block  417 send 4k
+Checksum is 0x16bf
+Block  418 send 4k
+Checksum is 0xbf4f
+Block  419 send 4k
+Checksum is 0xf3ba
+Block  420 send 4k
+Checksum is 0xcd9f
+Block  421 send 4k
+Checksum is 0x9d83
+Block  422 send 4k
+Checksum is 0x201b
+Block  423 send 4k
+Checksum is 0xd86c
+Block  424 send 4k
+Checksum is 0x2b0c
+Block  425 send 4k
+Checksum is 0xa4d8
+Block  426 send 4k
+Checksum is 0x86af
+Block  427 send 4k
+Checksum is 0xb78b
+Block  428 send 4k
+Checksum is 0x 80e
+Block  429 send 4k
+Checksum is 0xb2c1
+Block  430 send 4k
+Checksum is 0x37eb
+Block  431 send 4k
+Checksum is 0xe568
+Block  432 send 4k
+Checksum is 0x28a6
+Block  433 send 4k
+Checksum is 0x143a
+Block  434 send 4k
+Checksum is 0x565e
+Block  435 send 4k
+Checksum is 0x1190
+Block  436 send 4k
+Checksum is 0xf002
+Block  437 send 4k
+Checksum is 0x f5e
+Send last data 208
+Checksum is 0x5a86
+DA_LoadImage done
+DA_LoadImage
+Write file W15.19.p2/VIVA
+Bytes to send 3151596
+Block  0 send 4k
+Checksum is 0x7b9b
+Block  1 send 4k
+Checksum is 0x7c79
+Block  2 send 4k
+Checksum is 0x65d4
+Block  3 send 4k
+Checksum is 0x8b5c
+Block  4 send 4k
+Checksum is 0x9fc2
+Block  5 send 4k
+Checksum is 0xa117
+Block  6 send 4k
+Checksum is 0xadb1
+Block  7 send 4k
+Checksum is 0xc51b
+Block  8 send 4k
+Checksum is 0xa0d1
+Block  9 send 4k
+Checksum is 0xaf07
+Block  10 send 4k
+Checksum is 0xb2df
+Block  11 send 4k
+Checksum is 0xa519
+Block  12 send 4k
+Checksum is 0xf40f
+Block  13 send 4k
+Checksum is 0xa6be
+Block  14 send 4k
+Checksum is 0xaa0d
+Block  15 send 4k
+Checksum is 0x1150
+Block  16 send 4k
+Checksum is 0x975c
+Block  17 send 4k
+Checksum is 0x87a3
+Block  18 send 4k
+Checksum is 0x8e99
+Block  19 send 4k
+Checksum is 0x74cd
+Block  20 send 4k
+Checksum is 0x79a9
+Block  21 send 4k
+Checksum is 0x8951
+Block  22 send 4k
+Checksum is 0xa629
+Block  23 send 4k
+Checksum is 0x79ff
+Block  24 send 4k
+Checksum is 0xad94
+Block  25 send 4k
+Checksum is 0xa232
+Block  26 send 4k
+Checksum is 0xb319
+Block  27 send 4k
+Checksum is 0xb72e
+Block  28 send 4k
+Checksum is 0x9bae
+Block  29 send 4k
+Checksum is 0x975a
+Block  30 send 4k
+Checksum is 0xa302
+Block  31 send 4k
+Checksum is 0x7dd8
+Block  32 send 4k
+Checksum is 0x854c
+Block  33 send 4k
+Checksum is 0x7918
+Block  34 send 4k
+Checksum is 0xa7f7
+Block  35 send 4k
+Checksum is 0x7c8d
+Block  36 send 4k
+Checksum is 0x5715
+Block  37 send 4k
+Checksum is 0x83a3
+Block  38 send 4k
+Checksum is 0x6576
+Block  39 send 4k
+Checksum is 0x863d
+Block  40 send 4k
+Checksum is 0x9837
+Block  41 send 4k
+Checksum is 0x802d
+Block  42 send 4k
+Checksum is 0xa622
+Block  43 send 4k
+Checksum is 0xa630
+Block  44 send 4k
+Checksum is 0xa14d
+Block  45 send 4k
+Checksum is 0x978a
+Block  46 send 4k
+Checksum is 0x6aa9
+Block  47 send 4k
+Checksum is 0xd646
+Block  48 send 4k
+Checksum is 0xa81f
+Block  49 send 4k
+Checksum is 0x846e
+Block  50 send 4k
+Checksum is 0x8edb
+Block  51 send 4k
+Checksum is 0x6f35
+Block  52 send 4k
+Checksum is 0x8b9f
+Block  53 send 4k
+Checksum is 0xb076
+Block  54 send 4k
+Checksum is 0x83c3
+Block  55 send 4k
+Checksum is 0xa11a
+Block  56 send 4k
+Checksum is 0x8974
+Block  57 send 4k
+Checksum is 0x70a8
+Block  58 send 4k
+Checksum is 0x8fbd
+Block  59 send 4k
+Checksum is 0x9643
+Block  60 send 4k
+Checksum is 0xa07f
+Block  61 send 4k
+Checksum is 0x7cdf
+Block  62 send 4k
+Checksum is 0xb3ec
+Block  63 send 4k
+Checksum is 0x91fe
+Block  64 send 4k
+Checksum is 0x99a0
+Block  65 send 4k
+Checksum is 0xb15d
+Block  66 send 4k
+Checksum is 0x75e1
+Block  67 send 4k
+Checksum is 0x796f
+Block  68 send 4k
+Checksum is 0xa5f5
+Block  69 send 4k
+Checksum is 0xae88
+Block  70 send 4k
+Checksum is 0xa294
+Block  71 send 4k
+Checksum is 0x8c7e
+Block  72 send 4k
+Checksum is 0xee68
+Block  73 send 4k
+Checksum is 0x69e0
+Block  74 send 4k
+Checksum is 0x64ff
+Block  75 send 4k
+Checksum is 0xa6eb
+Block  76 send 4k
+Checksum is 0x67c2
+Block  77 send 4k
+Checksum is 0x768b
+Block  78 send 4k
+Checksum is 0x7565
+Block  79 send 4k
+Checksum is 0x4af3
+Block  80 send 4k
+Checksum is 0x99b2
+Block  81 send 4k
+Checksum is 0x9667
+Block  82 send 4k
+Checksum is 0x8575
+Block  83 send 4k
+Checksum is 0x7ccf
+Block  84 send 4k
+Checksum is 0x59ad
+Block  85 send 4k
+Checksum is 0x5273
+Block  86 send 4k
+Checksum is 0x93e7
+Block  87 send 4k
+Checksum is 0x9d8b
+Block  88 send 4k
+Checksum is 0xaf96
+Block  89 send 4k
+Checksum is 0x7f75
+Block  90 send 4k
+Checksum is 0x8a0c
+Block  91 send 4k
+Checksum is 0x6be4
+Block  92 send 4k
+Checksum is 0x8a66
+Block  93 send 4k
+Checksum is 0x5e9a
+Block  94 send 4k
+Checksum is 0x7321
+Block  95 send 4k
+Checksum is 0x78df
+Block  96 send 4k
+Checksum is 0x8cfc
+Block  97 send 4k
+Checksum is 0xa1c9
+Block  98 send 4k
+Checksum is 0x93c3
+Block  99 send 4k
+Checksum is 0x8f3a
+Block  100 send 4k
+Checksum is 0xeaf1
+Block  101 send 4k
+Checksum is 0x6c48
+Block  102 send 4k
+Checksum is 0x9e0a
+Block  103 send 4k
+Checksum is 0x7504
+Block  104 send 4k
+Checksum is 0x91f9
+Block  105 send 4k
+Checksum is 0xd64b
+Block  106 send 4k
+Checksum is 0xa535
+Block  107 send 4k
+Checksum is 0xa5f2
+Block  108 send 4k
+Checksum is 0x9fd0
+Block  109 send 4k
+Checksum is 0xa874
+Block  110 send 4k
+Checksum is 0xa475
+Block  111 send 4k
+Checksum is 0x8364
+Block  112 send 4k
+Checksum is 0xb00d
+Block  113 send 4k
+Checksum is 0xd95b
+Block  114 send 4k
+Checksum is 0xab36
+Block  115 send 4k
+Checksum is 0x6aa6
+Block  116 send 4k
+Checksum is 0xad30
+Block  117 send 4k
+Checksum is 0x5bf9
+Block  118 send 4k
+Checksum is 0x97d2
+Block  119 send 4k
+Checksum is 0x5f12
+Block  120 send 4k
+Checksum is 0x7a67
+Block  121 send 4k
+Checksum is 0xacff
+Block  122 send 4k
+Checksum is 0x7cc6
+Block  123 send 4k
+Checksum is 0x740d
+Block  124 send 4k
+Checksum is 0xa669
+Block  125 send 4k
+Checksum is 0x7d58
+Block  126 send 4k
+Checksum is 0xedd5
+Block  127 send 4k
+Checksum is 0xbc6c
+Block  128 send 4k
+Checksum is 0x988e
+Block  129 send 4k
+Checksum is 0x78c6
+Block  130 send 4k
+Checksum is 0x836d
+Block  131 send 4k
+Checksum is 0x7f0e
+Block  132 send 4k
+Checksum is 0x37ec
+Block  133 send 4k
+Checksum is 0x8cc1
+Block  134 send 4k
+Checksum is 0x6f8b
+Block  135 send 4k
+Checksum is 0x8b95
+Block  136 send 4k
+Checksum is 0xbe6c
+Block  137 send 4k
+Checksum is 0xeaba
+Block  138 send 4k
+Checksum is 0x84f7
+Block  139 send 4k
+Checksum is 0x66c5
+Block  140 send 4k
+Checksum is 0xaa2c
+Block  141 send 4k
+Checksum is 0xc794
+Block  142 send 4k
+Checksum is 0x828e
+Block  143 send 4k
+Checksum is 0xa0b2
+Block  144 send 4k
+Checksum is 0x90b0
+Block  145 send 4k
+Checksum is 0x9a7f
+Block  146 send 4k
+Checksum is 0x9de3
+Block  147 send 4k
+Checksum is 0x9a9f
+Block  148 send 4k
+Checksum is 0x93cd
+Block  149 send 4k
+Checksum is 0xb99f
+Block  150 send 4k
+Checksum is 0x9953
+Block  151 send 4k
+Checksum is 0x9cf9
+Block  152 send 4k
+Checksum is 0x4a4e
+Block  153 send 4k
+Checksum is 0xa9e6
+Block  154 send 4k
+Checksum is 0x97c0
+Block  155 send 4k
+Checksum is 0x7d8a
+Block  156 send 4k
+Checksum is 0x8fac
+Block  157 send 4k
+Checksum is 0x71e6
+Block  158 send 4k
+Checksum is 0x62f1
+Block  159 send 4k
+Checksum is 0x897c
+Block  160 send 4k
+Checksum is 0xf483
+Block  161 send 4k
+Checksum is 0x69ca
+Block  162 send 4k
+Checksum is 0x8302
+Block  163 send 4k
+Checksum is 0x7945
+Block  164 send 4k
+Checksum is 0x9b3d
+Block  165 send 4k
+Checksum is 0xbc94
+Block  166 send 4k
+Checksum is 0x8ce0
+Block  167 send 4k
+Checksum is 0x4e6a
+Block  168 send 4k
+Checksum is 0x7fc7
+Block  169 send 4k
+Checksum is 0x3feb
+Block  170 send 4k
+Checksum is 0x6455
+Block  171 send 4k
+Checksum is 0x599b
+Block  172 send 4k
+Checksum is 0x93c3
+Block  173 send 4k
+Checksum is 0x 4a9
+Block  174 send 4k
+Checksum is 0x832a
+Block  175 send 4k
+Checksum is 0x6564
+Block  176 send 4k
+Checksum is 0xc105
+Block  177 send 4k
+Checksum is 0x58d4
+Block  178 send 4k
+Checksum is 0x8317
+Block  179 send 4k
+Checksum is 0x4baa
+Block  180 send 4k
+Checksum is 0x9219
+Block  181 send 4k
+Checksum is 0x6af3
+Block  182 send 4k
+Checksum is 0x4841
+Block  183 send 4k
+Checksum is 0x879f
+Block  184 send 4k
+Checksum is 0xa422
+Block  185 send 4k
+Checksum is 0x8ccf
+Block  186 send 4k
+Checksum is 0x7e3f
+Block  187 send 4k
+Checksum is 0x8388
+Block  188 send 4k
+Checksum is 0x7fd0
+Block  189 send 4k
+Checksum is 0x8ec1
+Block  190 send 4k
+Checksum is 0x70c6
+Block  191 send 4k
+Checksum is 0x6823
+Block  192 send 4k
+Checksum is 0xb80d
+Block  193 send 4k
+Checksum is 0x9752
+Block  194 send 4k
+Checksum is 0xca36
+Block  195 send 4k
+Checksum is 0x92b8
+Block  196 send 4k
+Checksum is 0x9f8c
+Block  197 send 4k
+Checksum is 0x9831
+Block  198 send 4k
+Checksum is 0xbb4f
+Block  199 send 4k
+Checksum is 0xa8fa
+Block  200 send 4k
+Checksum is 0xd7f9
+Block  201 send 4k
+Checksum is 0x91de
+Block  202 send 4k
+Checksum is 0xafca
+Block  203 send 4k
+Checksum is 0x880f
+Block  204 send 4k
+Checksum is 0xbc4c
+Block  205 send 4k
+Checksum is 0x908d
+Block  206 send 4k
+Checksum is 0x6627
+Block  207 send 4k
+Checksum is 0x3dd4
+Block  208 send 4k
+Checksum is 0x65a3
+Block  209 send 4k
+Checksum is 0x7b4e
+Block  210 send 4k
+Checksum is 0xbad6
+Block  211 send 4k
+Checksum is 0x72df
+Block  212 send 4k
+Checksum is 0x93d6
+Block  213 send 4k
+Checksum is 0x6f43
+Block  214 send 4k
+Checksum is 0x48bf
+Block  215 send 4k
+Checksum is 0x2a81
+Block  216 send 4k
+Checksum is 0x6344
+Block  217 send 4k
+Checksum is 0x4c95
+Block  218 send 4k
+Checksum is 0x7e41
+Block  219 send 4k
+Checksum is 0x9e2e
+Block  220 send 4k
+Checksum is 0x7c17
+Block  221 send 4k
+Checksum is 0x8f0b
+Block  222 send 4k
+Checksum is 0x8943
+Block  223 send 4k
+Checksum is 0x9f8f
+Block  224 send 4k
+Checksum is 0x8897
+Block  225 send 4k
+Checksum is 0x9896
+Block  226 send 4k
+Checksum is 0x8d62
+Block  227 send 4k
+Checksum is 0x71a6
+Block  228 send 4k
+Checksum is 0x81cf
+Block  229 send 4k
+Checksum is 0x9636
+Block  230 send 4k
+Checksum is 0xcd1b
+Block  231 send 4k
+Checksum is 0xc48d
+Block  232 send 4k
+Checksum is 0x8c0f
+Block  233 send 4k
+Checksum is 0xb5a5
+Block  234 send 4k
+Checksum is 0xa25a
+Block  235 send 4k
+Checksum is 0xb1b8
+Block  236 send 4k
+Checksum is 0xa6b5
+Block  237 send 4k
+Checksum is 0xa94a
+Block  238 send 4k
+Checksum is 0x71b3
+Block  239 send 4k
+Checksum is 0x8649
+Block  240 send 4k
+Checksum is 0x809f
+Block  241 send 4k
+Checksum is 0x909c
+Block  242 send 4k
+Checksum is 0x6825
+Block  243 send 4k
+Checksum is 0x83fe
+Block  244 send 4k
+Checksum is 0x7623
+Block  245 send 4k
+Checksum is 0x7d64
+Block  246 send 4k
+Checksum is 0x74ce
+Block  247 send 4k
+Checksum is 0x7780
+Block  248 send 4k
+Checksum is 0x5701
+Block  249 send 4k
+Checksum is 0x5a69
+Block  250 send 4k
+Checksum is 0xa305
+Block  251 send 4k
+Checksum is 0x7b55
+Block  252 send 4k
+Checksum is 0x7c62
+Block  253 send 4k
+Checksum is 0x809b
+Block  254 send 4k
+Checksum is 0x8e01
+Block  255 send 4k
+Checksum is 0x6988
+Block  256 send 4k
+Checksum is 0x8d58
+Block  257 send 4k
+Checksum is 0x7f3c
+Block  258 send 4k
+Checksum is 0x6755
+Block  259 send 4k
+Checksum is 0x79d6
+Block  260 send 4k
+Checksum is 0xcda7
+Block  261 send 4k
+Checksum is 0xbda6
+Block  262 send 4k
+Checksum is 0x8f97
+Block  263 send 4k
+Checksum is 0x3ef7
+Block  264 send 4k
+Checksum is 0x777c
+Block  265 send 4k
+Checksum is 0x6c43
+Block  266 send 4k
+Checksum is 0x678d
+Block  267 send 4k
+Checksum is 0x6be7
+Block  268 send 4k
+Checksum is 0x5536
+Block  269 send 4k
+Checksum is 0x98c8
+Block  270 send 4k
+Checksum is 0x8762
+Block  271 send 4k
+Checksum is 0xa551
+Block  272 send 4k
+Checksum is 0x9db0
+Block  273 send 4k
+Checksum is 0xb514
+Block  274 send 4k
+Checksum is 0xa652
+Block  275 send 4k
+Checksum is 0x9b4d
+Block  276 send 4k
+Checksum is 0xb4dc
+Block  277 send 4k
+Checksum is 0xb416
+Block  278 send 4k
+Checksum is 0x90e8
+Block  279 send 4k
+Checksum is 0x9480
+Block  280 send 4k
+Checksum is 0xbf2e
+Block  281 send 4k
+Checksum is 0x9528
+Block  282 send 4k
+Checksum is 0x9f1d
+Block  283 send 4k
+Checksum is 0xb5b1
+Block  284 send 4k
+Checksum is 0xa428
+Block  285 send 4k
+Checksum is 0x7ec3
+Block  286 send 4k
+Checksum is 0x9d72
+Block  287 send 4k
+Checksum is 0x72dd
+Block  288 send 4k
+Checksum is 0x6f9b
+Block  289 send 4k
+Checksum is 0xbcc1
+Block  290 send 4k
+Checksum is 0x8120
+Block  291 send 4k
+Checksum is 0x4377
+Block  292 send 4k
+Checksum is 0x285f
+Block  293 send 4k
+Checksum is 0x60b2
+Block  294 send 4k
+Checksum is 0x4a62
+Block  295 send 4k
+Checksum is 0xd176
+Block  296 send 4k
+Checksum is 0xef45
+Block  297 send 4k
+Checksum is 0x3a0c
+Block  298 send 4k
+Checksum is 0x ae5
+Block  299 send 4k
+Checksum is 0x 4b7
+Block  300 send 4k
+Checksum is 0xe39b
+Block  301 send 4k
+Checksum is 0xcf02
+Block  302 send 4k
+Checksum is 0xfee6
+Block  303 send 4k
+Checksum is 0xff05
+Block  304 send 4k
+Checksum is 0xf0d1
+Block  305 send 4k
+Checksum is 0x924e
+Block  306 send 4k
+Checksum is 0xa693
+Block  307 send 4k
+Checksum is 0xb168
+Block  308 send 4k
+Checksum is 0x3a2e
+Block  309 send 4k
+Checksum is 0x37af
+Block  310 send 4k
+Checksum is 0x4563
+Block  311 send 4k
+Checksum is 0x 84e
+Block  312 send 4k
+Checksum is 0x291a
+Block  313 send 4k
+Checksum is 0x365e
+Block  314 send 4k
+Checksum is 0x7159
+Block  315 send 4k
+Checksum is 0x2bba
+Block  316 send 4k
+Checksum is 0x28dc
+Block  317 send 4k
+Checksum is 0x1ade
+Block  318 send 4k
+Checksum is 0x309e
+Block  319 send 4k
+Checksum is 0x20cf
+Block  320 send 4k
+Checksum is 0x1f0d
+Block  321 send 4k
+Checksum is 0x238a
+Block  322 send 4k
+Checksum is 0x55dd
+Block  323 send 4k
+Checksum is 0x4ffb
+Block  324 send 4k
+Checksum is 0x1af3
+Block  325 send 4k
+Checksum is 0x3088
+Block  326 send 4k
+Checksum is 0x14a6
+Block  327 send 4k
+Checksum is 0x38d5
+Block  328 send 4k
+Checksum is 0x 375
+Block  329 send 4k
+Checksum is 0xeaae
+Block  330 send 4k
+Checksum is 0x 78f
+Block  331 send 4k
+Checksum is 0xe6d2
+Block  332 send 4k
+Checksum is 0xf49c
+Block  333 send 4k
+Checksum is 0x1d43
+Block  334 send 4k
+Checksum is 0x1b0d
+Block  335 send 4k
+Checksum is 0xf904
+Block  336 send 4k
+Checksum is 0x43b3
+Block  337 send 4k
+Checksum is 0xffeb
+Block  338 send 4k
+Checksum is 0x3e4d
+Block  339 send 4k
+Checksum is 0xf7f6
+Block  340 send 4k
+Checksum is 0x2a2d
+Block  341 send 4k
+Checksum is 0x2f38
+Block  342 send 4k
+Checksum is 0x3667
+Block  343 send 4k
+Checksum is 0x 947
+Block  344 send 4k
+Checksum is 0x31a0
+Block  345 send 4k
+Checksum is 0x 3d3
+Block  346 send 4k
+Checksum is 0xc2b2
+Block  347 send 4k
+Checksum is 0x1b66
+Block  348 send 4k
+Checksum is 0xe33a
+Block  349 send 4k
+Checksum is 0xd6d9
+Block  350 send 4k
+Checksum is 0x9372
+Block  351 send 4k
+Checksum is 0xc93b
+Block  352 send 4k
+Checksum is 0xc551
+Block  353 send 4k
+Checksum is 0xcf21
+Block  354 send 4k
+Checksum is 0x 2a1
+Block  355 send 4k
+Checksum is 0x2b35
+Block  356 send 4k
+Checksum is 0xe4f3
+Block  357 send 4k
+Checksum is 0xcd7f
+Block  358 send 4k
+Checksum is 0x 121
+Block  359 send 4k
+Checksum is 0x1a2e
+Block  360 send 4k
+Checksum is 0x478b
+Block  361 send 4k
+Checksum is 0x20c8
+Block  362 send 4k
+Checksum is 0xd216
+Block  363 send 4k
+Checksum is 0x6efe
+Block  364 send 4k
+Checksum is 0x98ad
+Block  365 send 4k
+Checksum is 0xe56d
+Block  366 send 4k
+Checksum is 0xb73c
+Block  367 send 4k
+Checksum is 0x12eb
+Block  368 send 4k
+Checksum is 0xb8f3
+Block  369 send 4k
+Checksum is 0xa307
+Block  370 send 4k
+Checksum is 0x 697
+Block  371 send 4k
+Checksum is 0xa391
+Block  372 send 4k
+Checksum is 0xaaa9
+Block  373 send 4k
+Checksum is 0x9bef
+Block  374 send 4k
+Checksum is 0xbfb3
+Block  375 send 4k
+Checksum is 0x ea5
+Block  376 send 4k
+Checksum is 0xdac9
+Block  377 send 4k
+Checksum is 0x1015
+Block  378 send 4k
+Checksum is 0x15ba
+Block  379 send 4k
+Checksum is 0x bf0
+Block  380 send 4k
+Checksum is 0x 3c1
+Block  381 send 4k
+Checksum is 0xd958
+Block  382 send 4k
+Checksum is 0xa973
+Block  383 send 4k
+Checksum is 0xdf2c
+Block  384 send 4k
+Checksum is 0x56cb
+Block  385 send 4k
+Checksum is 0xc459
+Block  386 send 4k
+Checksum is 0xc46c
+Block  387 send 4k
+Checksum is 0xdfc6
+Block  388 send 4k
+Checksum is 0xfa31
+Block  389 send 4k
+Checksum is 0xece8
+Block  390 send 4k
+Checksum is 0xf0ee
+Block  391 send 4k
+Checksum is 0xeb33
+Block  392 send 4k
+Checksum is 0xd9b6
+Block  393 send 4k
+Checksum is 0xcc7c
+Block  394 send 4k
+Checksum is 0x82e0
+Block  395 send 4k
+Checksum is 0xd8d2
+Block  396 send 4k
+Checksum is 0x9537
+Block  397 send 4k
+Checksum is 0x9286
+Block  398 send 4k
+Checksum is 0x7f54
+Block  399 send 4k
+Checksum is 0xa1bd
+Block  400 send 4k
+Checksum is 0x6024
+Block  401 send 4k
+Checksum is 0x8de1
+Block  402 send 4k
+Checksum is 0x8cb4
+Block  403 send 4k
+Checksum is 0xda24
+Block  404 send 4k
+Checksum is 0x9e87
+Block  405 send 4k
+Checksum is 0x9a13
+Block  406 send 4k
+Checksum is 0x9d56
+Block  407 send 4k
+Checksum is 0xe481
+Block  408 send 4k
+Checksum is 0x8574
+Block  409 send 4k
+Checksum is 0xa897
+Block  410 send 4k
+Checksum is 0x74ca
+Block  411 send 4k
+Checksum is 0x78da
+Block  412 send 4k
+Checksum is 0xcc11
+Block  413 send 4k
+Checksum is 0xacd3
+Block  414 send 4k
+Checksum is 0xcc35
+Block  415 send 4k
+Checksum is 0x58df
+Block  416 send 4k
+Checksum is 0x6193
+Block  417 send 4k
+Checksum is 0xba7c
+Block  418 send 4k
+Checksum is 0xa0fd
+Block  419 send 4k
+Checksum is 0xa46a
+Block  420 send 4k
+Checksum is 0xcc3d
+Block  421 send 4k
+Checksum is 0x9e91
+Block  422 send 4k
+Checksum is 0xf4c8
+Block  423 send 4k
+Checksum is 0xba1c
+Block  424 send 4k
+Checksum is 0xe392
+Block  425 send 4k
+Checksum is 0xec9e
+Block  426 send 4k
+Checksum is 0x86a0
+Block  427 send 4k
+Checksum is 0x8240
+Block  428 send 4k
+Checksum is 0x9f9e
+Block  429 send 4k
+Checksum is 0x6cb9
+Block  430 send 4k
+Checksum is 0x75c1
+Block  431 send 4k
+Checksum is 0x656f
+Block  432 send 4k
+Checksum is 0x7709
+Block  433 send 4k
+Checksum is 0xe665
+Block  434 send 4k
+Checksum is 0xbf57
+Block  435 send 4k
+Checksum is 0xd845
+Block  436 send 4k
+Checksum is 0xc445
+Block  437 send 4k
+Checksum is 0x8c22
+Block  438 send 4k
+Checksum is 0xd9f5
+Block  439 send 4k
+Checksum is 0x2cc4
+Block  440 send 4k
+Checksum is 0x2ef2
+Block  441 send 4k
+Checksum is 0x3143
+Block  442 send 4k
+Checksum is 0xe1ef
+Block  443 send 4k
+Checksum is 0xcf04
+Block  444 send 4k
+Checksum is 0x2184
+Block  445 send 4k
+Checksum is 0xa218
+Block  446 send 4k
+Checksum is 0x6e97
+Block  447 send 4k
+Checksum is 0x906b
+Block  448 send 4k
+Checksum is 0xbca5
+Block  449 send 4k
+Checksum is 0x7f52
+Block  450 send 4k
+Checksum is 0x77ef
+Block  451 send 4k
+Checksum is 0x9173
+Block  452 send 4k
+Checksum is 0xa60c
+Block  453 send 4k
+Checksum is 0xcb03
+Block  454 send 4k
+Checksum is 0xb017
+Block  455 send 4k
+Checksum is 0x6889
+Block  456 send 4k
+Checksum is 0x9af1
+Block  457 send 4k
+Checksum is 0x682a
+Block  458 send 4k
+Checksum is 0xb4ee
+Block  459 send 4k
+Checksum is 0xd24a
+Block  460 send 4k
+Checksum is 0xa517
+Block  461 send 4k
+Checksum is 0x911a
+Block  462 send 4k
+Checksum is 0xa11a
+Block  463 send 4k
+Checksum is 0x944c
+Block  464 send 4k
+Checksum is 0xb11b
+Block  465 send 4k
+Checksum is 0xbbbe
+Block  466 send 4k
+Checksum is 0x6365
+Block  467 send 4k
+Checksum is 0x8970
+Block  468 send 4k
+Checksum is 0xce4f
+Block  469 send 4k
+Checksum is 0x6ee5
+Block  470 send 4k
+Checksum is 0x4d98
+Block  471 send 4k
+Checksum is 0x8f37
+Block  472 send 4k
+Checksum is 0x8096
+Block  473 send 4k
+Checksum is 0x6e1a
+Block  474 send 4k
+Checksum is 0xa016
+Block  475 send 4k
+Checksum is 0xa38c
+Block  476 send 4k
+Checksum is 0xdbfd
+Block  477 send 4k
+Checksum is 0xd6a7
+Block  478 send 4k
+Checksum is 0xfa0d
+Block  479 send 4k
+Checksum is 0xdf5f
+Block  480 send 4k
+Checksum is 0xd920
+Block  481 send 4k
+Checksum is 0x16d4
+Block  482 send 4k
+Checksum is 0x 781
+Block  483 send 4k
+Checksum is 0x ac0
+Block  484 send 4k
+Checksum is 0x5418
+Block  485 send 4k
+Checksum is 0x13a4
+Block  486 send 4k
+Checksum is 0x9a81
+Block  487 send 4k
+Checksum is 0xdfec
+Block  488 send 4k
+Checksum is 0xf617
+Block  489 send 4k
+Checksum is 0xb6f9
+Block  490 send 4k
+Checksum is 0x 8ae
+Block  491 send 4k
+Checksum is 0xd714
+Block  492 send 4k
+Checksum is 0xe620
+Block  493 send 4k
+Checksum is 0xf324
+Block  494 send 4k
+Checksum is 0x83b8
+Block  495 send 4k
+Checksum is 0xaade
+Block  496 send 4k
+Checksum is 0xb3ac
+Block  497 send 4k
+Checksum is 0x8a9e
+Block  498 send 4k
+Checksum is 0xa3c3
+Block  499 send 4k
+Checksum is 0xa896
+Block  500 send 4k
+Checksum is 0x7340
+Block  501 send 4k
+Checksum is 0x6788
+Block  502 send 4k
+Checksum is 0x7b58
+Block  503 send 4k
+Checksum is 0xea15
+Block  504 send 4k
+Checksum is 0x8a24
+Block  505 send 4k
+Checksum is 0x8b61
+Block  506 send 4k
+Checksum is 0x809b
+Block  507 send 4k
+Checksum is 0xcb01
+Block  508 send 4k
+Checksum is 0xf54d
+Block  509 send 4k
+Checksum is 0xc3f5
+Block  510 send 4k
+Checksum is 0xc19a
+Block  511 send 4k
+Checksum is 0xddef
+Block  512 send 4k
+Checksum is 0xd068
+Block  513 send 4k
+Checksum is 0x92fb
+Block  514 send 4k
+Checksum is 0x8dd0
+Block  515 send 4k
+Checksum is 0x6fe6
+Block  516 send 4k
+Checksum is 0x6719
+Block  517 send 4k
+Checksum is 0xc646
+Block  518 send 4k
+Checksum is 0x7272
+Block  519 send 4k
+Checksum is 0xaace
+Block  520 send 4k
+Checksum is 0x8dbf
+Block  521 send 4k
+Checksum is 0xd2a1
+Block  522 send 4k
+Checksum is 0xacc3
+Block  523 send 4k
+Checksum is 0x6eea
+Block  524 send 4k
+Checksum is 0xcb89
+Block  525 send 4k
+Checksum is 0xb6f5
+Block  526 send 4k
+Checksum is 0xef4f
+Block  527 send 4k
+Checksum is 0xa057
+Block  528 send 4k
+Checksum is 0x8380
+Block  529 send 4k
+Checksum is 0x8eee
+Block  530 send 4k
+Checksum is 0xa35c
+Block  531 send 4k
+Checksum is 0x 293
+Block  532 send 4k
+Checksum is 0xbebe
+Block  533 send 4k
+Checksum is 0x9c2c
+Block  534 send 4k
+Checksum is 0x8638
+Block  535 send 4k
+Checksum is 0xa210
+Block  536 send 4k
+Checksum is 0x8ba1
+Block  537 send 4k
+Checksum is 0x9d5d
+Block  538 send 4k
+Checksum is 0x77c3
+Block  539 send 4k
+Checksum is 0x8ecd
+Block  540 send 4k
+Checksum is 0xaf83
+Block  541 send 4k
+Checksum is 0xa4ad
+Block  542 send 4k
+Checksum is 0x9ab7
+Block  543 send 4k
+Checksum is 0x8429
+Block  544 send 4k
+Checksum is 0xadb4
+Block  545 send 4k
+Checksum is 0x827b
+Block  546 send 4k
+Checksum is 0x1927
+Block  547 send 4k
+Checksum is 0xae83
+Block  548 send 4k
+Checksum is 0x9cb6
+Block  549 send 4k
+Checksum is 0xf8fb
+Block  550 send 4k
+Checksum is 0x9fce
+Block  551 send 4k
+Checksum is 0xaa2a
+Block  552 send 4k
+Checksum is 0xa8bf
+Block  553 send 4k
+Checksum is 0xc6de
+Block  554 send 4k
+Checksum is 0x62c2
+Block  555 send 4k
+Checksum is 0xb0f9
+Block  556 send 4k
+Checksum is 0x9ed8
+Block  557 send 4k
+Checksum is 0xcd1a
+Block  558 send 4k
+Checksum is 0xa0e2
+Block  559 send 4k
+Checksum is 0x87cf
+Block  560 send 4k
+Checksum is 0x9016
+Block  561 send 4k
+Checksum is 0x8613
+Block  562 send 4k
+Checksum is 0x5c50
+Block  563 send 4k
+Checksum is 0x817c
+Block  564 send 4k
+Checksum is 0xb25d
+Block  565 send 4k
+Checksum is 0x9947
+Block  566 send 4k
+Checksum is 0x9673
+Block  567 send 4k
+Checksum is 0x575c
+Block  568 send 4k
+Checksum is 0x8506
+Block  569 send 4k
+Checksum is 0x7535
+Block  570 send 4k
+Checksum is 0xb261
+Block  571 send 4k
+Checksum is 0xaf24
+Block  572 send 4k
+Checksum is 0x6b7d
+Block  573 send 4k
+Checksum is 0x7e0c
+Block  574 send 4k
+Checksum is 0x7b80
+Block  575 send 4k
+Checksum is 0xaaf4
+Block  576 send 4k
+Checksum is 0xb4b7
+Block  577 send 4k
+Checksum is 0x8402
+Block  578 send 4k
+Checksum is 0xa4d0
+Block  579 send 4k
+Checksum is 0x8fd7
+Block  580 send 4k
+Checksum is 0xc20d
+Block  581 send 4k
+Checksum is 0xb1d1
+Block  582 send 4k
+Checksum is 0x8a99
+Block  583 send 4k
+Checksum is 0x71be
+Block  584 send 4k
+Checksum is 0x9f28
+Block  585 send 4k
+Checksum is 0x6f00
+Block  586 send 4k
+Checksum is 0x95e1
+Block  587 send 4k
+Checksum is 0x4857
+Block  588 send 4k
+Checksum is 0xd0ad
+Block  589 send 4k
+Checksum is 0x833b
+Block  590 send 4k
+Checksum is 0x7432
+Block  591 send 4k
+Checksum is 0x9049
+Block  592 send 4k
+Checksum is 0xd83d
+Block  593 send 4k
+Checksum is 0x8c70
+Block  594 send 4k
+Checksum is 0x7a78
+Block  595 send 4k
+Checksum is 0x83ac
+Block  596 send 4k
+Checksum is 0x69bd
+Block  597 send 4k
+Checksum is 0x8a65
+Block  598 send 4k
+Checksum is 0x88ec
+Block  599 send 4k
+Checksum is 0x806e
+Block  600 send 4k
+Checksum is 0x9ef5
+Block  601 send 4k
+Checksum is 0xb18a
+Block  602 send 4k
+Checksum is 0x96d3
+Block  603 send 4k
+Checksum is 0xa0da
+Block  604 send 4k
+Checksum is 0x4fc3
+Block  605 send 4k
+Checksum is 0x638a
+Block  606 send 4k
+Checksum is 0x4cd2
+Block  607 send 4k
+Checksum is 0x4fc3
+Block  608 send 4k
+Checksum is 0x9f83
+Block  609 send 4k
+Checksum is 0x5b18
+Block  610 send 4k
+Checksum is 0x6ccd
+Block  611 send 4k
+Checksum is 0x81ba
+Block  612 send 4k
+Checksum is 0x711b
+Block  613 send 4k
+Checksum is 0xae45
+Block  614 send 4k
+Checksum is 0xa6b5
+Block  615 send 4k
+Checksum is 0x87a4
+Block  616 send 4k
+Checksum is 0x6ff1
+Block  617 send 4k
+Checksum is 0x7581
+Block  618 send 4k
+Checksum is 0x30c3
+Block  619 send 4k
+Checksum is 0x26c2
+Block  620 send 4k
+Checksum is 0x742b
+Block  621 send 4k
+Checksum is 0x54f6
+Block  622 send 4k
+Checksum is 0x87dd
+Block  623 send 4k
+Checksum is 0x4245
+Block  624 send 4k
+Checksum is 0x85dd
+Block  625 send 4k
+Checksum is 0xa52e
+Block  626 send 4k
+Checksum is 0x91ea
+Block  627 send 4k
+Checksum is 0x3324
+Block  628 send 4k
+Checksum is 0x5e35
+Block  629 send 4k
+Checksum is 0x828f
+Block  630 send 4k
+Checksum is 0xb1bc
+Block  631 send 4k
+Checksum is 0x72eb
+Block  632 send 4k
+Checksum is 0x9d64
+Block  633 send 4k
+Checksum is 0xbd8f
+Block  634 send 4k
+Checksum is 0xd401
+Block  635 send 4k
+Checksum is 0x514b
+Block  636 send 4k
+Checksum is 0x5c7e
+Block  637 send 4k
+Checksum is 0x616f
+Block  638 send 4k
+Checksum is 0x7412
+Block  639 send 4k
+Checksum is 0x3ce6
+Block  640 send 4k
+Checksum is 0x792b
+Block  641 send 4k
+Checksum is 0x2744
+Block  642 send 4k
+Checksum is 0x4914
+Block  643 send 4k
+Checksum is 0x44d0
+Block  644 send 4k
+Checksum is 0x7987
+Block  645 send 4k
+Checksum is 0x65a0
+Block  646 send 4k
+Checksum is 0x1688
+Block  647 send 4k
+Checksum is 0x5cce
+Block  648 send 4k
+Checksum is 0x22ca
+Block  649 send 4k
+Checksum is 0x6d79
+Block  650 send 4k
+Checksum is 0x52cc
+Block  651 send 4k
+Checksum is 0x48fc
+Block  652 send 4k
+Checksum is 0xa872
+Block  653 send 4k
+Checksum is 0xa3f8
+Block  654 send 4k
+Checksum is 0x7ece
+Block  655 send 4k
+Checksum is 0xa1e2
+Block  656 send 4k
+Checksum is 0x9eb4
+Block  657 send 4k
+Checksum is 0x5c84
+Block  658 send 4k
+Checksum is 0x5c75
+Block  659 send 4k
+Checksum is 0x624c
+Block  660 send 4k
+Checksum is 0x5fce
+Block  661 send 4k
+Checksum is 0x820c
+Block  662 send 4k
+Checksum is 0x61f4
+Block  663 send 4k
+Checksum is 0x9f33
+Block  664 send 4k
+Checksum is 0x72e3
+Block  665 send 4k
+Checksum is 0x73c5
+Block  666 send 4k
+Checksum is 0x9278
+Block  667 send 4k
+Checksum is 0x7f08
+Block  668 send 4k
+Checksum is 0x805d
+Block  669 send 4k
+Checksum is 0x6a51
+Block  670 send 4k
+Checksum is 0x8817
+Block  671 send 4k
+Checksum is 0xd0e6
+Block  672 send 4k
+Checksum is 0x4a25
+Block  673 send 4k
+Checksum is 0x5189
+Block  674 send 4k
+Checksum is 0x551d
+Block  675 send 4k
+Checksum is 0xbdf2
+Block  676 send 4k
+Checksum is 0xab92
+Block  677 send 4k
+Checksum is 0x751c
+Block  678 send 4k
+Checksum is 0xa3e9
+Block  679 send 4k
+Checksum is 0x880f
+Block  680 send 4k
+Checksum is 0x86b5
+Block  681 send 4k
+Checksum is 0x7b94
+Block  682 send 4k
+Checksum is 0x8453
+Block  683 send 4k
+Checksum is 0xa3e4
+Block  684 send 4k
+Checksum is 0x9e04
+Block  685 send 4k
+Checksum is 0x6cd2
+Block  686 send 4k
+Checksum is 0x7e19
+Block  687 send 4k
+Checksum is 0x7cbb
+Block  688 send 4k
+Checksum is 0x8983
+Block  689 send 4k
+Checksum is 0x8670
+Block  690 send 4k
+Checksum is 0x4cd2
+Block  691 send 4k
+Checksum is 0x6831
+Block  692 send 4k
+Checksum is 0x975f
+Block  693 send 4k
+Checksum is 0x8f06
+Block  694 send 4k
+Checksum is 0x73f7
+Block  695 send 4k
+Checksum is 0x8e3f
+Block  696 send 4k
+Checksum is 0x8b28
+Block  697 send 4k
+Checksum is 0x6c5c
+Block  698 send 4k
+Checksum is 0x87b1
+Block  699 send 4k
+Checksum is 0x6d1a
+Block  700 send 4k
+Checksum is 0x4eda
+Block  701 send 4k
+Checksum is 0xb126
+Block  702 send 4k
+Checksum is 0xa6c3
+Block  703 send 4k
+Checksum is 0xba0f
+Block  704 send 4k
+Checksum is 0x9769
+Block  705 send 4k
+Checksum is 0xdd81
+Block  706 send 4k
+Checksum is 0xb2a0
+Block  707 send 4k
+Checksum is 0x 811
+Block  708 send 4k
+Checksum is 0xed1b
+Block  709 send 4k
+Checksum is 0xe407
+Block  710 send 4k
+Checksum is 0xd926
+Block  711 send 4k
+Checksum is 0x793f
+Block  712 send 4k
+Checksum is 0xb65f
+Block  713 send 4k
+Checksum is 0x 3f8
+Block  714 send 4k
+Checksum is 0x640b
+Block  715 send 4k
+Checksum is 0xaa55
+Block  716 send 4k
+Checksum is 0xaf27
+Block  717 send 4k
+Checksum is 0xdbb1
+Block  718 send 4k
+Checksum is 0x241d
+Block  719 send 4k
+Checksum is 0xddbd
+Block  720 send 4k
+Checksum is 0xa279
+Block  721 send 4k
+Checksum is 0xf5ce
+Block  722 send 4k
+Checksum is 0x3137
+Block  723 send 4k
+Checksum is 0xebac
+Block  724 send 4k
+Checksum is 0xadce
+Block  725 send 4k
+Checksum is 0xd2d5
+Block  726 send 4k
+Checksum is 0xe57d
+Block  727 send 4k
+Checksum is 0x7987
+Block  728 send 4k
+Checksum is 0x7d73
+Block  729 send 4k
+Checksum is 0x9e91
+Block  730 send 4k
+Checksum is 0xc4ec
+Block  731 send 4k
+Checksum is 0x95cd
+Block  732 send 4k
+Checksum is 0xa4fb
+Block  733 send 4k
+Checksum is 0x4e68
+Block  734 send 4k
+Checksum is 0x1dda
+Block  735 send 4k
+Checksum is 0x98fa
+Block  736 send 4k
+Checksum is 0x  67
+Block  737 send 4k
+Checksum is 0xe473
+Block  738 send 4k
+Checksum is 0xe2c3
+Block  739 send 4k
+Checksum is 0x44ec
+Block  740 send 4k
+Checksum is 0xac75
+Block  741 send 4k
+Checksum is 0x1bfd
+Block  742 send 4k
+Checksum is 0x   3
+Block  743 send 4k
+Checksum is 0xf5b5
+Block  744 send 4k
+Checksum is 0x5548
+Block  745 send 4k
+Checksum is 0xf490
+Block  746 send 4k
+Checksum is 0x2d49
+Block  747 send 4k
+Checksum is 0xdcc4
+Block  748 send 4k
+Checksum is 0x619f
+Block  749 send 4k
+Checksum is 0x928d
+Block  750 send 4k
+Checksum is 0x 588
+Block  751 send 4k
+Checksum is 0x58b3
+Block  752 send 4k
+Checksum is 0x9b35
+Block  753 send 4k
+Checksum is 0x2370
+Block  754 send 4k
+Checksum is 0x77fe
+Block  755 send 4k
+Checksum is 0x772f
+Block  756 send 4k
+Checksum is 0x3d75
+Block  757 send 4k
+Checksum is 0xadde
+Block  758 send 4k
+Checksum is 0x1499
+Block  759 send 4k
+Checksum is 0x8977
+Block  760 send 4k
+Checksum is 0x5eeb
+Block  761 send 4k
+Checksum is 0x8d71
+Block  762 send 4k
+Checksum is 0x843f
+Block  763 send 4k
+Checksum is 0xbaf1
+Block  764 send 4k
+Checksum is 0xbcc7
+Block  765 send 4k
+Checksum is 0x7a76
+Block  766 send 4k
+Checksum is 0xab75
+Block  767 send 4k
+Checksum is 0xe06e
+Block  768 send 4k
+Checksum is 0x92ea
+Send last data 1772
+Checksum is 0x187a
+DA_LoadImage done
+Wait time 4
+program nor flash. Wait 10s....
+Checksum of W15.19.p2/ROM is 0x7161
+Checksum of W15.19.p2/VIVA is 0x3243
+DA_doFATParition
+Nor FAT range : Start address = 0x500000
+Nor FAT range : Length        = 0xafe000
+Wait for ready...
+Wait for ready2...
+Wait for format done
+0xbcd
+Formating.. 0xbcd
+0xbcd
+Formating.. 0xbcd
+0xbcd
+Formating.. 0xbcd
+0xbcd
+Formating.. 0xbcd
+0xbcd
+Formating.. 0xbcd
+0xbcd
+Formating.. 0xbcd
+0xbcd
+Formating.. 0xbcd
+0xbcd
+Formating.. 0xbcd
+0xbcd
+Formating.. 0xbcd
+0xbcd
+Formating.. 0xbcd
+0xbcd
+Formating.. 0xbcd
+0xbcd
+Formating.. 0xbcd
+0xbcd
+Formating.. 0xbcd
+0xbcd
+Formating.. 0xbcd
+0xbcd
+Formating.. 0xbcd
+0xbcd
+Formating.. 0xbcd
+0xbcd
+Formating.. 0xbcd
+0xbcd
+Formating.. 0xbcd
+0xbcd
+Formating.. 0xbcd
+0xbcd
+Formating.. 0xbcd
+0xbcd
+Formating.. 0xbcd
+0xbcd
+Formating.. 0xbcd
+0xbcd
+Formating.. 0xbcd
+0xbcd
+Formating.. 0xbcd
+0xbcd
+Formating.. 0xbcd
+0xbcd
+Formating.. 0xbcd
+0xbcd
+Formating.. 0xbcd
+0xbcd
+Formating.. 0xbcd
+0xbcd
+Formating.. 0xbcd
+0xbcd
+Formating.. 0xbcd
+0xbcd
+Formating.. 0xbcd
+0xbcd
+Formating.. 0xbcd
+0xbcd
+Formating.. 0xbcd
+0xbcd
+Formating.. 0xbcd
+0xbcd
+Formating.. 0xbcd
+0xbcd
+Formating.. 0xbcd
+0xbcd
+Formating.. 0xbcd
+0xbcd
+Formating.. 0xbcd
+0xbcd
+Formating.. 0xbcd
+0xbcd
+Formating.. 0xbcd
+0xbcd
+Formating.. 0xbcd
+0xbcd
+Formating.. 0xbcd
+0xbcd
+Formating.. 0xbcd
+0xbcd
+Formating.. 0xbcd
+0xbcd
+Formating.. 0xbcd
+0xbcd
+Formating.. 0xbcd
+0xbcd
+Formating.. 0xbcd
+0xbcd
+Formating.. 0xbcd
+0xbcd
+Formating.. 0xbcd
+0xbcd
+Formating.. 0xbcd
+0xbcd
+Formating.. 0xbcd
+0xbcd
+Formating.. 0xbcd
+0xbcd
+Formating.. 0xbcd
+0xbcd
+Formating.. 0xbcd
+0xbcd
+Formating.. 0xbcd
+0xbcd
+Formating.. 0xbcd
+0xbcd
+Formating.. 0xbcd
+0xbcd
+Formating.. 0xbcd
+0xbcd
+Formating.. 0xbcd
+0xbcd
+Formating.. 0xbcd
+0xbcd
+Formating.. 0xbcd
+0xbcd
+Formating.. 0xbcd
+0xbcd
+Formating.. 0xbcd
+0xbcd
+Formating.. 0xbcd
+0xbcd
+Formating.. 0xbcd
+0xbcd
+Formating.. 0xbcd
+0xbcd
+Formating.. 0xbcd
+0xbcd
+Formating.. 0xbcd
+0xbcd
+Formating.. 0xbcd
+0xbcd
+Formating.. 0xbcd
+0xbcd
+Formating.. 0xbcd
+0xbcd
+Formating.. 0xbcd
+0xbcd
+Formating.. 0xbcd
+0xbcd
+Formating.. 0xbcd
+0xbcd
+Formating.. 0xbcd
+0xbcd
+Formating.. 0xbcd
+0xbcd
+Formating.. 0xbcd
+0xbcd
+Formating.. 0xbcd
+0xbcd
+Formating.. 0xbcd
+0xbcd
+Formating.. 0xbcd
+0xbcd
+Formating.. 0xbcd
+0xbcd
+Formating.. 0xbcd
+0xbcd
+Formating.. 0xbcd
+0xbcd
+Formating.. 0xbcd
+0xbcd
+Formating.. 0xbcd
+0xbcd
+Formating.. 0xbcd
+0xbcd
+Formating.. 0xbcd
+0xbcd
+Formating.. 0xbcd
+0xbcd
+Formating.. 0xbcd
+0xbcd
+Formating.. 0xbcd
+0xbcd
+Formating.. 0xbcd
+0xbcd
+Formating.. 0xbcd
+0xbcd
+Formating.. 0xbcd
+0xbcd
+Formating.. 0xbcd
+0xbcd
+Formating.. 0xbcd
+0xbcd
+Formating.. 0xbcd
+0xbcd
+Formating.. 0xbcd
+0xbcd
+Formating.. 0xbcd
+0xbcd
+Formating.. 0xbcd
+0x0
+Formating.. 0x0
+DA_doFATParition done
+DA_disconnect
+DA_disconnect done
+Update done !!!!!!!!
+Disconnect Rephone from USB

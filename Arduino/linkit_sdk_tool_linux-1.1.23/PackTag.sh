@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-"$DIR/PackTag" -i "$1"
+"$DIR/merge_mtk.py" $1 $2

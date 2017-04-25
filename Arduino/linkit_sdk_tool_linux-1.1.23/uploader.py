@@ -192,14 +192,14 @@ def main():
 		print 'Can not open file "' + args.app + '" for upload. Aborted'
 		return
 	# The modem port is the one not used for debugging, so always choose the "other" port
-	
-	port = args.port[:-1] + '3'
-	h = MTKModem('/dev/%s' % (port))
+	h = MTKModem('/dev/%s' % ("ttyACM0" if args.port == "ttyACM1" else "ttyACM1"))
+	#port = args.port[:-1] + '3'
+	#h = MTKModem('/dev/%s' % (port))
 	time.sleep(0.5)
 	h.VERBOSE = args.verbose
 
 	if h.VERBOSE > 3:
-		h.debug("Opening communication..."+ port)
+		h.debug("Opening communication...")
 	h.SendCommand('AT')
 
 	# exit all running process

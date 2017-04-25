@@ -116,6 +116,10 @@ Try this version from Mediatek Labs
 
 [mediatek_linkit_sdk_tools_osx](http://download.labs.mediatek.com/mediatek_linkit_sdk_tool_osx-1.1.21.tar.gz)
 
+## Log file
+
+
+
 ## To Do
 
 A better error handling. 
