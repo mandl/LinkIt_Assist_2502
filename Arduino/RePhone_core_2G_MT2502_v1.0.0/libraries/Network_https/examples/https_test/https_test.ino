@@ -2,7 +2,7 @@
 #include <Lhttps.h>
 
 
-char TEST_URL[] = "https://www.howsmyssl.com/a/check"
+char TEST_URL[] = "https://www.howsmyssl.com/a/check";
 
 
 char *buffer;
