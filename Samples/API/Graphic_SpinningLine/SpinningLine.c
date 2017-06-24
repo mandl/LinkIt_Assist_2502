@@ -72,7 +72,7 @@ static void timer_callback(VM_TIMER_ID_PRECISE tid, void* user_data) {
     color.g = 0;
     color.b = 255;
     vm_graphic_set_color(color);
-    vm_graphic_draw_solid_rectangle(g_frame_group[1], 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+    vm_graphic_draw_solid_rectangle(g_frame_group[1], 10, 10, SCREEN_WIDTH - 20, SCREEN_HEIGHT - 20);
 
     /* rotate the line image */
     matrix[0] = (VMFLOAT)cos(theta);
@@ -122,13 +122,14 @@ static void draw_first_frame(void) {
     color.g = 0;
     color.b = 255;
     vm_graphic_set_color(color);
-    vm_graphic_draw_solid_rectangle(&g_temp_frame, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+    vm_graphic_draw_solid_rectangle(g_frame_group[1], 10, 10, SCREEN_WIDTH - 20, SCREEN_HEIGHT - 20);
+
     color.r = 255;
     vm_graphic_set_color(color);
     vm_graphic_draw_line(&g_temp_frame, SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, SCREEN_WIDTH / 2 + LINE_LENGTH - 1, SCREEN_HEIGHT / 2);
 
     /* create animation timer */
-    g_timer_id = vm_timer_create_precise(100, timer_callback, NULL);
+    //g_timer_id = vm_timer_create_precise(100, timer_callback, NULL);
     theta = 0;
 
     /* explicitly trigger 1st frame */

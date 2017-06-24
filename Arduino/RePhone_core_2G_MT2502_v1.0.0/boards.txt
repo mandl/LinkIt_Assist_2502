@@ -1,0 +1,22 @@
+
+rephone.name=Rephone core 2G MT2502
+rephone.vid.0=0x0E8D
+rephone.pid.0=0x0023
+rephone.upload.tool=linkit_tools
+rephone.upload.protocol=mtk-one
+rephone.upload.maximum_size=10485760
+rephone.upload.use_1200bps_touch=true
+rephone.upload.wait_for_upload_port=true
+rephone.upload.native_usb=true
+rephone.build.mcu=arm7tdmi-s
+rephone.build.f_cpu=84000000L
+rephone.build.usb_product="LinkIt ONE"
+rephone.build.board=MTK_ONE
+rephone.build.core=arduino
+rephone.build.extra_flags=-D__COMPILER_GCC__ -D__LINKIT_ONE__ -D__LINKIT_ONE_RELEASE__ -mthumb {build.usb_flags}
+rephone.build.ldscript=linker_scripts/gcc/scat.ld
+rephone.build.variant=linkit_one
+rephone.build.variant_system_lib=libmtk.a
+rephone.build.vid=0x0E8D
+rephone.build.pid=0x0023
+rephone.bootloader.tool=linkit_tools

@@ -92,11 +92,11 @@ class MTKFirmwareUploader(object):
     DA_WRITE_SIZE = 0x1000
     
     # NOR Flash data table
-    FilenameNorTable = "Download_Agent/6261/NOR_FLASH_TABLE"
+    FilenameNorTable = "/Download_Agent/6261/NOR_FLASH_TABLE"
     
     # This is the DA Loader program
-    FilenameINT_SYSRAM = "Download_Agent/6261/INT_SYSRAM"
-    FilenameEXT_RAM = "Download_Agent/6261/EXT_RAM"
+    FilenameINT_SYSRAM = "/Download_Agent/6261/INT_SYSRAM"
+    FilenameEXT_RAM = "/Download_Agent/6261/EXT_RAM"
     
     UNCHANED_DATA_BLOCKS = 1
     
@@ -107,13 +107,13 @@ class MTKFirmwareUploader(object):
         self.flagEMI_Ok = False
 
         
-    def checkFilesExit(self):
+    def checkFilesExit(self,agentPath):
         
-        if not os.path.isfile(self.FilenameNorTable):
+        if not os.path.isfile(agentPath + self.FilenameNorTable):
             raise Exception('Can not open file: %s') % (self.FilenameNorTable)
-        if not os.path.isfile(self.FilenameINT_SYSRAM):
+        if not os.path.isfile(agentPath + self.FilenameINT_SYSRAM):
             raise Exception('Can not open file: %s') % (self.FilenameINT_SYSRAM)
-        if not os.path.isfile(self.FilenameEXT_RAM):
+        if not os.path.isfile(agentPath + self.FilenameEXT_RAM):
             raise Exception('Can not open file: %s') % (self.FilenameEXT_RAM)
         
     # open the comport
@@ -123,7 +123,7 @@ class MTKFirmwareUploader(object):
         while 1:
             try:
                 self.ser = serial.Serial(port, 115200, timeout=5, dsrdtr=True, rtscts=True)
-                print ('Connect to Port %s' % port)
+                print ('Connect to Port %s' % port, flush=True)
                 break
             except:
                 time.sleep(0.1)
@@ -278,7 +278,7 @@ class MTKFirmwareUploader(object):
         # 0xC0  0x03 0x02 0x8e
        
         while value != 0xC0:
-            print ('Wait for 0XC0')
+            print ('Wait for 0XC0',flush=True)
             val = self.ser.read(1)
             value, = struct.unpack('B', val)
         version, = struct.unpack('>H', self.ser.read(2))
@@ -286,7 +286,7 @@ class MTKFirmwareUploader(object):
        
         versionBB = struct.unpack('B', self.ser.read(1))
         print ('DA Version BB 0x%d' % versionBB)
-        print ('DA sync done')
+        print ('DA sync done',flush=True)
         if version != 0x302:
             
             raise Exception('Load wrong DA Version....Stop')
@@ -687,7 +687,7 @@ class MTKFirmwareUploader(object):
             self.ser.write(struct.pack('B', self.DA_ACK))  
             self.ser.write(var)
             
-            print ("Block  %d send 4k" % i)
+            print ("Block  %d send 4k" % i,flush=True)
             crc = self.getBufferCrc(var)
             self.ser.write(struct.pack('>H', crc))
             val, = struct.unpack('B', self.ser.read(1))
@@ -831,7 +831,7 @@ class MTKFirmwareUploader(object):
             while formatTime > 0:
                 val = self.ser.read(1)
                 formatTime = formatTime - 1
-                print ('formatTime: 0x%x' % formatTime)
+                print ('formatTime: 0x%x' % formatTime,flush=True)
             
             # 10757   
             # bin index = 1 format time = 48
@@ -842,7 +842,7 @@ class MTKFirmwareUploader(object):
             while formatTime > 0:
                 val, = struct.unpack('B', self.ser.read(1))
                 formatTime = formatTime - 1
-                print ('formatTime: 0x%x' % formatTime)
+                print ('formatTime: 0x%x' % formatTime,flush=True)
         
         val, = struct.unpack('B', self.ser.read(1))
         print ('Format Val 0x%x' % val)
@@ -918,7 +918,7 @@ class MTKFirmwareUploader(object):
         
         print ('Wait time %d' % wait_time)
         
-        print ('program nor flash. Wait 10s....')
+        print ('program nor flash. Wait 10s....',flush=True)
         
         # FIX ME  can we calculate this ?
         time.sleep(10)
@@ -963,7 +963,7 @@ class MTKFirmwareUploader(object):
   
     # detect the internal flash
     # using the flash information table from file
-    def DA_DetectFlash(self):
+    def DA_DetectFlash(self,agentPath):
         
         print ('DA_DetectFlash')
        
@@ -994,9 +994,9 @@ class MTKFirmwareUploader(object):
         if val != self.DA_ACK:
             raise Exception('flash table size. get no ack')
         
-        print ('Read nor flash tabe from disk %s' % self.FilenameNorTable)
-        f = open(self.FilenameNorTable, 'rb') 
-        filename_nor_table_size = self.getSize(self.FilenameNorTable)
+        print ('Read nor flash tabe from disk %s' % agentPath + self.FilenameNorTable)
+        f = open(agentPath + self.FilenameNorTable, 'rb') 
+        filename_nor_table_size = self.getSize(agentPath + self.FilenameNorTable)
         
         nor_flash_count = filename_nor_table_size // 36 - 1
         
@@ -1034,7 +1034,7 @@ class MTKFirmwareUploader(object):
         
         # 9907
         # 10301
-        print ('Get Nor Nand flash report from target. wait ....')
+        print ('Get Nor Nand flash report from target. wait ....',flush=True)
         
         
         var = self.ser.read(394)
@@ -1254,19 +1254,19 @@ class MTKFirmwareUploader(object):
         # 0b cd 01
         
         # loop ????
-        print ('Wait for ready...')
+        print ('Wait for ready...',flush=True)
         while 1:
             val, = struct.unpack('>B', self.ser.read(1))
             if val == self.DA_ACK:
                 break
                    
-        print ('Wait for ready2...')
+        print ('Wait for ready2...',flush=True)
         while 1:
             val, = struct.unpack('>B', self.ser.read(1))
             if val == self.DA_ACK:
                 break
         
-        print ('Wait for format done' )  
+        print ('Wait for format done' ,flush=True)  
         while 1:
             status, = struct.unpack('>I', self.ser.read(4))
             print (('0x%x') % status)
@@ -1281,7 +1281,7 @@ class MTKFirmwareUploader(object):
                 raise Exception('Format fail. Stop...')
             
             self.ser.write(struct.pack('B', self.DA_ACK))
-            print ('Formating.. 0x%x' % status)
+            print ('Formating.. 0x%x' % status,flush=True)
             if  status == 0x00:
                 break
        
@@ -1293,7 +1293,7 @@ class MTKFirmwareUploader(object):
         print ('DA_doFATParition done')
     
     def WaitForBBPUReady(self):
-        print ('wait for ready BBPU')
+        print ('wait for ready BBPU', flush=True)
         while  1:
             # wait for ready
             val = self.read16_old(0xa0710000)
@@ -1400,23 +1400,23 @@ class MTKFirmwareUploader(object):
     
     # Upload the DA-Loader to Internal and PSRAM memory
     # Execute the uploaded DA-Loader
-    def BL_UploadAndStartDA_Bootloader(self):
+    def BL_UploadAndStartDA_Bootloader(self,agentPath):
         
         print ('BL_UploadAndStartDA_Bootloader')
         # 9520 Upload
     
         # 9538 Upload INT_SYSRAM  to 0x70007000
         # internal TCM Memory
-        crc_file = self.getFileCrc(self.FilenameINT_SYSRAM)
-        crc_upload = self.writeFile(0x70007000, self.FilenameINT_SYSRAM)
+        crc_file = self.getFileCrc(agentPath + self.FilenameINT_SYSRAM)
+        crc_upload = self.writeFile(0x70007000, agentPath +self.FilenameINT_SYSRAM)
         if crc_file != crc_upload:
             print ('CRC is wrong INT_SYSRAM')
             raise Exception('CRC is wrong INT_SYSRAM')
     
         # 9546 Upload EXT_RAM  to 0x10020000 
         # PSRAM inside the chip
-        crc_file = self.getFileCrc(self.FilenameEXT_RAM)
-        crc_upload = self.writeFile(0x10020000, self.FilenameEXT_RAM)
+        crc_file = self.getFileCrc(agentPath + self.FilenameEXT_RAM)
+        crc_upload = self.writeFile(0x10020000, agentPath + self.FilenameEXT_RAM)
         if crc_file != crc_upload:
             print ('CRC is wrong EXT_RAM')
             raise Exception('CRC is wrong EXT_RAM')
@@ -1451,6 +1451,7 @@ def main():
     parser = argparse.ArgumentParser(description='Firmware uploader for Rephone', prog='uploader')
     parser.add_argument('--port', '-p', help='Serial port device', default='/dev/ttyUSB0')
     parser.add_argument('--firmPath', '-f', help='Firmware path', default='W15.19.p2-uart')
+    parser.add_argument('--agentPath', '-a', help='Download agent path', default='')
     parser.add_argument('--nobattery', '-nobat',help='Upload without battery', action="store_true")
     parser.add_argument('--native', help='Upload a test binary and execute it', action="store_true")
     parser.add_argument('--nofatformat', help='Do not format the FAT partition', action="store_true")
@@ -1492,14 +1493,14 @@ def main():
         print("Switch off the device and connect it to the USB port.")  
         print("The first connect sometimes fails. Ubuntu mounts a USB Mass Storage device (5.2 MB ).")  
         print("Disconnect and  reconnect the device to the USB port.")
-        print("or use the --nobattery option")
+        print("or use the --nobattery option", flush=True)
      
         
     h = MTKFirmwareUploader()
     
     if args.native == False:
-        h.checkFilesExit()
-      
+        h.checkFilesExit(args.agentPath)
+    
     h.open(args.port)
     h.connectBootloader()
          
@@ -1594,7 +1595,7 @@ def main():
         #h.read16(  0xa0700a28 ,0x00 )
         #Enable USB Download mode (required for no-battery operation) 
         h.write16( 0xa0700a28 ,0x8000)         
-    
+    sys.stdout.flush()  
     h.BL_PowerUpBaseband()
         
     h.BL_RemapEMI()
@@ -1606,7 +1607,7 @@ def main():
        
         
     else:
-        h.BL_UploadAndStartDA_Bootloader()
+        h.BL_UploadAndStartDA_Bootloader(args.agentPath)
        
         # 9819 DA is running
         
@@ -1614,9 +1615,9 @@ def main():
         h.DA_WaitForSync()
         print ('DA Loader is running')
         print (' ')
-        print (' ')
+        print (' ',flush=True)
          
-        h.DA_DetectFlash()
+        h.DA_DetectFlash(args.agentPath)
         
         h.DA_FormatCBR()   
         
@@ -1631,7 +1632,7 @@ def main():
         h.DA_ERASE_MAUI_INFO()
         
         h.DA_WriteCMD(FilenameROM1, FilenameROM2)
-        
+         
         
         if args.nofatformat == False:
         
@@ -1640,7 +1641,8 @@ def main():
         h.DA_disconnect() 
         
         print ('Update done !!!!!!!!')
-        print ('Disconnect Rephone from USB')
+        print ('Disconnect Rephone from USB',flush=True)
+        sys.stdout.flush() 
     
     h.close()
 

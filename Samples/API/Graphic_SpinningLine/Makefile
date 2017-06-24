@@ -5,10 +5,10 @@
 #
 
 # Set your path to gcc-arm-none-eabi-4_9-2014q4
-TOOLCHAIN=~/gcc-arm-none-eabi-4_9-2014q4
-
+#TOOLCHAIN=~/gcc-arm-none-eabi-4_9-2014q4
+TOOLCHAIN=~/gcc-arm-none-eabi-5_4-2016q3
 # Set your LinkIt sdk path
-LINKIT_ASSIST_SDK_PATH=/home/mandl/Entwicklung
+LINKIT_ASSIST_SDK_PATH=/home/mandl
 
 CC=$(TOOLCHAIN)/bin/arm-none-eabi-gcc
 AS=$(TOOLCHAIN)/bin/arm-none-eabi-as
